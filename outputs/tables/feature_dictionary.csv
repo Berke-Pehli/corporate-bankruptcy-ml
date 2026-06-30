@@ -1,0 +1,19 @@
+feature,readable_name,description,role,included_in_model
+X1,Current assets,"Assets expected to be sold, converted into cash, or used within one year.",financial_predictor,True
+X2,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.,financial_predictor,True
+X3,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.,financial_predictor,True
+X4,EBITDA,"Earnings before interest, taxes, depreciation, and amortization.",financial_predictor,True
+X5,Inventory,Goods and raw materials held by the firm for production or sale.,financial_predictor,True
+X6,Net income,Profit after expenses and costs have been deducted from revenue.,financial_predictor,True
+X7,Total receivables,Money owed to the firm by customers for delivered goods or services.,financial_predictor,True
+X8,Market value,Market capitalization or market value of the publicly traded company.,financial_predictor,True
+X9,Net sales,"Gross sales minus returns, allowances, and discounts.",financial_predictor,True
+X10,Total assets,Total assets owned or controlled by the company.,financial_predictor,True
+X11,Total long-term debt,Debt obligations due after more than one year.,financial_predictor,True
+X12,EBIT,Earnings before interest and taxes.,financial_predictor,True
+X13,Gross profit,Profit after subtracting costs related to manufacturing and selling.,financial_predictor,True
+X14,Total current liabilities,Short-term obligations due within one year.,financial_predictor,True
+X15,Retained earnings,Accumulated profits retained in the business after dividends and losses.,financial_predictor,True
+X16,Total revenue,Total income from sales before subtracting expenses.,financial_predictor,True
+X17,Total liabilities,Total debts and obligations owed to outside parties.,financial_predictor,True
+X18,Total operating expenses,Expenses incurred through normal business operations.,financial_predictor,True

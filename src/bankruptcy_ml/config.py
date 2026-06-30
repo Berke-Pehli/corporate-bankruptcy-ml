@@ -46,3 +46,10 @@ FAILED_LABEL = "failed"
 
 RANDOM_STATE = 42
 TEST_SIZE = 0.2
+
+MODEL_DATASET_PATH = PROCESSED_DATA_DIR / "model_dataset.csv"
+TRAIN_DATA_PATH = PROCESSED_DATA_DIR / "train.csv"
+TEST_DATA_PATH = PROCESSED_DATA_DIR / "test.csv"
+
+FEATURE_DICTIONARY_PATH = TABLES_DIR / "feature_dictionary.csv"
+SPLIT_SUMMARY_PATH = TABLES_DIR / "split_summary.csv"
