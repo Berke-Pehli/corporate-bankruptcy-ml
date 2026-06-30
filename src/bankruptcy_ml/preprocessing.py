@@ -14,8 +14,8 @@ Outputs:
 
 Main steps:
     - validate required columns
+    - identify financial feature columns from the raw dataset
     - encode the bankruptcy target
-    - identify financial feature columns
     - remove constant feature columns if present
     - keep company and year columns for leakage-safe splitting
     - create a readable feature dictionary for interpretation and documentation
@@ -25,6 +25,10 @@ Important design choice:
     traceability. Readable names and descriptions are added to the feature
     dictionary and will be used later in plots, tables, README explanations, and
     the final paper.
+
+Leakage prevention:
+    The binary target column failed is never allowed to enter the feature matrix.
+    Feature columns are identified before the encoded target is added.
 """
 
 from __future__ import annotations
@@ -101,6 +105,10 @@ def create_model_dataset(raw_data: pd.DataFrame) -> tuple[pd.DataFrame, list[str
     needed for leakage-safe splitting and later diagnostics. The raw string
     target column is removed after creating the binary target.
 
+    Feature columns are identified from the raw dataset before the binary target
+    is added. This prevents the target variable from accidentally becoming a
+    predictor.
+
     Args:
         raw_data: Raw American bankruptcy dataset.
 
@@ -112,15 +120,19 @@ def create_model_dataset(raw_data: pd.DataFrame) -> tuple[pd.DataFrame, list[str
     validate_required_columns(raw_data)
     validate_target_labels(raw_data)
 
+    feature_columns = identify_feature_columns(raw_data)
     data = encode_target(raw_data)
-    feature_columns = identify_feature_columns(data)
+
     constant_columns = find_constant_columns(data, feature_columns)
+    retained_feature_columns = [
+        column for column in feature_columns if column not in constant_columns
+    ]
 
     selected_columns = [
         COMPANY_COLUMN,
         YEAR_COLUMN,
         TARGET_COLUMN,
-        *[column for column in feature_columns if column not in constant_columns],
+        *retained_feature_columns,
     ]
 
     model_dataset = data[selected_columns].copy()

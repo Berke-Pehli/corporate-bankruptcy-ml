@@ -1,0 +1,5 @@
+model,model_type,penalty,selected_c,selection_metric,validation_pr_auc_during_selection
+Majority-class baseline,DummyClassifier,,,,
+Logistic Regression,LogisticRegression,l2,1.0,fixed benchmark,
+L1 Regularized Logistic Regression,LogisticRegression,l1,0.1,validation PR-AUC,0.14829466285325266
+L2 Regularized Logistic Regression,LogisticRegression,l2,0.1,validation PR-AUC,0.14873019258136605

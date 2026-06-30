@@ -53,3 +53,16 @@ TEST_DATA_PATH = PROCESSED_DATA_DIR / "test.csv"
 
 FEATURE_DICTIONARY_PATH = TABLES_DIR / "feature_dictionary.csv"
 SPLIT_SUMMARY_PATH = TABLES_DIR / "split_summary.csv"
+
+VALIDATION_MODEL_COMPARISON_PATH = TABLES_DIR / "validation_model_comparison.csv"
+VALIDATION_CLASSIFICATION_REPORTS_PATH = TABLES_DIR / "validation_classification_reports.csv"
+LOGISTIC_MODEL_SPECIFICATION_PATH = TABLES_DIR / "logistic_model_specification.csv"
+VALIDATION_PREDICTIONS_PATH = TABLES_DIR / "validation_predictions.csv"
+
+MAJORITY_BASELINE_MODEL_PATH = MODELS_DIR / "majority_baseline.joblib"
+INTERPRETABLE_LOGIT_MODEL_PATH = MODELS_DIR / "interpretable_logit.joblib"
+REGULARIZED_LOGIT_L1_MODEL_PATH = MODELS_DIR / "regularized_logit_l1.joblib"
+REGULARIZED_LOGIT_L2_MODEL_PATH = MODELS_DIR / "regularized_logit_l2.joblib"
+
+VALIDATION_SIZE = 0.2
+LOGISTIC_C_GRID = [0.01, 0.1, 1.0, 10.0]
