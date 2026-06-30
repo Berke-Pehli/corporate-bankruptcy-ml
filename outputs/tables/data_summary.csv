@@ -1,0 +1,2 @@
+n_rows,n_columns,n_companies,min_year,max_year,n_feature_columns,n_failed_rows,n_alive_rows,failure_rate,n_missing_values,n_duplicate_rows
+78682,21,8971,1999,2018,18,5220,73462,0.06634300094049465,0,0

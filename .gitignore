@@ -32,3 +32,14 @@ outputs/models/*.pkl
 # Keep folder placeholders
 !data/processed/.gitkeep
 !outputs/models/.gitkeep
+
+# Local Pixi environment
+.pixi/
+
+# Python package build metadata
+*.egg-info/
+src/*.egg-info/
+
+# pytask cache / generated state
+.pytask/
+pytask.lock
