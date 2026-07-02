@@ -95,3 +95,20 @@ FINAL_TEST_PRECISION_RECALL_CURVES_PATH = (
 )
 FINAL_TEST_CONFUSION_MATRICES_PATH = FIGURES_DIR / "final_test_confusion_matrices.png"
 FINAL_TEST_METRIC_COMPARISON_PATH = FIGURES_DIR / "final_test_metric_comparison.png"
+
+ANNUAL_FAILURE_RATE_PATH = TABLES_DIR / "annual_failure_rate.csv"
+TRAIN_TEST_YEAR_DISTRIBUTION_PATH = TABLES_DIR / "train_test_year_distribution.csv"
+CLASS_FEATURE_SUMMARY_PATH = TABLES_DIR / "class_feature_summary.csv"
+
+ANNUAL_FAILURE_RATE_FIGURE_PATH = FIGURES_DIR / "annual_failure_rate.png"
+TRAIN_TEST_YEAR_DISTRIBUTION_FIGURE_PATH = (
+    FIGURES_DIR / "train_test_year_distribution.png"
+)
+FEATURE_CORRELATION_HEATMAP_PATH = FIGURES_DIR / "feature_correlation_heatmap.png"
+KEY_FEATURE_DISTRIBUTIONS_FIGURE_PATH = (
+    FIGURES_DIR / "key_feature_distributions_by_status.png"
+)
+
+KEY_FEATURE_MEDIAN_BY_STATUS_FIGURE_PATH = (
+    FIGURES_DIR / "key_feature_median_by_status.png"
+)
