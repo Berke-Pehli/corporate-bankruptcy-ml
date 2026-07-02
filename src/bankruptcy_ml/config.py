@@ -84,3 +84,14 @@ TREE_FEATURE_IMPORTANCE_PATH = TABLES_DIR / "tree_feature_importance.csv"
 
 LOGISTIC_COEFFICIENTS_FIGURE_PATH = FIGURES_DIR / "logistic_coefficients.png"
 TREE_FEATURE_IMPORTANCE_FIGURE_PATH = FIGURES_DIR / "tree_feature_importance.png"
+
+FINAL_TEST_METRICS_PATH = TABLES_DIR / "final_test_metrics.csv"
+FINAL_TEST_CLASSIFICATION_REPORTS_PATH = TABLES_DIR / "final_test_classification_reports.csv"
+FINAL_TEST_PREDICTIONS_PATH = TABLES_DIR / "final_test_predictions.csv"
+
+FINAL_TEST_ROC_CURVES_PATH = FIGURES_DIR / "final_test_roc_curves.png"
+FINAL_TEST_PRECISION_RECALL_CURVES_PATH = (
+    FIGURES_DIR / "final_test_precision_recall_curves.png"
+)
+FINAL_TEST_CONFUSION_MATRICES_PATH = FIGURES_DIR / "final_test_confusion_matrices.png"
+FINAL_TEST_METRIC_COMPARISON_PATH = FIGURES_DIR / "final_test_metric_comparison.png"
