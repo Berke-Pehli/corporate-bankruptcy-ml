@@ -1,8 +1,8 @@
-"""pytask tasks for baseline and Logistic Regression modeling.
+"""pytask tasks for bankruptcy prediction modeling.
 
-This task module trains the first bankruptcy prediction models. It evaluates
-them on an internal company-level validation split created from the training
-data. The final test set remains untouched for later final evaluation.
+This task module trains the first set of bankruptcy prediction models. It
+evaluates them on an internal company-level validation split created from the
+training data. The final test set remains untouched for later final evaluation.
 
 Run:
     pixi run build
@@ -13,12 +13,32 @@ Inputs:
 Outputs:
     - outputs/tables/validation_model_comparison.csv
     - outputs/tables/validation_classification_reports.csv
-    - outputs/tables/logistic_model_specification.csv
+    - outputs/tables/model_specification.csv
     - outputs/tables/validation_predictions.csv
     - outputs/models/majority_baseline.joblib
     - outputs/models/interpretable_logit.joblib
     - outputs/models/regularized_logit_l1.joblib
     - outputs/models/regularized_logit_l2.joblib
+    - outputs/models/decision_tree.joblib
+    - outputs/models/random_forest.joblib
+    - outputs/models/gradient_boosting.joblib
+
+Models:
+    - Majority-class baseline
+    - Logistic Regression
+    - L1 Regularized Logistic Regression
+    - L2 Regularized Logistic Regression
+    - Decision Tree
+    - Random Forest
+    - Gradient Boosting
+
+Evaluation:
+    - Accuracy
+    - Balanced accuracy
+    - ROC-AUC
+    - PR-AUC
+    - Precision, recall, and F1-score for the failed class
+    - Confusion matrix components
 """
 
 from pathlib import Path
@@ -28,10 +48,13 @@ import pandas as pd
 
 from bankruptcy_ml.baselines import build_majority_class_baseline
 from bankruptcy_ml.config import (
+    DECISION_TREE_MODEL_PATH,
+    GRADIENT_BOOSTING_MODEL_PATH,
     INTERPRETABLE_LOGIT_MODEL_PATH,
     LOGISTIC_C_GRID,
-    LOGISTIC_MODEL_SPECIFICATION_PATH,
     MAJORITY_BASELINE_MODEL_PATH,
+    MODEL_SPECIFICATION_PATH,
+    RANDOM_FOREST_MODEL_PATH,
     RANDOM_STATE,
     REGULARIZED_LOGIT_L1_MODEL_PATH,
     REGULARIZED_LOGIT_L2_MODEL_PATH,
@@ -53,22 +76,30 @@ from bankruptcy_ml.logistic_models import (
     select_regularized_logit,
 )
 from bankruptcy_ml.splitting import create_company_level_split
+from bankruptcy_ml.tree_models import (
+    select_decision_tree,
+    select_gradient_boosting,
+    select_random_forest,
+)
 
 
-def task_train_baseline_and_logistic_models(
+def task_train_bankruptcy_prediction_models(
     depends_on: Path = TRAIN_DATA_PATH,
-    produces: tuple[Path, Path, Path, Path, Path, Path, Path, Path] = (
+    produces: tuple[Path, Path, Path, Path, Path, Path, Path, Path, Path, Path, Path] = (
         VALIDATION_MODEL_COMPARISON_PATH,
         VALIDATION_CLASSIFICATION_REPORTS_PATH,
-        LOGISTIC_MODEL_SPECIFICATION_PATH,
+        MODEL_SPECIFICATION_PATH,
         VALIDATION_PREDICTIONS_PATH,
         MAJORITY_BASELINE_MODEL_PATH,
         INTERPRETABLE_LOGIT_MODEL_PATH,
         REGULARIZED_LOGIT_L1_MODEL_PATH,
         REGULARIZED_LOGIT_L2_MODEL_PATH,
+        DECISION_TREE_MODEL_PATH,
+        RANDOM_FOREST_MODEL_PATH,
+        GRADIENT_BOOSTING_MODEL_PATH,
     ),
 ) -> None:
-    """Train baseline and Logistic Regression models."""
+    """Train baseline, Logistic Regression, and tree-based models."""
     (
         model_comparison_path,
         classification_reports_path,
@@ -78,6 +109,9 @@ def task_train_baseline_and_logistic_models(
         interpretable_logit_path,
         regularized_l1_path,
         regularized_l2_path,
+        decision_tree_path,
+        random_forest_path,
+        gradient_boosting_path,
     ) = produces
 
     train_full = pd.read_csv(depends_on)
@@ -101,8 +135,8 @@ def task_train_baseline_and_logistic_models(
         {
             "model": "Majority-class baseline",
             "model_type": "DummyClassifier",
-            "penalty": "",
-            "selected_c": "",
+            "model_family": "baseline",
+            "selected_parameters": "",
             "selection_metric": "",
             "validation_pr_auc_during_selection": "",
         }
@@ -115,8 +149,8 @@ def task_train_baseline_and_logistic_models(
         {
             "model": "Logistic Regression",
             "model_type": "LogisticRegression",
-            "penalty": "l2",
-            "selected_c": 1.0,
+            "model_family": "logistic_regression",
+            "selected_parameters": "penalty=l2, C=1.0",
             "selection_metric": "fixed benchmark",
             "validation_pr_auc_during_selection": "",
         }
@@ -135,8 +169,8 @@ def task_train_baseline_and_logistic_models(
         {
             "model": "L1 Regularized Logistic Regression",
             "model_type": "LogisticRegression",
-            "penalty": "l1",
-            "selected_c": best_l1_c,
+            "model_family": "logistic_regression",
+            "selected_parameters": f"penalty=l1, C={best_l1_c}",
             "selection_metric": "validation PR-AUC",
             "validation_pr_auc_during_selection": best_l1_score,
         }
@@ -155,10 +189,66 @@ def task_train_baseline_and_logistic_models(
         {
             "model": "L2 Regularized Logistic Regression",
             "model_type": "LogisticRegression",
-            "penalty": "l2",
-            "selected_c": best_l2_c,
+            "model_family": "logistic_regression",
+            "selected_parameters": f"penalty=l2, C={best_l2_c}",
             "selection_metric": "validation PR-AUC",
             "validation_pr_auc_during_selection": best_l2_score,
+        }
+    )
+
+    decision_tree, decision_tree_params, decision_tree_score = select_decision_tree(
+        x_train=x_train,
+        y_train=y_train,
+        x_valid=x_valid,
+        y_valid=y_valid,
+    )
+    models["Decision Tree"] = decision_tree
+    model_specs.append(
+        {
+            "model": "Decision Tree",
+            "model_type": "DecisionTreeClassifier",
+            "model_family": "tree_based",
+            "selected_parameters": str(decision_tree_params),
+            "selection_metric": "validation PR-AUC",
+            "validation_pr_auc_during_selection": decision_tree_score,
+        }
+    )
+
+    random_forest, random_forest_params, random_forest_score = select_random_forest(
+        x_train=x_train,
+        y_train=y_train,
+        x_valid=x_valid,
+        y_valid=y_valid,
+    )
+    models["Random Forest"] = random_forest
+    model_specs.append(
+        {
+            "model": "Random Forest",
+            "model_type": "RandomForestClassifier",
+            "model_family": "tree_based",
+            "selected_parameters": str(random_forest_params),
+            "selection_metric": "validation PR-AUC",
+            "validation_pr_auc_during_selection": random_forest_score,
+        }
+    )
+
+    gradient_boosting, gradient_boosting_params, gradient_boosting_score = (
+        select_gradient_boosting(
+            x_train=x_train,
+            y_train=y_train,
+            x_valid=x_valid,
+            y_valid=y_valid,
+        )
+    )
+    models["Gradient Boosting"] = gradient_boosting
+    model_specs.append(
+        {
+            "model": "Gradient Boosting",
+            "model_type": "GradientBoostingClassifier",
+            "model_family": "tree_based",
+            "selected_parameters": str(gradient_boosting_params),
+            "selection_metric": "validation PR-AUC",
+            "validation_pr_auc_during_selection": gradient_boosting_score,
         }
     )
 
@@ -205,7 +295,6 @@ def task_train_baseline_and_logistic_models(
     classification_reports_path.parent.mkdir(parents=True, exist_ok=True)
     model_specification_path.parent.mkdir(parents=True, exist_ok=True)
     predictions_path.parent.mkdir(parents=True, exist_ok=True)
-
     majority_model_path.parent.mkdir(parents=True, exist_ok=True)
 
     model_comparison.to_csv(model_comparison_path, index=False)
@@ -217,3 +306,6 @@ def task_train_baseline_and_logistic_models(
     joblib.dump(interpretable_logit, interpretable_logit_path)
     joblib.dump(l1_logit, regularized_l1_path)
     joblib.dump(l2_logit, regularized_l2_path)
+    joblib.dump(decision_tree, decision_tree_path)
+    joblib.dump(random_forest, random_forest_path)
+    joblib.dump(gradient_boosting, gradient_boosting_path)
