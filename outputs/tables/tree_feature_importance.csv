@@ -1,0 +1,55 @@
+model,feature,importance,readable_name,description
+Decision Tree,X6,0.28213653074804096,Net income,Profit after expenses and costs have been deducted from revenue.
+Decision Tree,X8,0.21235348540904456,Market value,Market capitalization or market value of the publicly traded company.
+Decision Tree,X11,0.15262274785945826,Total long-term debt,Debt obligations due after more than one year.
+Decision Tree,X5,0.08151249800875354,Inventory,Goods and raw materials held by the firm for production or sale.
+Decision Tree,X7,0.07911117263172877,Total receivables,Money owed to the firm by customers for delivered goods or services.
+Decision Tree,X2,0.05109372403895679,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+Decision Tree,X3,0.046445618791881096,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+Decision Tree,X14,0.030488979739140186,Total current liabilities,Short-term obligations due within one year.
+Decision Tree,X18,0.024413320630638762,Total operating expenses,Expenses incurred through normal business operations.
+Decision Tree,X17,0.020337849647946944,Total liabilities,Total debts and obligations owed to outside parties.
+Decision Tree,X10,0.011099867958565702,Total assets,Total assets owned or controlled by the company.
+Decision Tree,X15,0.008384204535844457,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+Decision Tree,X1,0.0,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+Decision Tree,X4,0.0,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+Decision Tree,X9,0.0,Net sales,"Gross sales minus returns, allowances, and discounts."
+Decision Tree,X12,0.0,EBIT,Earnings before interest and taxes.
+Decision Tree,X13,0.0,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+Decision Tree,X16,0.0,Total revenue,Total income from sales before subtracting expenses.
+Gradient Boosting,X8,0.1792526287452877,Market value,Market capitalization or market value of the publicly traded company.
+Gradient Boosting,X6,0.1677734759139977,Net income,Profit after expenses and costs have been deducted from revenue.
+Gradient Boosting,X11,0.14887880681016125,Total long-term debt,Debt obligations due after more than one year.
+Gradient Boosting,X1,0.07073181482371549,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+Gradient Boosting,X5,0.06416436433163411,Inventory,Goods and raw materials held by the firm for production or sale.
+Gradient Boosting,X3,0.05811008751491647,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+Gradient Boosting,X18,0.05202916423942039,Total operating expenses,Expenses incurred through normal business operations.
+Gradient Boosting,X7,0.04174612609635179,Total receivables,Money owed to the firm by customers for delivered goods or services.
+Gradient Boosting,X17,0.03836770369388718,Total liabilities,Total debts and obligations owed to outside parties.
+Gradient Boosting,X14,0.03821515905891409,Total current liabilities,Short-term obligations due within one year.
+Gradient Boosting,X2,0.0362578661522006,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+Gradient Boosting,X15,0.03621855969486033,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+Gradient Boosting,X12,0.021711124650448846,EBIT,Earnings before interest and taxes.
+Gradient Boosting,X13,0.01578786547024575,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+Gradient Boosting,X10,0.015127956956455161,Total assets,Total assets owned or controlled by the company.
+Gradient Boosting,X4,0.0075762649238688435,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+Gradient Boosting,X9,0.0050595123033437646,Net sales,"Gross sales minus returns, allowances, and discounts."
+Gradient Boosting,X16,0.0029915186202905636,Total revenue,Total income from sales before subtracting expenses.
+Random Forest,X8,0.10396848405305933,Market value,Market capitalization or market value of the publicly traded company.
+Random Forest,X6,0.08409046430998518,Net income,Profit after expenses and costs have been deducted from revenue.
+Random Forest,X11,0.06739476060241384,Total long-term debt,Debt obligations due after more than one year.
+Random Forest,X1,0.06638437262593594,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+Random Forest,X15,0.06155454038899029,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+Random Forest,X3,0.05889853561581454,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+Random Forest,X17,0.05668547175603964,Total liabilities,Total debts and obligations owed to outside parties.
+Random Forest,X2,0.051952464691325834,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+Random Forest,X5,0.050757510933148425,Inventory,Goods and raw materials held by the firm for production or sale.
+Random Forest,X7,0.049929918834429876,Total receivables,Money owed to the firm by customers for delivered goods or services.
+Random Forest,X10,0.047980547428701836,Total assets,Total assets owned or controlled by the company.
+Random Forest,X18,0.0479095589550381,Total operating expenses,Expenses incurred through normal business operations.
+Random Forest,X12,0.04750254464591483,EBIT,Earnings before interest and taxes.
+Random Forest,X13,0.046880579343181066,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+Random Forest,X4,0.04315909750970724,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+Random Forest,X14,0.041863822729671464,Total current liabilities,Short-term obligations due within one year.
+Random Forest,X16,0.03788382905722204,Total revenue,Total income from sales before subtracting expenses.
+Random Forest,X9,0.03520349651942048,Net sales,"Gross sales minus returns, allowances, and discounts."

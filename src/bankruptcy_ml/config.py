@@ -78,3 +78,9 @@ VALIDATION_PRECISION_RECALL_CURVES_PATH = (
 )
 VALIDATION_CONFUSION_MATRICES_PATH = FIGURES_DIR / "validation_confusion_matrices.png"
 VALIDATION_METRIC_COMPARISON_PATH = FIGURES_DIR / "validation_metric_comparison.png"
+
+LOGISTIC_COEFFICIENTS_PATH = TABLES_DIR / "logistic_coefficients.csv"
+TREE_FEATURE_IMPORTANCE_PATH = TABLES_DIR / "tree_feature_importance.csv"
+
+LOGISTIC_COEFFICIENTS_FIGURE_PATH = FIGURES_DIR / "logistic_coefficients.png"
+TREE_FEATURE_IMPORTANCE_FIGURE_PATH = FIGURES_DIR / "tree_feature_importance.png"

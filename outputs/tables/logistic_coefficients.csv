@@ -1,0 +1,19 @@
+feature,coefficient,absolute_coefficient,direction,readable_name,description
+X1,-1.911823132859292,1.911823132859292,lower predicted failure risk,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+X8,-1.8123542229599674,1.8123542229599674,lower predicted failure risk,Market value,Market capitalization or market value of the publicly traded company.
+X14,0.9284261625493696,0.9284261625493696,higher predicted failure risk,Total current liabilities,Short-term obligations due within one year.
+X12,-0.7233100198174027,0.7233100198174027,lower predicted failure risk,EBIT,Earnings before interest and taxes.
+X3,0.4599618124571317,0.4599618124571317,higher predicted failure risk,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+X13,0.44217968103398536,0.44217968103398536,higher predicted failure risk,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+X15,-0.40571205884148703,0.40571205884148703,lower predicted failure risk,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+X4,-0.34558145498995974,0.34558145498995974,lower predicted failure risk,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+X5,0.33891646262937813,0.33891646262937813,higher predicted failure risk,Inventory,Goods and raw materials held by the firm for production or sale.
+X10,0.33595884831972683,0.33595884831972683,higher predicted failure risk,Total assets,Total assets owned or controlled by the company.
+X6,-0.22017697225636773,0.22017697225636773,lower predicted failure risk,Net income,Profit after expenses and costs have been deducted from revenue.
+X11,0.1853966641488293,0.1853966641488293,higher predicted failure risk,Total long-term debt,Debt obligations due after more than one year.
+X2,-0.15667967814794076,0.15667967814794076,lower predicted failure risk,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+X7,0.11734486019881056,0.11734486019881056,higher predicted failure risk,Total receivables,Money owed to the firm by customers for delivered goods or services.
+X18,0.09866611153299722,0.09866611153299722,higher predicted failure risk,Total operating expenses,Expenses incurred through normal business operations.
+X17,0.09571186278996817,0.09571186278996817,higher predicted failure risk,Total liabilities,Total debts and obligations owed to outside parties.
+X9,0.021166114924158246,0.021166114924158246,higher predicted failure risk,Net sales,"Gross sales minus returns, allowances, and discounts."
+X16,0.021166114924158246,0.021166114924158246,higher predicted failure risk,Total revenue,Total income from sales before subtracting expenses.
