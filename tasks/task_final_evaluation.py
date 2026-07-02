@@ -18,6 +18,10 @@ Outputs:
     - outputs/figures/final_test_precision_recall_curves.png
     - outputs/figures/final_test_confusion_matrices.png
     - outputs/figures/final_test_metric_comparison.png
+    - outputs/figures/final_test_core_metric_summary.png
+    - outputs/figures/final_test_confusion_matrices_key_models.png
+    - outputs/figures/final_test_roc_curves_key_models.png
+    - outputs/figures/final_test_precision_recall_curves_key_models.png
 """
 
 from pathlib import Path
@@ -27,11 +31,15 @@ import pandas as pd
 from bankruptcy_ml.config import (
     DECISION_TREE_MODEL_PATH,
     FINAL_TEST_CLASSIFICATION_REPORTS_PATH,
+    FINAL_TEST_CONFUSION_MATRICES_KEY_MODELS_PATH,
     FINAL_TEST_CONFUSION_MATRICES_PATH,
+    FINAL_TEST_CORE_METRIC_SUMMARY_PATH,
     FINAL_TEST_METRIC_COMPARISON_PATH,
     FINAL_TEST_METRICS_PATH,
+    FINAL_TEST_PRECISION_RECALL_CURVES_KEY_MODELS_PATH,
     FINAL_TEST_PRECISION_RECALL_CURVES_PATH,
     FINAL_TEST_PREDICTIONS_PATH,
+    FINAL_TEST_ROC_CURVES_KEY_MODELS_PATH,
     FINAL_TEST_ROC_CURVES_PATH,
     GRADIENT_BOOSTING_MODEL_PATH,
     INTERPRETABLE_LOGIT_MODEL_PATH,
@@ -44,9 +52,13 @@ from bankruptcy_ml.config import (
 from bankruptcy_ml.final_evaluation import save_final_test_evaluation
 from bankruptcy_ml.visualization import (
     plot_final_test_confusion_matrices,
+    plot_final_test_confusion_matrices_key_models,
+    plot_final_test_core_metric_summary,
     plot_final_test_metric_comparison,
     plot_final_test_precision_recall_curves,
+    plot_final_test_precision_recall_curves_key_models,
     plot_final_test_roc_curves,
+    plot_final_test_roc_curves_key_models,
 )
 
 
@@ -134,9 +146,71 @@ def task_plot_final_test_metric_comparison(
     depends_on: Path = FINAL_TEST_METRICS_PATH,
     produces: Path = FINAL_TEST_METRIC_COMPARISON_PATH,
 ) -> None:
-    """Create final test metric comparison figure."""
+    """Create final test metric comparison figure for all models."""
     metrics = pd.read_csv(depends_on)
     plot_final_test_metric_comparison(
         model_comparison=metrics,
+        output_path=produces,
+    )
+
+
+def task_plot_final_test_core_metric_summary(
+    depends_on: Path = FINAL_TEST_METRICS_PATH,
+    produces: Path = FINAL_TEST_CORE_METRIC_SUMMARY_PATH,
+) -> None:
+    """Create a cleaner final test metric summary for key models.
+
+    This figure is intended for the README, final report, and oral exam. It keeps
+    only the most important bankruptcy-class metrics and only the key models used
+    in the main project story.
+    """
+    metrics = pd.read_csv(depends_on)
+    plot_final_test_core_metric_summary(
+        model_comparison=metrics,
+        output_path=produces,
+    )
+
+
+def task_plot_final_test_confusion_matrices_key_models(
+    depends_on: Path = FINAL_TEST_PREDICTIONS_PATH,
+    produces: Path = FINAL_TEST_CONFUSION_MATRICES_KEY_MODELS_PATH,
+) -> None:
+    """Create final test confusion matrices for key models only.
+
+    The simplified figure is easier to explain than the full model comparison
+    because it focuses on the baseline, interpretable Logistic Regression, Random
+    Forest, and Gradient Boosting.
+    """
+    predictions = pd.read_csv(depends_on)
+    plot_final_test_confusion_matrices_key_models(
+        predictions=predictions,
+        output_path=produces,
+    )
+
+
+def task_plot_final_test_roc_curves_key_models(
+    depends_on: Path = FINAL_TEST_PREDICTIONS_PATH,
+    produces: Path = FINAL_TEST_ROC_CURVES_KEY_MODELS_PATH,
+) -> None:
+    """Create final test ROC curves for key models only."""
+    predictions = pd.read_csv(depends_on)
+    plot_final_test_roc_curves_key_models(
+        predictions=predictions,
+        output_path=produces,
+    )
+
+
+def task_plot_final_test_precision_recall_curves_key_models(
+    depends_on: Path = FINAL_TEST_PREDICTIONS_PATH,
+    produces: Path = FINAL_TEST_PRECISION_RECALL_CURVES_KEY_MODELS_PATH,
+) -> None:
+    """Create final test precision-recall curves for key models only.
+
+    This figure is especially useful for the oral exam because precision-recall
+    curves focus directly on the minority failed-firm class.
+    """
+    predictions = pd.read_csv(depends_on)
+    plot_final_test_precision_recall_curves_key_models(
+        predictions=predictions,
         output_path=produces,
     )

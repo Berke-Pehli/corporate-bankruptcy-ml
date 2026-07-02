@@ -129,3 +129,16 @@ PCA_LOGISTIC_METRIC_COMPARISON_FIGURE_PATH = (
 )
 
 PCA_COMPONENT_GRID = [2, 3, 5, 8, 10, 12, 15, 18]
+
+FINAL_TEST_CORE_METRIC_SUMMARY_PATH = (
+    FIGURES_DIR / "final_test_core_metric_summary.png"
+)
+FINAL_TEST_CONFUSION_MATRICES_KEY_MODELS_PATH = (
+    FIGURES_DIR / "final_test_confusion_matrices_key_models.png"
+)
+FINAL_TEST_ROC_CURVES_KEY_MODELS_PATH = (
+    FIGURES_DIR / "final_test_roc_curves_key_models.png"
+)
+FINAL_TEST_PRECISION_RECALL_CURVES_KEY_MODELS_PATH = (
+    FIGURES_DIR / "final_test_precision_recall_curves_key_models.png"
+)
