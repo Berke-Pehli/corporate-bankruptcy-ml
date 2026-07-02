@@ -71,3 +71,10 @@ GRADIENT_BOOSTING_MODEL_PATH = MODELS_DIR / "gradient_boosting.joblib"
 
 VALIDATION_SIZE = 0.2
 LOGISTIC_C_GRID = [0.01, 0.1, 1.0, 10.0]
+
+VALIDATION_ROC_CURVES_PATH = FIGURES_DIR / "validation_roc_curves.png"
+VALIDATION_PRECISION_RECALL_CURVES_PATH = (
+    FIGURES_DIR / "validation_precision_recall_curves.png"
+)
+VALIDATION_CONFUSION_MATRICES_PATH = FIGURES_DIR / "validation_confusion_matrices.png"
+VALIDATION_METRIC_COMPARISON_PATH = FIGURES_DIR / "validation_metric_comparison.png"
