@@ -1,0 +1,217 @@
+principal_component,feature,loading,absolute_loading,readable_name,description
+PC1,X16,0.25553660448775134,0.25553660448775134,Total revenue,Total income from sales before subtracting expenses.
+PC1,X9,0.2555366044877513,0.2555366044877513,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC1,X4,0.25506653860702616,0.25506653860702616,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC1,X10,0.2541271999641782,0.2541271999641782,Total assets,Total assets owned or controlled by the company.
+PC1,X14,0.25411683313103317,0.25411683313103317,Total current liabilities,Short-term obligations due within one year.
+PC1,X13,0.25358530386574335,0.25358530386574335,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC1,X12,0.24546133072892407,0.24546133072892407,EBIT,Earnings before interest and taxes.
+PC1,X7,0.24451975309176513,0.24451975309176513,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC1,X18,0.24406794073688676,0.24406794073688676,Total operating expenses,Expenses incurred through normal business operations.
+PC1,X17,0.2430317549610422,0.2430317549610422,Total liabilities,Total debts and obligations owed to outside parties.
+PC1,X1,0.24115580871828984,0.24115580871828984,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC1,X3,0.23077300453706934,0.23077300453706934,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC1,X2,0.23051557732635067,0.23051557732635067,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC1,X8,0.22658075485096543,0.22658075485096543,Market value,Market capitalization or market value of the publicly traded company.
+PC1,X5,0.20138989592906303,0.20138989592906303,Inventory,Goods and raw materials held by the firm for production or sale.
+PC1,X6,0.19974621894668987,0.19974621894668987,Net income,Profit after expenses and costs have been deducted from revenue.
+PC1,X15,0.19555665775321174,0.19555665775321174,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC1,X11,0.19395734884157984,0.19395734884157984,Total long-term debt,Debt obligations due after more than one year.
+PC10,X7,0.5783931086382954,0.5783931086382954,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC10,X14,-0.549435741741265,0.549435741741265,Total current liabilities,Short-term obligations due within one year.
+PC10,X8,0.2928742149268069,0.2928742149268069,Market value,Market capitalization or market value of the publicly traded company.
+PC10,X5,0.22921529035711835,0.22921529035711835,Inventory,Goods and raw materials held by the firm for production or sale.
+PC10,X3,0.20735085184819152,0.20735085184819152,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC10,X1,-0.20514910440047465,0.20514910440047465,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC10,X11,0.1914394580730433,0.1914394580730433,Total long-term debt,Debt obligations due after more than one year.
+PC10,X13,-0.17352019037445676,0.17352019037445676,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC10,X17,-0.15027927096528287,0.15027927096528287,Total liabilities,Total debts and obligations owed to outside parties.
+PC10,X12,-0.1498325778690229,0.1498325778690229,EBIT,Earnings before interest and taxes.
+PC10,X6,0.12388819424164971,0.12388819424164971,Net income,Profit after expenses and costs have been deducted from revenue.
+PC10,X15,-0.06660966768924341,0.06660966768924341,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC10,X10,-0.05462779807058096,0.05462779807058096,Total assets,Total assets owned or controlled by the company.
+PC10,X9,-0.03696519680579814,0.03696519680579814,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC10,X16,-0.0369651968057974,0.0369651968057974,Total revenue,Total income from sales before subtracting expenses.
+PC10,X18,-0.03643497343062948,0.03643497343062948,Total operating expenses,Expenses incurred through normal business operations.
+PC10,X4,-0.031622902633161504,0.031622902633161504,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC10,X2,0.02376158232455121,0.02376158232455121,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC11,X1,0.7084496306366447,0.7084496306366447,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC11,X14,-0.49489318200970456,0.49489318200970456,Total current liabilities,Short-term obligations due within one year.
+PC11,X8,-0.2730606821559786,0.2730606821559786,Market value,Market capitalization or market value of the publicly traded company.
+PC11,X7,-0.2244885457098689,0.2244885457098689,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC11,X3,0.21867270990980253,0.21867270990980253,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC11,X17,-0.15632119250416762,0.15632119250416762,Total liabilities,Total debts and obligations owed to outside parties.
+PC11,X13,-0.10465102522850635,0.10465102522850635,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC11,X2,0.09376937522347588,0.09376937522347588,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC11,X11,0.09285988102504256,0.09285988102504256,Total long-term debt,Debt obligations due after more than one year.
+PC11,X10,0.09120065409098861,0.09120065409098861,Total assets,Total assets owned or controlled by the company.
+PC11,X5,-0.07727325691719236,0.07727325691719236,Inventory,Goods and raw materials held by the firm for production or sale.
+PC11,X15,0.06716670872564302,0.06716670872564302,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC11,X12,-0.055392050505731316,0.055392050505731316,EBIT,Earnings before interest and taxes.
+PC11,X4,0.038910946688708245,0.038910946688708245,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC11,X9,0.03805900107645133,0.03805900107645133,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC11,X16,0.038059001076450376,0.038059001076450376,Total revenue,Total income from sales before subtracting expenses.
+PC11,X18,0.03615356980236433,0.03615356980236433,Total operating expenses,Expenses incurred through normal business operations.
+PC11,X6,0.003818021383621389,0.003818021383621389,Net income,Profit after expenses and costs have been deducted from revenue.
+PC12,X13,0.6867800478338669,0.6867800478338669,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC12,X10,-0.2998851853227001,0.2998851853227001,Total assets,Total assets owned or controlled by the company.
+PC12,X11,0.279035741905472,0.279035741905472,Total long-term debt,Debt obligations due after more than one year.
+PC12,X12,-0.2623109632680578,0.2623109632680578,EBIT,Earnings before interest and taxes.
+PC12,X4,-0.23522339557230149,0.23522339557230149,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC12,X15,0.19986550446350984,0.19986550446350984,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC12,X5,-0.18949208309011428,0.18949208309011428,Inventory,Goods and raw materials held by the firm for production or sale.
+PC12,X8,-0.17333760467566223,0.17333760467566223,Market value,Market capitalization or market value of the publicly traded company.
+PC12,X2,-0.17036856461457303,0.17036856461457303,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC12,X18,0.15356590188033273,0.15356590188033273,Total operating expenses,Expenses incurred through normal business operations.
+PC12,X7,0.14740946675452052,0.14740946675452052,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC12,X3,-0.14178343152005282,0.14178343152005282,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC12,X17,-0.09819705385401116,0.09819705385401116,Total liabilities,Total debts and obligations owed to outside parties.
+PC12,X14,-0.08969727033820019,0.08969727033820019,Total current liabilities,Short-term obligations due within one year.
+PC12,X9,0.08832043318281978,0.08832043318281978,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC12,X16,0.08832043318281761,0.08832043318281761,Total revenue,Total income from sales before subtracting expenses.
+PC12,X6,0.052678518156820855,0.052678518156820855,Net income,Profit after expenses and costs have been deducted from revenue.
+PC12,X1,0.0005497168797390452,0.0005497168797390452,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC2,X11,0.4317456267976017,0.4317456267976017,Total long-term debt,Debt obligations due after more than one year.
+PC2,X5,-0.3750897898389131,0.3750897898389131,Inventory,Goods and raw materials held by the firm for production or sale.
+PC2,X2,-0.37299067282719095,0.37299067282719095,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC2,X18,-0.31738453013796525,0.31738453013796525,Total operating expenses,Expenses incurred through normal business operations.
+PC2,X3,0.295606310520916,0.295606310520916,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC2,X17,0.27278204994577926,0.27278204994577926,Total liabilities,Total debts and obligations owed to outside parties.
+PC2,X16,-0.2377776116177902,0.2377776116177902,Total revenue,Total income from sales before subtracting expenses.
+PC2,X9,-0.23777761161778993,0.23777761161778993,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC2,X10,0.23092649854241418,0.23092649854241418,Total assets,Total assets owned or controlled by the company.
+PC2,X4,0.18448712791312982,0.18448712791312982,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC2,X15,-0.14698089910326256,0.14698089910326256,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC2,X13,0.14381521404890157,0.14381521404890157,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC2,X12,0.11242028611447977,0.11242028611447977,EBIT,Earnings before interest and taxes.
+PC2,X8,0.0984274136331585,0.0984274136331585,Market value,Market capitalization or market value of the publicly traded company.
+PC2,X7,-0.0628950604642829,0.0628950604642829,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC2,X6,0.031683791271414144,0.031683791271414144,Net income,Profit after expenses and costs have been deducted from revenue.
+PC2,X1,-0.029259461494086855,0.029259461494086855,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC2,X14,-0.01969939409151016,0.01969939409151016,Total current liabilities,Short-term obligations due within one year.
+PC3,X6,0.4941059516401136,0.4941059516401136,Net income,Profit after expenses and costs have been deducted from revenue.
+PC3,X15,0.4570126828344929,0.4570126828344929,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC3,X11,-0.3665283528933692,0.3665283528933692,Total long-term debt,Debt obligations due after more than one year.
+PC3,X8,0.32541664476233256,0.32541664476233256,Market value,Market capitalization or market value of the publicly traded company.
+PC3,X12,0.26630168114040176,0.26630168114040176,EBIT,Earnings before interest and taxes.
+PC3,X17,-0.2394503095146469,0.2394503095146469,Total liabilities,Total debts and obligations owed to outside parties.
+PC3,X5,-0.21849573371224154,0.21849573371224154,Inventory,Goods and raw materials held by the firm for production or sale.
+PC3,X14,-0.15760078993830018,0.15760078993830018,Total current liabilities,Short-term obligations due within one year.
+PC3,X4,0.1523648334374086,0.1523648334374086,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC3,X2,-0.13949503552260356,0.13949503552260356,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC3,X18,-0.12731803149072163,0.12731803149072163,Total operating expenses,Expenses incurred through normal business operations.
+PC3,X7,-0.1039136084459017,0.1039136084459017,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC3,X3,-0.0986503409662094,0.0986503409662094,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC3,X10,-0.08452455633314307,0.08452455633314307,Total assets,Total assets owned or controlled by the company.
+PC3,X16,-0.08103511459730957,0.08103511459730957,Total revenue,Total income from sales before subtracting expenses.
+PC3,X9,-0.08103511459730943,0.08103511459730943,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC3,X13,0.07867443570418364,0.07867443570418364,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC3,X1,0.006862651297437736,0.006862651297437736,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC4,X1,0.5300014553721267,0.5300014553721267,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC4,X15,-0.46223513605100075,0.46223513605100075,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC4,X8,0.3496853073200416,0.3496853073200416,Market value,Market capitalization or market value of the publicly traded company.
+PC4,X3,-0.3119940686085879,0.3119940686085879,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC4,X5,0.28344250706725105,0.28344250706725105,Inventory,Goods and raw materials held by the firm for production or sale.
+PC4,X2,-0.23395680928910734,0.23395680928910734,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC4,X13,0.17446218579566083,0.17446218579566083,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC4,X14,0.15384358816894877,0.15384358816894877,Total current liabilities,Short-term obligations due within one year.
+PC4,X18,-0.1248516830943788,0.1248516830943788,Total operating expenses,Expenses incurred through normal business operations.
+PC4,X16,-0.12243043073654386,0.12243043073654386,Total revenue,Total income from sales before subtracting expenses.
+PC4,X9,-0.12243043073654335,0.12243043073654335,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC4,X7,0.11508668310154686,0.11508668310154686,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC4,X17,-0.109664950715612,0.109664950715612,Total liabilities,Total debts and obligations owed to outside parties.
+PC4,X10,-0.10568906660431229,0.10568906660431229,Total assets,Total assets owned or controlled by the company.
+PC4,X4,-0.08521757213782938,0.08521757213782938,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC4,X11,-0.05570109118570425,0.05570109118570425,Total long-term debt,Debt obligations due after more than one year.
+PC4,X6,0.05390851764469414,0.05390851764469414,Net income,Profit after expenses and costs have been deducted from revenue.
+PC4,X12,0.0368512305446805,0.0368512305446805,EBIT,Earnings before interest and taxes.
+PC5,X6,0.6521993118414882,0.6521993118414882,Net income,Profit after expenses and costs have been deducted from revenue.
+PC5,X15,-0.4746349393251077,0.4746349393251077,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC5,X8,-0.30583075002392285,0.30583075002392285,Market value,Market capitalization or market value of the publicly traded company.
+PC5,X7,-0.20819097293775254,0.20819097293775254,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC5,X1,-0.20428363324972454,0.20428363324972454,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC5,X12,0.19292541792052909,0.19292541792052909,EBIT,Earnings before interest and taxes.
+PC5,X11,0.18401308052088572,0.18401308052088572,Total long-term debt,Debt obligations due after more than one year.
+PC5,X3,-0.14845911515853294,0.14845911515853294,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC5,X14,-0.13311944585772845,0.13311944585772845,Total current liabilities,Short-term obligations due within one year.
+PC5,X2,0.11608458286084644,0.11608458286084644,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC5,X10,-0.09231386578037926,0.09231386578037926,Total assets,Total assets owned or controlled by the company.
+PC5,X16,0.09028187685163343,0.09028187685163343,Total revenue,Total income from sales before subtracting expenses.
+PC5,X9,0.09028187685163301,0.09028187685163301,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC5,X18,0.08776355785610784,0.08776355785610784,Total operating expenses,Expenses incurred through normal business operations.
+PC5,X4,0.08295006953220939,0.08295006953220939,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC5,X5,0.0770829834158029,0.0770829834158029,Inventory,Goods and raw materials held by the firm for production or sale.
+PC5,X17,0.03225946353199383,0.03225946353199383,Total liabilities,Total debts and obligations owed to outside parties.
+PC5,X13,0.006583592129964474,0.006583592129964474,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC6,X7,0.504359279417408,0.504359279417408,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC6,X6,0.38675834485421595,0.38675834485421595,Net income,Profit after expenses and costs have been deducted from revenue.
+PC6,X8,-0.3341304856719412,0.3341304856719412,Market value,Market capitalization or market value of the publicly traded company.
+PC6,X14,0.3285965447918147,0.3285965447918147,Total current liabilities,Short-term obligations due within one year.
+PC6,X13,-0.324673657918167,0.324673657918167,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC6,X5,-0.2665323429055067,0.2665323429055067,Inventory,Goods and raw materials held by the firm for production or sale.
+PC6,X1,0.23046952607748697,0.23046952607748697,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC6,X12,-0.20928436410236853,0.20928436410236853,EBIT,Earnings before interest and taxes.
+PC6,X4,-0.1743161437108776,0.1743161437108776,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC6,X17,0.13065532121591505,0.13065532121591505,Total liabilities,Total debts and obligations owed to outside parties.
+PC6,X15,0.11229505387052463,0.11229505387052463,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC6,X16,-0.10533518058940021,0.10533518058940021,Total revenue,Total income from sales before subtracting expenses.
+PC6,X9,-0.10533518058940011,0.10533518058940011,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC6,X18,-0.08580304064134682,0.08580304064134682,Total operating expenses,Expenses incurred through normal business operations.
+PC6,X3,-0.07563611264338176,0.07563611264338176,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC6,X10,0.06922903664827317,0.06922903664827317,Total assets,Total assets owned or controlled by the company.
+PC6,X11,-0.05393095899398863,0.05393095899398863,Total long-term debt,Debt obligations due after more than one year.
+PC6,X2,-0.0031473833426493444,0.0031473833426493444,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC7,X5,0.6008335249238798,0.6008335249238798,Inventory,Goods and raw materials held by the firm for production or sale.
+PC7,X15,0.4061537824119652,0.4061537824119652,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC7,X7,-0.321831834831978,0.321831834831978,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC7,X11,0.2610058336221836,0.2610058336221836,Total long-term debt,Debt obligations due after more than one year.
+PC7,X12,-0.2533467725970531,0.2533467725970531,EBIT,Earnings before interest and taxes.
+PC7,X6,0.21984497270196696,0.21984497270196696,Net income,Profit after expenses and costs have been deducted from revenue.
+PC7,X4,-0.20632906141515173,0.20632906141515173,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC7,X17,0.16303565141646195,0.16303565141646195,Total liabilities,Total debts and obligations owed to outside parties.
+PC7,X2,-0.15921370877779156,0.15921370877779156,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC7,X10,0.1534508998847135,0.1534508998847135,Total assets,Total assets owned or controlled by the company.
+PC7,X16,-0.14456520175331367,0.14456520175331367,Total revenue,Total income from sales before subtracting expenses.
+PC7,X9,-0.14456520175331328,0.14456520175331328,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC7,X18,-0.12480153856701928,0.12480153856701928,Total operating expenses,Expenses incurred through normal business operations.
+PC7,X3,-0.07840509380911846,0.07840509380911846,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC7,X13,-0.07444351360860628,0.07444351360860628,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC7,X14,0.038005351513355115,0.038005351513355115,Total current liabilities,Short-term obligations due within one year.
+PC7,X1,-0.028227364294718865,0.028227364294718865,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC7,X8,-0.02166821782719104,0.02166821782719104,Market value,Market capitalization or market value of the publicly traded company.
+PC8,X3,0.6559399798571761,0.6559399798571761,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC8,X11,-0.4541290548723399,0.4541290548723399,Total long-term debt,Debt obligations due after more than one year.
+PC8,X12,-0.37447360781777317,0.37447360781777317,EBIT,Earnings before interest and taxes.
+PC8,X13,0.24587316680833357,0.24587316680833357,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC8,X15,-0.21030752331240932,0.21030752331240932,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC8,X6,0.20984012878312067,0.20984012878312067,Net income,Profit after expenses and costs have been deducted from revenue.
+PC8,X14,0.15083442258311192,0.15083442258311192,Total current liabilities,Short-term obligations due within one year.
+PC8,X5,0.13060396344499567,0.13060396344499567,Inventory,Goods and raw materials held by the firm for production or sale.
+PC8,X2,-0.11081080855921663,0.11081080855921663,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC8,X7,-0.09582446736576315,0.09582446736576315,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC8,X17,-0.08260484618299731,0.08260484618299731,Total liabilities,Total debts and obligations owed to outside parties.
+PC8,X1,-0.0509217132666924,0.0509217132666924,Current assets,"Assets expected to be sold, converted into cash, or used within one year."
+PC8,X8,-0.050595889758799056,0.050595889758799056,Market value,Market capitalization or market value of the publicly traded company.
+PC8,X4,-0.029966406334239956,0.029966406334239956,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC8,X10,0.01845723982121035,0.01845723982121035,Total assets,Total assets owned or controlled by the company.
+PC8,X9,-0.006228932098514952,0.006228932098514952,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC8,X16,-0.006228932098514908,0.006228932098514908,Total revenue,Total income from sales before subtracting expenses.
+PC8,X18,-0.0008666768651712991,0.0008666768651712991,Total operating expenses,Expenses incurred through normal business operations.
+PC9,X8,0.5550066063483224,0.5550066063483224,Market value,Market capitalization or market value of the publicly traded company.
+PC9,X12,-0.39879274432263906,0.39879274432263906,EBIT,Earnings before interest and taxes.
+PC9,X5,-0.3725486465622613,0.3725486465622613,Inventory,Goods and raw materials held by the firm for production or sale.
+PC9,X7,-0.2949577007489334,0.2949577007489334,Total receivables,Money owed to the firm by customers for delivered goods or services.
+PC9,X4,-0.2935344384103618,0.2935344384103618,EBITDA,"Earnings before interest, taxes, depreciation, and amortization."
+PC9,X2,0.22277651071250237,0.22277651071250237,Cost of goods sold,Direct costs related to producing or selling the firm's goods and services.
+PC9,X18,0.19293700260532343,0.19293700260532343,Total operating expenses,Expenses incurred through normal business operations.
+PC9,X13,-0.18268420619220566,0.18268420619220566,Gross profit,Profit after subtracting costs related to manufacturing and selling.
+PC9,X6,0.16237517347735836,0.16237517347735836,Net income,Profit after expenses and costs have been deducted from revenue.
+PC9,X11,0.15692894617181513,0.15692894617181513,Total long-term debt,Debt obligations due after more than one year.
+PC9,X16,0.11132933128173984,0.11132933128173984,Total revenue,Total income from sales before subtracting expenses.
+PC9,X9,0.11132933128173857,0.11132933128173857,Net sales,"Gross sales minus returns, allowances, and discounts."
+PC9,X15,-0.1072195957729932,0.1072195957729932,Retained earnings,Accumulated profits retained in the business after dividends and losses.
+PC9,X17,0.08240144581010109,0.08240144581010109,Total liabilities,Total debts and obligations owed to outside parties.
+PC9,X10,0.047097732251573,0.047097732251573,Total assets,Total assets owned or controlled by the company.
+PC9,X14,0.04705432133676932,0.04705432133676932,Total current liabilities,Short-term obligations due within one year.
+PC9,X3,-0.03571864104270669,0.03571864104270669,Depreciation and amortization,Depreciation of tangible assets and amortization of intangible assets.
+PC9,X1,0.031215866345512162,0.031215866345512162,Current assets,"Assets expected to be sold, converted into cash, or used within one year."

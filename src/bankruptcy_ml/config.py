@@ -119,3 +119,13 @@ SELECTED_THRESHOLDS_PATH = TABLES_DIR / "selected_thresholds.csv"
 VALIDATION_THRESHOLD_TRADEOFF_FIGURE_PATH = (
     FIGURES_DIR / "validation_threshold_tradeoff.png"
 )
+
+PCA_LOGISTIC_RESULTS_PATH = TABLES_DIR / "pca_logistic_results.csv"
+PCA_COMPONENT_LOADINGS_PATH = TABLES_DIR / "pca_component_loadings.csv"
+
+PCA_EXPLAINED_VARIANCE_FIGURE_PATH = FIGURES_DIR / "pca_explained_variance.png"
+PCA_LOGISTIC_METRIC_COMPARISON_FIGURE_PATH = (
+    FIGURES_DIR / "pca_logistic_metric_comparison.png"
+)
+
+PCA_COMPONENT_GRID = [2, 3, 5, 8, 10, 12, 15, 18]
