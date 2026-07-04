@@ -1,0 +1,5 @@
+evaluation_sample,model,correctly_identified_alive,false_alarms,missed_failures,detected_failures,failed_precision,failed_recall
+Final test,Majority-class baseline,14517,0,1177,0,0.000,0.000
+Final test,Logistic Regression,4611,9906,136,1041,0.095,0.884
+Final test,Random Forest,12327,2190,735,442,0.168,0.376
+Final test,Gradient Boosting,9954,4563,482,695,0.132,0.590
