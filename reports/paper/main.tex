@@ -734,6 +734,66 @@ while the logistic model is easier to explain in financial terms.
 \section{PCA Results}
 \label{sec:pca-results}
 
+The PCA extension asks whether the 18 standardized financial variables can be
+compressed without losing much predictive information. Figure~\ref{fig:pca-variance}
+shows that the first few components explain a large share of the variation in
+the predictors. Two components retain 83.8\% of total variance, five retain
+93.9\%, and ten retain 99.2\%.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{pca_explained_variance.png}
+  \caption{Cumulative explained variance from PCA on the standardized
+    financial predictors. Results use the internal validation design.}
+  \label{fig:pca-variance}
+\end{figure}
+
+High explained variance does not automatically produce good failure
+prediction. Table~\ref{tab:pca-results} reports the validation results for PCA
+followed by Logistic Regression. With only two components, ROC-AUC is 0.498 and
+PR-AUC is 0.063, even though those components retain most of the predictor
+variance. Performance improves as more components are included. The
+ten-component version has the highest failed-class F1-score, at 0.152, while
+the twelve-component version has the highest PR-AUC, at 0.151. These
+differences are small.
+
+\begin{table}[H]
+  \centering
+  \caption{Internal validation results for PCA with Logistic Regression}
+  \label{tab:pca-results}
+  \small
+  \begin{tabular}{rrrrr}
+    \toprule
+    Components & Explained variance & ROC-AUC & PR-AUC & Failed F1 \\
+    \midrule
+    2  & 0.838 & 0.498 & 0.063 & 0.130 \\
+    3  & 0.892 & 0.642 & 0.116 & 0.146 \\
+    5  & 0.939 & 0.651 & 0.124 & 0.148 \\
+    8  & 0.980 & 0.669 & 0.140 & 0.150 \\
+    10 & 0.992 & 0.671 & 0.147 & 0.152 \\
+    12 & 0.998 & 0.674 & 0.151 & 0.150 \\
+    15 & 1.000 & 0.671 & 0.147 & 0.149 \\
+    18 & 1.000 & 0.671 & 0.147 & 0.149 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+For comparison, Logistic Regression on the original standardized predictors
+has a validation PR-AUC of 0.148 and a failed-class F1-score of 0.149. The PCA
+versions with ten or twelve components are therefore very similar, rather than
+clearly better. PCA can reduce the input dimension, but substantial compression
+to two or three components removes information that matters for separating
+failed and alive observations.
+
+PCA also weakens financial interpretation. Each component is a weighted
+combination of many accounting variables, so it cannot be discussed as
+directly as current assets, market value, income, or debt. In this project, the
+small change in validation performance does not provide a strong reason to
+accept that loss of interpretability. The PCA exercise is still useful because
+it demonstrates an important distinction: variation in the predictors is not
+the same as variation that helps predict the target. All PCA comparisons are
+validation results; they are not additional final-test claims.
+
 \section{Critical Reflection and Limitations}
 \label{sec:limitations}
 
