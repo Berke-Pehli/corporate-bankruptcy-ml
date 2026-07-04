@@ -103,7 +103,85 @@
 
 \subsection{Financial motivation}
 
+Corporate bankruptcy is an important problem for lenders, investors, auditors,
+and risk managers because a firm's failure can impose losses on creditors and
+shareholders and can disrupt relationships with employees, suppliers, and other
+firms. Financial statements provide a structured record of a company's assets,
+liabilities, revenues, expenses, and profitability. These variables may contain
+signals of financial distress before failure occurs, which makes bankruptcy
+prediction a natural application of statistical learning in finance. Early
+research established that combinations of accounting variables can help
+distinguish distressed from healthy firms \citep{altman1968}, while later work
+showed how bankruptcy risk can be studied in a probabilistic classification
+framework \citep{ohlson1980}.
+
+Despite this long research history, bankruptcy prediction remains difficult.
+Failure is a rare outcome, so a model can achieve high overall accuracy by
+predicting that almost every observation remains alive. Such a model may appear
+successful while failing to identify the firms that matter most for a distress
+screening exercise. In addition, financial variables are often strongly
+correlated, measured on very different scales, and affected by firm size.
+Relationships between accounting variables and failure may also be nonlinear or
+depend on interactions that are not represented by a simple linear model.
+Finally, false negatives and false positives do not generally have the same
+economic cost: missing a failed firm may be costly, but flagging too many healthy
+firms can make a screening system impractical.
+
+These features make model evaluation as important as model fitting. Accuracy is
+reported for completeness, but it cannot be the main criterion in an imbalanced
+setting. This study therefore emphasizes precision and recall for the failed
+class, the failed-class F1-score, balanced accuracy, the area under the receiver
+operating characteristic curve (ROC-AUC), and the area under the
+precision--recall curve (PR-AUC). Precision--recall analysis is especially
+informative when the negative class greatly outnumbers the positive class,
+because it makes the false-positive burden visible rather than allowing the many
+true negatives to dominate the assessment \citep{davis2006}. The probability
+threshold is also treated as a decision choice rather than assuming that the
+default value of 0.50 is economically optimal.
+
 \subsection{Research question and contribution}
+
+This paper investigates the following research question:
+
+\begin{quote}
+\emph{How well can company-year financial statement variables identify failed
+observations out of sample, and do flexible tree-based classifiers improve on an
+interpretable Logistic Regression benchmark?}
+\end{quote}
+
+The analysis uses the American corporate bankruptcy dataset introduced by
+\citet{lombardo2022}. The working sample contains 78,682 company-year
+observations from 8,971 anonymized companies between 1999 and 2018, with 18
+financial predictors and a binary failed/alive target. Because companies may
+appear in multiple years, observations are split at the company level. This
+prevents the same company from appearing in both training and final-test data
+and reduces the risk that persistent company characteristics create an
+artificially favorable evaluation. The design tests generalization to unseen
+companies; it is not presented as a chronological forecasting backtest.
+
+The empirical comparison begins with a majority-class baseline, which
+demonstrates why accuracy alone is misleading. Logistic Regression provides the
+main interpretable benchmark, and L1- and L2-regularized variants examine whether
+coefficient shrinkage improves generalization when predictors are correlated.
+A Decision Tree, Random Forest, and Gradient Boosting model then test whether
+nonlinear rules and interactions improve predictive performance. These models
+represent a progression from a transparent parametric classifier to more
+flexible ensemble methods, reflecting the interpretability--flexibility and
+bias--variance trade-offs emphasized in statistical learning
+\citep{james2023}. A PCA plus Logistic Regression specification is included as a
+dimension-reduction extension, not as the main model.
+
+The paper makes three practical contributions within the scope of a course
+project. First, it constructs a reproducible and leakage-aware comparison of
+interpretable and tree-based classifiers. Second, it evaluates the models using
+metrics that focus directly on the minority failed class and uses an untouched
+final test set for the principal comparison. Third, it connects statistical
+performance to the financial screening problem by examining confusion-matrix
+counts, validation-based threshold trade-offs, Logistic Regression
+coefficients, and tree-based feature importance. The resulting estimates are
+interpreted as predictive associations rather than causal effects. The study is
+therefore an empirical model comparison and not a claim that the fitted models
+are ready for automated credit or investment decisions.
 
 \section{Data}
 \label{sec:data}
