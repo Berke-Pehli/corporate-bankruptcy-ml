@@ -886,6 +886,42 @@ decision relevance more than simply adding another complex algorithm.
 \section{Conclusion}
 \label{sec:conclusion}
 
+This paper examined how well company-year financial statement variables can
+identify failed observations for companies not seen during model fitting. It
+also tested whether flexible tree-based classifiers improve on an interpretable
+Logistic Regression benchmark. The results show that the financial variables
+contain out-of-sample predictive information, but bankruptcy classification
+remains difficult and no model is best for every objective.
+
+The majority-class baseline achieved 92.5\% accuracy while detecting none of
+the failed observations. This is the clearest reason not to judge the project
+by accuracy alone. Among the key models, Random Forest produced the highest
+final-test PR-AUC and failed-class F1-score. Gradient Boosting achieved the
+highest balanced accuracy and detected more failures than Random Forest, but it
+also generated more false alarms. Logistic Regression detected the largest
+share of failures and was the easiest model to explain, although its broad
+screening rule produced many false positives. The tree-based models therefore
+improved some measures, but they did not dominate the logistic benchmark on
+every relevant outcome.
+
+The additional analyses support this trade-off-based view. Threshold tuning
+showed that higher recall requires lower precision and a larger review burden.
+The PCA extension retained much of the variation in fewer dimensions, but it
+did not provide a clear predictive advantage and made the financial meaning of
+the inputs less direct. Logistic coefficients and tree importance highlighted
+market value, profitability, liquidity, and debt variables, but these patterns
+are predictive associations rather than causal effects.
+
+The main lesson is that corporate failure prediction is both a statistical and
+a financial decision problem. Model rankings, classification thresholds, error
+costs, and interpretability must be considered together. Under the current
+company-level split, the models provide a structured way to rank or screen
+firms, not a basis for automatic decisions. A stronger next study would define
+a forward prediction horizon, use chronological testing, assess calibration
+and uncertainty, and select thresholds using explicit financial costs. Within
+its educational scope, the project demonstrates a reproducible and careful
+application of classification methods to an important problem in finance.
+
 % -----------------------------------------------------------------------------
 % References
 % -----------------------------------------------------------------------------
