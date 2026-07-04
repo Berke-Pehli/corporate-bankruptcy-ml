@@ -940,13 +940,132 @@ application of classification methods to an important problem in finance.
 \section{Additional Model Results}
 \label{app:model-results}
 
+Table~\ref{tab:all-test-results} gives the complete final-test comparison,
+including the regularized logistic models and the single Decision Tree. The
+regularized logistic variants are very close to the fixed Logistic Regression
+benchmark. The Decision Tree improves failed recall over Random Forest but has
+weaker ranking performance and produces more false positives. The source is
+\texttt{outputs/tables/final\_test\_metrics.csv}.
+
+\begin{table}[H]
+  \centering
+  \caption{Complete final-test model comparison}
+  \label{tab:all-test-results}
+  \small
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{lrrrrrrr}
+    \toprule
+    Model & Accuracy & Balanced acc. & ROC-AUC & PR-AUC & Failed precision & Failed recall & Failed F1 \\
+    \midrule
+    Majority baseline       & 0.925 & 0.500 & 0.500 & 0.075 & 0.000 & 0.000 & 0.000 \\
+    Logistic Regression     & 0.360 & 0.601 & 0.690 & 0.153 & 0.095 & 0.884 & 0.172 \\
+    L1 Logistic Regression  & 0.358 & 0.602 & 0.692 & 0.154 & 0.095 & 0.889 & 0.172 \\
+    L2 Logistic Regression  & 0.358 & 0.602 & 0.692 & 0.153 & 0.095 & 0.888 & 0.172 \\
+    Decision Tree           & 0.600 & 0.581 & 0.633 & 0.122 & 0.102 & 0.558 & 0.173 \\
+    Random Forest           & 0.814 & 0.612 & 0.699 & 0.159 & 0.168 & 0.376 & 0.232 \\
+    Gradient Boosting       & 0.679 & 0.638 & 0.688 & 0.158 & 0.132 & 0.590 & 0.216 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
 \section{Threshold Analysis}
 \label{app:thresholds}
+
+Table~\ref{tab:selected-thresholds} reports the validation thresholds discussed
+in Section~\ref{sec:evaluation}. For each rule, the table also reports the share
+of validation observations that would be labelled failed. The sharp rise in
+this share under the 80\% recall rule shows the review burden created by a high
+failure-detection target. These settings are descriptive validation choices and
+were not applied to the final test comparison.
+
+\begin{table}[H]
+  \centering
+  \caption{Selected thresholds from the internal validation sample}
+  \label{tab:selected-thresholds}
+  \scriptsize
+  \begin{tabular}{llrrrrr}
+    \toprule
+    Model & Rule & Threshold & Precision & Recall & F1 & Predicted failed share \\
+    \midrule
+    Gradient Boosting & Maximum F1       & 0.68 & 0.212 & 0.220 & 0.216 & 0.068 \\
+                      & Recall $\geq 0.60$ & 0.48 & 0.109 & 0.613 & 0.185 & 0.370 \\
+                      & Recall $\geq 0.80$ & 0.37 & 0.090 & 0.823 & 0.162 & 0.599 \\
+    \addlinespace
+    Logistic Regression & Maximum F1       & 0.53 & 0.190 & 0.320 & 0.239 & 0.110 \\
+                        & Recall $\geq 0.60$ & 0.52 & 0.088 & 0.682 & 0.156 & 0.507 \\
+                        & Recall $\geq 0.80$ & 0.50 & 0.082 & 0.846 & 0.149 & 0.678 \\
+    \addlinespace
+    Random Forest & Maximum F1       & 0.57 & 0.187 & 0.265 & 0.219 & 0.093 \\
+                  & Recall $\geq 0.60$ & 0.37 & 0.115 & 0.616 & 0.194 & 0.351 \\
+                  & Recall $\geq 0.80$ & 0.27 & 0.100 & 0.812 & 0.178 & 0.532 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{../../outputs/figures/validation_threshold_tradeoff.png}
+  \caption{Validation precision, recall, and failed-class F1 across candidate
+    thresholds. The figure uses validation predictions only.}
+  \label{fig:threshold-tradeoff}
+\end{figure}
 
 \section{PCA Diagnostics}
 \label{app:pca}
 
+Figure~\ref{fig:pca-metric-comparison} complements the PCA table in
+Section~\ref{sec:pca-results}. It shows that classification performance rises
+as the first components are added and then changes little. The full numerical
+results are stored in \texttt{outputs/tables/pca\_logistic\_results.csv}, while
+component weights are stored in
+\texttt{outputs/tables/pca\_component\_loadings.csv}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{../../outputs/figures/pca_logistic_metric_comparison.png}
+  \caption{Internal validation metrics for PCA plus Logistic Regression across
+    the tested component counts.}
+  \label{fig:pca-metric-comparison}
+\end{figure}
+
 \section{Reproducibility and Code Structure}
 \label{app:reproducibility}
+
+The project uses a task-based workflow and fixed random seeds. Configuration,
+paths, feature names, and the split seed are defined in
+\texttt{src/bankruptcy\_ml/config.py}. The remaining modules separate data
+validation, exploratory analysis, preprocessing, company-level splitting,
+model fitting, evaluation, threshold analysis, PCA, interpretation, and
+visualization. Files in \texttt{tasks/} connect these stages into the build
+workflow, and files in \texttt{tests/} check the main data and modelling
+behaviour.
+
+From the repository root, the complete existing workflow is run with:
+
+\begin{verbatim}
+pixi run build
+pixi run test
+\end{verbatim}
+
+The build command creates the processed data, fitted model files, result
+tables, and figures through the declared task dependencies. The test command
+runs the automated test suite. Generated analysis artifacts are kept under
+\texttt{data/processed/} and \texttt{outputs/}. The paper-ready layer under
+\texttt{outputs/paper/} contains simplified copies and summaries derived from
+the existing results; it does not represent a second model run.
+
+The main evidence files used in this paper are listed below. Keeping these
+tables alongside the figures makes every reported value traceable to a saved
+project output.
+
+\begin{itemize}
+  \item \path{final_test_metrics.csv} and
+    \path{final_test_classification_reports.csv};
+  \item \path{selected_thresholds.csv};
+  \item \path{logistic_coefficients.csv} and
+    \path{tree_feature_importance.csv};
+  \item \path{pca_logistic_results.csv}.
+\end{itemize}
 
 \end{document}
