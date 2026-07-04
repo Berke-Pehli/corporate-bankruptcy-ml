@@ -1,0 +1,191 @@
+\documentclass[11pt,a4paper]{article}
+
+% -----------------------------------------------------------------------------
+% Packages and document settings
+% -----------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{threeparttable}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+
+\graphicspath{{../../outputs/paper/figures/}}
+
+\sisetup{
+  round-mode=places,
+  round-precision=3,
+  table-number-alignment=center
+}
+
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  justification=centering
+}
+
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Corporate Bankruptcy Risk Prediction}
+\fancyhead[R]{Machine Learning for Finance}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+
+\hypersetup{
+  pdftitle={Corporate Bankruptcy Risk Prediction with Machine Learning},
+  pdfauthor={Berke Pehlivan},
+  pdfsubject={Machine Learning for Finance research paper}
+}
+
+% -----------------------------------------------------------------------------
+% Title information
+% -----------------------------------------------------------------------------
+\title{\textbf{Corporate Bankruptcy Risk Prediction\\with Machine Learning}\\[0.6em]
+\large Comparing Interpretable Logistic Regression and Tree-Based Models}
+\author{Berke Pehlivan\\
+\small Machine Learning for Finance\\
+\small University of Bonn}
+\date{Academic Year 2025/2026}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{2.5cm}
+  {\LARGE\bfseries Corporate Bankruptcy Risk Prediction\\[0.25em]
+  with Machine Learning\par}
+  \vspace{0.8cm}
+  {\large Comparing Interpretable Logistic Regression\\
+  and Tree-Based Models\par}
+  \vfill
+  {\large Berke Pehlivan\par}
+  \vspace{0.3cm}
+  {\normalsize Machine Learning for Finance\par}
+  {\normalsize University of Bonn\par}
+  {\normalsize Academic Year 2025/2026\par}
+  \vfill
+\end{titlepage}
+
+\pagenumbering{roman}
+
+\begin{abstract}
+% Write the abstract after all substantive sections are complete.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+% -----------------------------------------------------------------------------
+% Main paper
+% -----------------------------------------------------------------------------
+\section{Introduction}
+\label{sec:introduction}
+
+\subsection{Financial motivation}
+
+\subsection{Research question and contribution}
+
+\section{Data}
+\label{sec:data}
+
+\subsection{Dataset and unit of observation}
+
+\subsection{Target and financial predictors}
+
+\subsection{Class imbalance and descriptive evidence}
+
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Company-level training, validation, and test design}
+
+\subsection{Majority-class baseline}
+
+\subsection{Logistic Regression and regularization}
+
+\subsection{Tree-based models}
+
+\subsection{PCA extension}
+
+\section{Evaluation Strategy}
+\label{sec:evaluation}
+
+\subsection{Why accuracy is insufficient}
+
+\subsection{Ranking and failed-class metrics}
+
+\subsection{Threshold analysis}
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Final-test model comparison}
+
+\subsection{Classification trade-offs}
+
+\subsection{Precision--recall analysis}
+
+\section{Model Interpretation}
+\label{sec:interpretation}
+
+\subsection{Logistic Regression coefficients}
+
+\subsection{Tree-based feature importance}
+
+\section{PCA Results}
+\label{sec:pca-results}
+
+\section{Critical Reflection and Limitations}
+\label{sec:limitations}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+% -----------------------------------------------------------------------------
+% References
+% -----------------------------------------------------------------------------
+\clearpage
+\bibliographystyle{apalike}
+\IfFileExists{references.bib}
+  {\bibliography{references}}
+  {\section*{References}}
+
+% -----------------------------------------------------------------------------
+% Appendix
+% -----------------------------------------------------------------------------
+\clearpage
+\appendix
+
+\section{Additional Model Results}
+\label{app:model-results}
+
+\section{Threshold Analysis}
+\label{app:thresholds}
+
+\section{PCA Diagnostics}
+\label{app:pca}
+
+\section{Reproducibility and Code Structure}
+\label{app:reproducibility}
+
+\end{document}
