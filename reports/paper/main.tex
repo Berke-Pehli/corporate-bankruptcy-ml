@@ -461,9 +461,97 @@ income, debt, and the other original variables.
 
 \subsection{Why accuracy is insufficient}
 
+Accuracy is the share of all observations classified correctly. Although it is
+easy to understand, it can be misleading when one class is much more common
+than the other. In this dataset, a model can obtain high accuracy by predicting
+almost every observation as alive. Such a model would still fail at the main
+task of identifying firms at risk of failure. The majority-class baseline is
+therefore included to make this problem visible.
+
+The confusion matrix provides a clearer view of the errors. Failed firms are
+treated as the positive class. A true positive is a failed observation that the
+model detects, while a false negative is a failed observation that it misses.
+A false positive is an alive observation flagged as failed, and a true negative
+is an alive observation correctly classified as alive. In a screening setting,
+false negatives represent missed failures and false positives represent false
+alarms. Both matter, but their costs are not assumed to be equal.
+
+Balanced accuracy is also reported. It is the average of the recall for the
+failed class and the recall for the alive class:
+\begin{equation}
+  \text{Balanced accuracy}
+  = \frac{1}{2}\left(
+  \frac{TP}{TP+FN} + \frac{TN}{TN+FP}
+  \right).
+\end{equation}
+Unlike ordinary accuracy, this measure gives equal weight to both classes.
+
 \subsection{Ranking and failed-class metrics}
 
+The evaluation gives special attention to the minority failed class. Failed
+precision measures how many observations predicted as failed actually failed:
+\begin{equation}
+  \text{Precision}_{\text{failed}} = \frac{TP}{TP+FP}.
+\end{equation}
+Failed recall measures how many actual failures were detected:
+\begin{equation}
+  \text{Recall}_{\text{failed}} = \frac{TP}{TP+FN}.
+\end{equation}
+Their harmonic mean is the failed-class F1-score:
+\begin{equation}
+  F1_{\text{failed}}
+  = 2\frac{\text{Precision}_{\text{failed}}
+  \times \text{Recall}_{\text{failed}}}
+  {\text{Precision}_{\text{failed}}+\text{Recall}_{\text{failed}}}.
+\end{equation}
+Recall is important when missed failures are a concern, while precision shows
+how many false alarms are produced. The F1-score summarizes their balance, but
+it does not attach a financial cost to either type of error.
+
+Two threshold-independent ranking measures are reported. ROC-AUC measures how
+well a model ranks a randomly chosen failed observation above a randomly chosen
+alive observation across all thresholds. However, an ROC curve can appear
+quite favourable when the negative class is much larger. Precision--recall
+analysis focuses more directly on performance for the positive minority class
+and is therefore especially useful here \citep{davis2006}.
+
+In the project output, the measure labelled PR-AUC is calculated using the
+average precision implementation in scikit-learn \citep{pedregosa2011}.
+Average precision summarizes the precision--recall relationship by weighting
+precision at each level by the increase in recall. This naming detail is stated
+explicitly because average precision is not exactly the same as applying the
+trapezoidal rule to a precision--recall curve.
+
+The ranking measures use predicted scores across many possible cut-offs. In
+contrast, accuracy, precision, recall, F1, and the confusion matrix require one
+classification threshold. The two groups of measures answer different
+questions: ranking measures assess ordering quality, while threshold-based
+measures describe the decisions made at a chosen cut-off.
+
 \subsection{Threshold analysis}
+
+The default classification threshold of 0.50 is not necessarily the most
+appropriate choice for bankruptcy screening. Lowering the threshold usually
+detects more failed firms, but it also creates more false alarms. Raising it
+usually improves precision at the cost of lower recall. Threshold choice is
+therefore a practical trade-off rather than a purely technical decision.
+
+Thresholds from 0.01 to 0.99 are examined using only the internal validation
+predictions for Logistic Regression, Random Forest, and Gradient Boosting. The
+analysis considers three rules: the threshold with the highest failed-class
+F1-score, the highest-precision threshold that still reaches at least 60\%
+failed recall, and the corresponding rule for at least 80\% failed recall.
+This shows how the preferred cut-off changes when detecting failures receives
+more weight.
+
+The final test set is not used to choose a threshold. To keep the main model
+comparison consistent, the reported final-test classifications use each
+estimator's default decision rule, equivalent to a 0.50 probability cut-off for
+the models considered. The validation threshold exercise is presented as a
+sensitivity analysis, not as a deployed policy. A real decision rule would
+also require calibrated probabilities, explicit financial costs, and evidence
+from a later or external sample. These elements are outside the scope of this
+project.
 
 \section{Results}
 \label{sec:results}
