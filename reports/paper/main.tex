@@ -45,10 +45,8 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{Corporate Bankruptcy Risk Prediction}
-\fancyhead[R]{Machine Learning for Finance}
 \fancyfoot[C]{\thepage}
-\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0pt}
 
 \hypersetup{
   pdftitle={Corporate Bankruptcy Risk Prediction with Machine Learning},
@@ -1014,7 +1012,7 @@ were not applied to the final test comparison.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.88\textwidth]{../../outputs/figures/validation_threshold_tradeoff.png}
+  \includegraphics[width=0.70\textwidth]{../../outputs/figures/validation_threshold_tradeoff.png}
   \caption{Validation precision, recall, and failed-class F1 across candidate
     thresholds. The figure uses validation predictions only.}
   \label{fig:threshold-tradeoff}
