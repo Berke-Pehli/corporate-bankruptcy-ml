@@ -653,7 +653,83 @@ precision levels also show that bankruptcy prediction remains difficult.
 
 \subsection{Logistic Regression coefficients}
 
+Figure~\ref{fig:logistic-coefficients} shows the largest coefficients from the
+main Logistic Regression. Because the predictors were standardized before
+fitting, their coefficient magnitudes can be compared on a common scale. A
+positive coefficient is associated with higher predicted log-odds of failure,
+while a negative coefficient is associated with lower predicted log-odds,
+holding the other predictors fixed.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.84\textwidth]{top_logistic_coefficients.png}
+  \caption{Largest Logistic Regression coefficients. Predictors are
+    standardized, and the target value one represents a failed observation.}
+  \label{fig:logistic-coefficients}
+\end{figure}
+
+Current assets and market value have the largest negative coefficients, at
+$-1.912$ and $-1.812$. EBIT, retained earnings, and EBITDA also have negative
+coefficients among the variables shown. In this fitted model, higher values of
+these variables are associated with lower predicted failure risk. This is
+broadly consistent with the descriptive results: failed observations have
+lower median current assets, market value, net income, and retained earnings.
+
+Total current liabilities have the largest positive coefficient at 0.928.
+Depreciation and amortization, gross profit, inventory, and total assets also
+have positive coefficients among the largest values. These signs must be read
+carefully. The model includes several related accounting totals at the same
+time, so a coefficient describes a conditional relationship after the other
+variables are held fixed. For example, a positive gross-profit coefficient
+does not mean that higher gross profit causes bankruptcy. It may reflect the
+combination of correlated size, revenue, cost, and balance-sheet variables in
+the fitted prediction model.
+
+The coefficients help explain how the model forms its scores, but they are not
+causal estimates. The analysis does not use a causal research design, and it
+does not report statistical inference for individual coefficients. Their role
+here is predictive interpretation.
+
 \subsection{Tree-based feature importance}
+
+Figure~\ref{fig:tree-importance} reports the leading impurity-based feature
+importance values for Random Forest and Gradient Boosting. A larger value means
+that a variable contributed more to reducing impurity across the fitted tree
+splits within that model. Unlike a logistic coefficient, this measure does not
+show whether higher values increase or decrease predicted risk.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.90\textwidth]{top_tree_feature_importance.png}
+  \caption{Leading feature importance values within the Random Forest and
+    Gradient Boosting models. Magnitudes should be compared mainly within each
+    model rather than directly across models.}
+  \label{fig:tree-importance}
+\end{figure}
+
+Market value, net income, and total long-term debt are the three most important
+features in both ensembles. Current assets also appear near the top, followed
+by variables such as retained earnings, inventory, depreciation and
+amortization, and total liabilities. This overlap suggests that market
+valuation, profitability, liquidity, and debt information all contribute to
+the models' predictions. It does not establish that these variables cause
+failure.
+
+The importance profiles also differ in concentration. Random Forest spreads
+importance more evenly across the predictors, while Gradient Boosting assigns
+a larger share to its first few variables. The absolute values should not be
+compared as if they were on one common scale, because each ensemble constructs
+and combines trees differently. Impurity-based importance can also favour
+variables that provide many useful split points and can divide importance among
+correlated predictors. The figure is therefore best used as a summary of the
+fitted models, not as a definitive ranking of economic causes.
+
+Taken together, the two interpretation methods offer different information.
+Logistic Regression provides signed and relatively direct relationships on the
+log-odds scale. The ensembles allow nonlinear patterns and interactions, but
+their importance values are less direct. This is the central interpretability
+trade-off in the project: more flexible models can represent richer patterns,
+while the logistic model is easier to explain in financial terms.
 
 \section{PCA Results}
 \label{sec:pca-results}
