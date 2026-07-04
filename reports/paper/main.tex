@@ -558,9 +558,95 @@ project.
 
 \subsection{Final-test model comparison}
 
+Figure~\ref{fig:test-performance} compares the majority-class baseline with
+Logistic Regression, Random Forest, and Gradient Boosting on the held-out test
+set. These models are shown because they make the main performance trade-offs
+easy to see. The complete saved results also contain the regularized logistic
+models and the single Decision Tree.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{model_performance_summary.png}
+  \caption{Final-test performance for the failed class. PR-AUC refers to
+    average precision. The values come from the fixed held-out test set.}
+  \label{fig:test-performance}
+\end{figure}
+
+The majority baseline reaches 0.925 accuracy, but it detects none of the 1,177
+failed observations. Its failed-class precision, recall, and F1-score are all
+zero. This confirms that accuracy alone gives the wrong impression in this
+imbalanced problem.
+
+No model is best on every measure. Logistic Regression has the highest failed
+recall at 0.884, but its failed precision is only 0.095. Random Forest has the
+highest PR-AUC among the models shown at 0.159 and the highest failed-class
+F1-score at 0.232. Gradient Boosting has the highest balanced accuracy at 0.638
+and an intermediate recall of 0.590. The ROC-AUC values of the three models are
+fairly close, ranging from 0.688 to 0.699. The results therefore support a
+comparison of trade-offs rather than one simple claim that a single model wins.
+
 \subsection{Classification trade-offs}
 
+Table~\ref{tab:test-confusion} translates the final-test predictions into
+screening outcomes. Logistic Regression detects 1,041 failures and misses only
+136. However, it also creates 9,906 false alarms. This explains why its recall
+is high while its precision and overall accuracy are low.
+
+\begin{table}[H]
+  \centering
+  \caption{Final-test classification outcomes at the default decision rule}
+  \label{tab:test-confusion}
+  \small
+  \begin{tabular}{lrrrr}
+    \toprule
+    Model & Correct alive & False alarms & Missed failures & Detected failures \\
+    \midrule
+    Majority baseline    & 14,517 & 0     & 1,177 & 0     \\
+    Logistic Regression  & 4,611  & 9,906 & 136   & 1,041 \\
+    Random Forest        & 12,327 & 2,190 & 735   & 442   \\
+    Gradient Boosting    & 9,954  & 4,563 & 482   & 695   \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Random Forest is more selective. It reduces false alarms to 2,190, but detects
+only 442 failures and misses 735. Gradient Boosting lies between these two
+patterns, with 695 detected failures and 4,563 false alarms. In practical
+terms, Logistic Regression gives broad screening coverage, Random Forest gives
+fewer alerts, and Gradient Boosting provides a middle position. Which pattern
+is preferable depends on the relative cost of a missed failure and a false
+alarm. Those costs are not estimated in this project.
+
+The validation threshold analysis leads to the same general lesson. For each
+model, thresholds chosen to reach at least 80\% recall label a much larger share
+of observations as failed than thresholds selected to maximize F1. Thus,
+recall can be increased, but only by accepting lower precision and more firms
+sent for further review. Since these cut-offs were studied on validation data,
+they are not used to revise the final-test results above.
+
 \subsection{Precision--recall analysis}
+
+Figure~\ref{fig:test-pr} shows the precision--recall curves for the three key
+models. The dashed horizontal line represents the failed-class share in the
+test data. A model needs to remain above this reference to provide more useful
+ranking than a non-informative classifier at the corresponding recall level.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{precision_recall_key_models.png}
+  \caption{Final-test precision--recall curves for the key models. The legend
+    reports average precision, labelled PR-AUC in the project outputs.}
+  \label{fig:test-pr}
+\end{figure}
+
+The curves are close, which is consistent with their similar average precision
+values of 0.153, 0.159, and 0.158. Random Forest has the highest value, but its
+advantage over Gradient Boosting is very small. Logistic Regression is also
+close in ranking performance even though its classifications at the default
+threshold produce a very different confusion matrix. This illustrates why a
+model's ranking quality and its decisions at one threshold should be discussed
+separately. Overall, the models contain predictive information, but the low
+precision levels also show that bankruptcy prediction remains difficult.
 
 \section{Model Interpretation}
 \label{sec:interpretation}
