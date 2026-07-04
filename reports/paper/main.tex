@@ -188,9 +188,122 @@ are ready for automated credit or investment decisions.
 
 \subsection{Dataset and unit of observation}
 
+The project uses the American corporate bankruptcy dataset published by
+\citet{lombardo2022}. It contains accounting information for public companies
+listed in the United States. The version used in this project has 78,682 rows
+covering the years 1999 to 2018. It contains 8,971 anonymized company
+identifiers, 18 financial predictors, a year variable, and a company status.
+The data summary reports no missing values and no duplicated rows.
+
+One row represents one company in one year. The same company can therefore
+appear in several years. This panel-like structure is important for the way the
+sample is split. A random split of individual rows could place one company's
+earlier observations in the training sample and its later observations in the
+test sample. The model might then benefit from company-specific information that
+is already present in training. To reduce this risk, the project assigns whole
+companies to the training or final-test sample. The split design is explained in
+Section~\ref{sec:methodology}.
+
+The source data cover a long period in which both the set of listed companies
+and the wider economic environment changed. However, the project does not use a
+time-based holdout. The final test set contains unseen companies, but its years
+overlap with the years in the training set. The results should therefore be read
+as evidence about generalization across companies under this sample design, not
+as a real-time forecast of a later economic period.
+
 \subsection{Target and financial predictors}
 
+The original status is recorded as \texttt{alive} or \texttt{failed}. For
+modeling, failed observations are coded as 1 and alive observations as 0. The
+failed class is treated as the positive class throughout the analysis. The
+company identifier and year are kept for splitting and reporting, but they are
+not used as predictors. This leaves 18 financial inputs, labelled \texttt{X1}
+to \texttt{X18} in the source file.
+
+The predictors cover several parts of a company's financial position and
+performance. They include current assets, inventory, receivables, market value,
+and total assets; profitability measures such as EBITDA, EBIT, net income,
+gross profit, and retained earnings; long-term debt, current liabilities, and
+total liabilities; and activity measures such as sales, revenue, cost of goods
+sold, and operating expenses. Depreciation and amortization is also included.
+The model therefore uses reported financial levels rather than a set of
+engineered financial ratios. Readable names are retained in the tables and
+figures so that the model outputs can be discussed in financial terms.
+
+These variables have very different scales and several describe related parts
+of the same financial statements. For example, revenue and net sales are closely
+connected, as are assets and liabilities. This matters for Logistic Regression,
+because coefficient size depends on measurement scale and correlated predictors
+can make individual coefficients less stable. The Logistic Regression and PCA
+pipelines therefore standardize the predictors using parameters learned from
+the training data. Tree-based models do not require this scaling.
+
 \subsection{Class imbalance and descriptive evidence}
+
+The target is strongly imbalanced. Of the 78,682 company-year observations,
+73,462 are alive and 5,220 are failed. The failed class therefore represents
+only 6.63\% of the full sample. Figure~\ref{fig:class-distribution} shows this
+difference. A classifier that predicts every observation as alive would be
+correct in more than 93\% of the full sample, although it would detect no
+failures. This is the main reason why the later evaluation does not rely on
+accuracy alone.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.72\textwidth]{class_balance.png}
+  \caption{Class distribution in the full dataset. The failed class accounts
+  for 6.6\% of company-year observations.}
+  \label{fig:class-distribution}
+\end{figure}
+
+The share of failed observations also changes over time. As shown in
+Figure~\ref{fig:annual-failure-rate}, the observed rate rises from 7.16\% in
+1999 to a peak of 9.40\% in 2003 and then generally declines, reaching 1.32\%
+in 2018. This pattern should be interpreted with care. It may reflect changes in
+economic conditions, but it may also reflect changes in the companies included
+in the dataset or in the way the status is represented. The figure is used as a
+description of the sample and not as evidence of a causal time trend.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{annual_failure_rate.png}
+  \caption{Observed annual failure rate in the full dataset, 1999--2018.}
+  \label{fig:annual-failure-rate}
+\end{figure}
+
+Table~\ref{tab:financial-medians} compares the medians of six selected
+financial variables. Medians are used because financial statement values are
+often skewed and can contain very large observations. Failed observations have
+lower median market value, net income, current assets, and retained earnings.
+They have higher median long-term debt and total liabilities. The signs are
+financially plausible as descriptive patterns, but they do not show that these
+variables cause failure. They are simple comparisons made before controlling
+for the other predictors.
+
+\begin{table}[H]
+  \centering
+  \caption{Selected financial-variable medians by company status}
+  \label{tab:financial-medians}
+  \begin{threeparttable}
+    \begin{tabular}{lrr}
+      \toprule
+      Financial variable & Alive median & Failed median \\
+      \midrule
+      Market value         & 240.90 & 117.80 \\
+      Net income           &   2.07 &  -3.33 \\
+      Total long-term debt &   7.09 &  18.44 \\
+      Current assets       & 102.92 &  75.87 \\
+      Total liabilities    &  80.74 &  97.04 \\
+      Retained earnings    &  -0.17 & -25.51 \\
+      \bottomrule
+    \end{tabular}
+    \begin{tablenotes}[flushleft]
+      \footnotesize
+      \item Notes: Values are shown in the units reported by the source
+      dataset. The table is descriptive and does not imply causal effects.
+    \end{tablenotes}
+  \end{threeparttable}
+\end{table}
 
 \section{Methodology}
 \label{sec:methodology}
