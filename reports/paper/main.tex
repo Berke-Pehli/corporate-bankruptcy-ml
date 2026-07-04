@@ -797,6 +797,92 @@ validation results; they are not additional final-test claims.
 \section{Critical Reflection and Limitations}
 \label{sec:limitations}
 
+The project has several useful design choices. Splitting by company prevents the
+same firm from appearing in both training and test data. Keeping the test set
+separate from model and threshold selection also makes the final comparison
+more credible. Finally, the majority baseline and failed-class metrics expose
+weaknesses that would be hidden by accuracy. These choices improve the
+analysis, but they do not remove the following limitations.
+
+\subsection{Data and target limitations}
+
+The data contain repeated company-year observations, and observations from one
+firm are likely to be related over time. The company-level split handles direct
+firm overlap, but the design is not a true forecasting exercise because the
+training and test samples cover overlapping calendar years. It therefore tests
+generalization to unseen companies within a similar historical period, not
+performance in a later economic period. The changing annual failure rate also
+suggests that time and sample composition matter.
+
+The failed/alive label is useful for binary classification, but the operational
+prediction horizon is not fully defined. A real early-warning application
+would need a statement such as ``failure within the next twelve months'' and
+would need to confirm that every accounting variable was available before that
+forecast date. Without this timing detail, the results should be read as
+classification of company-year observations rather than a complete real-time
+forecasting system.
+
+The predictors are financial statement levels. They contain information about
+firm condition, but they also reflect company size and accounting scale. The
+project does not add ratios, changes over time, industry indicators,
+macroeconomic conditions, governance information, or market returns. Dataset
+coverage and reporting choices may also make the sample different from other
+countries, private firms, or later periods. These issues limit external
+generalization.
+
+\subsection{Validation and modelling limitations}
+
+The reported results come from one grouped train--test split and one internal
+validation split. They do not show how much performance would vary under other
+valid splits. There are no confidence intervals, repeated grouped validation,
+or statistical tests of the small differences between models. In particular,
+the very close PR-AUC values should not be treated as proof that one ensemble
+is generally superior.
+
+Hyperparameter searches are deliberately limited, which keeps the course
+project understandable but may leave better settings unexplored. In addition,
+the saved final models are fitted on the inner model-training portion and are
+not refitted after validation. This gives a conservative final test because
+some available training observations are not used in the final fit, but it is
+not the most data-efficient workflow. A later version could lock all choices,
+refit on the complete non-test sample, and then evaluate once on a still-unused
+test set.
+
+The models evaluate discrimination and classification, not probability
+calibration. Their outputs should therefore not automatically be interpreted
+as literal bankruptcy probabilities. Logistic coefficients can also change
+when correlated predictors are included together, while impurity-based tree
+importance has its own biases. Both are descriptions of fitted predictive
+models, not causal evidence.
+
+\subsection{Decision and practical limitations}
+
+The threshold analysis makes the precision--recall trade-off visible, but the
+project does not estimate the monetary cost of a missed failure or a false
+alarm. It also does not specify how many flagged firms an analyst could review.
+Without a loss function or capacity constraint, there is no single economically
+optimal model or threshold. The low failed-class precision is especially
+important: even the more selective models produce many false alerts.
+
+A real financial application would require further checks, including
+probability calibration, chronological backtesting, stability across industries
+and economic conditions, stress testing, fairness and governance review, and a
+plan for monitoring model drift. Human review would also be necessary before
+any credit, investment, or regulatory action. The current project is a
+reproducible educational study and screening exercise; it is not
+production-ready.
+
+\subsection{Priorities for future work}
+
+The first improvement would be to define a clear forward failure horizon and
+use rolling or chronological evaluation. Repeated company-grouped validation
+and uncertainty intervals would show whether model differences are stable.
+Financial ratios and trends could reduce the influence of firm size, while
+industry and macroeconomic variables could add context. After model selection,
+probability calibration should be tested, and the threshold should be chosen
+using explicit financial costs and review capacity. These steps would improve
+decision relevance more than simply adding another complex algorithm.
+
 \section{Conclusion}
 \label{sec:conclusion}
 
