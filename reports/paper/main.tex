@@ -310,13 +310,151 @@ for the other predictors.
 
 \subsection{Company-level training, validation, and test design}
 
+The full sample is first divided into training and final-test data with a
+grouped random split. The company identifier is used as the group, so every row
+from a company is assigned to the same side of the split. The split places 80\%
+of companies in training and 20\% in the final test set. A fixed random seed of
+42 is used so that the result can be reproduced. The training set contains
+62,988 rows from 7,176 companies, while the final test set contains 15,694 rows
+from 1,795 companies. The failure rates are 6.42\% and 7.50\%, respectively.
+
+A second company-level split is created inside the training set. It reserves
+20\% of the training companies for validation. This produces a model-fitting
+sample of 50,323 rows from 5,740 companies and a validation sample of 12,665
+rows from 1,436 companies. Hyperparameters are compared on this validation
+sample using PR-AUC. The same validation predictions are later used for the
+threshold analysis. The final test set is not used for either choice.
+
+The saved models remain fitted on the inner model-fitting sample and are then
+evaluated on the final test set. In other words, the validation rows are not
+added back for a final refit. This is a conservative design because fewer rows
+are used to fit the final models. A common alternative would be to refit the
+selected specification on all training rows before the final evaluation. That
+alternative was not used here, and this point is considered again in the
+limitations section.
+
+All random model components use the same seed. The implementation uses
+scikit-learn pipelines and estimators \citep{pedregosa2011}. Pipelines are
+important for Logistic Regression and PCA because standardization is learned
+only from the fitting data and then applied to validation or test observations.
+This avoids using information from held-out observations during preprocessing.
+
 \subsection{Majority-class baseline}
+
+The first model is a majority-class baseline. It always predicts the most common
+training label, which is \texttt{alive}. The baseline does not try to learn a
+relationship between the financial variables and the target. Its purpose is to
+give a simple reference point. Because alive observations are very common, this
+rule achieves high accuracy while its recall for failures is zero. Any useful
+bankruptcy classifier should therefore be judged by more than whether it beats
+the baseline's accuracy.
 
 \subsection{Logistic Regression and regularization}
 
+Logistic Regression is the main interpretable model. For observation $i$, the
+model links the probability of failure $p_i$ to the financial predictors through
+
+\begin{equation}
+  \log\left(\frac{p_i}{1-p_i}\right)
+  = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{18} x_{i18}.
+\end{equation}
+
+The left-hand side is the log-odds of failure. A positive coefficient is linked
+to higher predicted failure log-odds when the other variables are held fixed; a
+negative coefficient is linked to lower predicted failure log-odds. The
+coefficients are not direct percentage-point changes in probability, and they
+are not interpreted as causal effects.
+
+Each Logistic Regression specification is placed after a standardization step.
+The predictors therefore have mean zero and standard deviation one in the
+model-fitting sample. This makes the regularization penalty comparable across
+variables with different units. Balanced class weights give more importance to
+errors on the minority failed class during fitting.
+
+Three Logistic Regression specifications are compared. The main benchmark uses
+an L2 penalty with fixed $C=1$. The parameter $C$ is the inverse of the
+regularization strength, so a smaller value means stronger shrinkage. Separate
+L1 and L2 models compare $C \in \{0.01, 0.1, 1, 10\}$ using validation PR-AUC.
+Both regularized models select $C=0.1$. L1 regularization can set some
+coefficients exactly to zero, while L2 regularization usually keeps all
+variables but shrinks their coefficients. These methods can reduce variance
+when predictors are correlated, although they add some bias
+\citep{james2023}.
+
 \subsection{Tree-based models}
 
+Tree-based models are included because they can represent nonlinear patterns and
+interactions without manually specifying them. A Decision Tree repeatedly
+divides the predictor space into smaller regions. Its depth and minimum leaf
+size control complexity. A deep tree may fit the training data closely but can
+have high variance. The selected tree has a maximum depth of 5 and at least 50
+observations in each leaf. Balanced class weights are used during fitting.
+
+Random Forest reduces the variance of a single tree by averaging many trees
+fitted on resampled data. It also considers a random subset of predictors at
+each split, which makes the trees less similar to each other
+\citep{breiman2001}. The selected model uses 300 trees, no fixed maximum depth,
+at least 50 observations per leaf, and the square root of the available
+predictors at each split. Class weights are balanced separately within each
+bootstrap sample.
+
+Gradient Boosting also combines many trees, but it builds them in sequence.
+Each new tree is added to improve the errors left by the existing ensemble
+\citep{friedman2001}. The learning rate controls how much each new tree changes
+the model. The selected specification uses 150 trees, a learning rate of 0.05,
+a maximum tree depth of 3, and at least 100 observations per leaf. The
+scikit-learn Gradient Boosting estimator does not have a direct class-weight
+argument, so balanced observation weights are supplied during fitting.
+
+Table~\ref{tab:model-settings} summarizes the settings selected from the
+validation comparison. The grids are intentionally small. They cover the main
+complexity controls without turning the project into a large search exercise.
+
+\begin{table}[H]
+  \centering
+  \caption{Model specifications used in the final-test comparison}
+  \label{tab:model-settings}
+  \small
+  \begin{tabular}{p{0.27\textwidth}p{0.55\textwidth}}
+    \toprule
+    Model & Specification \\
+    \midrule
+    Majority baseline & Always predicts the most common class \\
+    Logistic Regression & L2 penalty, $C=1.0$, balanced class weights \\
+    L1 Logistic Regression & L1 penalty, $C=0.1$, balanced class weights \\
+    L2 Logistic Regression & L2 penalty, $C=0.1$, balanced class weights \\
+    Decision Tree & Maximum depth 5; minimum leaf size 50 \\
+    Random Forest & 300 trees; unrestricted depth; minimum leaf size 50;
+      $\sqrt{p}$ candidate predictors per split \\
+    Gradient Boosting & 150 trees; learning rate 0.05; maximum depth 3;
+      minimum leaf size 100 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \subsection{PCA extension}
+
+Principal Component Analysis (PCA) is included as a separate extension. PCA
+replaces the original standardized predictors with linear combinations called
+principal components. The first component captures the largest possible share
+of variation in the predictors, and each later component captures another
+orthogonal direction of variation \citep{jolliffe2016}. This can summarize
+correlated financial variables with fewer inputs.
+
+The PCA pipeline first standardizes the 18 predictors, then applies PCA, and
+finally fits a balanced Logistic Regression with $C=1$. The tested component
+counts are 2, 3, 5, 8, 10, 12, 15, and 18. They are compared on the same type of
+internal company-level validation split used for the main models. The PCA
+results are kept as validation results and are not presented as final-test
+results.
+
+PCA is useful for compression, but it has two important costs in this setting.
+First, it is unsupervised: components are chosen to explain variation in the
+predictors, not to separate failed and alive observations. A component with high
+explained variance is therefore not automatically useful for classification.
+Second, each component mixes several financial variables. This makes the model
+harder to explain than Logistic Regression fitted directly on current assets,
+income, debt, and the other original variables.
 
 \section{Evaluation Strategy}
 \label{sec:evaluation}
