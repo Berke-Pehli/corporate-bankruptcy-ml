@@ -39,9 +39,9 @@
   justification=centering
 }
 
-\setstretch{1.15}
+\setstretch{1.10}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.6em}
+\setlength{\parskip}{0.5em}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -88,7 +88,23 @@
 \pagenumbering{roman}
 
 \begin{abstract}
-% Write the abstract after all substantive sections are complete.
+This paper compares classification models for identifying failed company-year
+observations from financial statement variables. The data contain 78,682
+observations from 8,971 American companies between 1999 and 2018. Because firms
+appear in several years, companies rather than individual rows are assigned to
+the training and test samples. The comparison includes a majority-class
+baseline, Logistic Regression with regularization, a Decision Tree, Random
+Forest, Gradient Boosting, and a PCA plus Logistic Regression extension.
+Evaluation focuses on the minority failed class. The majority baseline reaches
+92.5\% test accuracy but detects no failures, showing why accuracy is
+misleading. Logistic Regression has the highest failed recall among the key
+models but produces many false alarms. Random Forest has the highest test
+average precision and failed-class F1-score, while Gradient Boosting has the
+highest balanced accuracy. Threshold analysis shows that greater recall comes
+with lower precision and a larger review burden. PCA retains much of the
+predictor variance but does not clearly improve validation performance and
+reduces interpretability. The results support machine learning as a structured
+screening exercise, not as a causal or production-ready bankruptcy system.
 \end{abstract}
 
 \tableofcontents
@@ -131,8 +147,8 @@ These features make model evaluation as important as model fitting. Accuracy is
 reported for completeness, but it cannot be the main criterion in an imbalanced
 setting. This study therefore emphasizes precision and recall for the failed
 class, the failed-class F1-score, balanced accuracy, the area under the receiver
-operating characteristic curve (ROC-AUC), and the area under the
-precision--recall curve (PR-AUC). Precision--recall analysis is especially
+operating characteristic curve (ROC-AUC), and average precision, reported in
+the project as PR-AUC. Precision--recall analysis is especially
 informative when the negative class greatly outnumbers the positive class,
 because it makes the false-positive burden visible rather than allowing the many
 true negatives to dominate the assessment \citep{davis2006}. The probability
@@ -406,31 +422,9 @@ a maximum tree depth of 3, and at least 100 observations per leaf. The
 scikit-learn Gradient Boosting estimator does not have a direct class-weight
 argument, so balanced observation weights are supplied during fitting.
 
-Table~\ref{tab:model-settings} summarizes the settings selected from the
-validation comparison. The grids are intentionally small. They cover the main
-complexity controls without turning the project into a large search exercise.
-
-\begin{table}[H]
-  \centering
-  \caption{Model specifications used in the final-test comparison}
-  \label{tab:model-settings}
-  \small
-  \begin{tabular}{p{0.27\textwidth}p{0.55\textwidth}}
-    \toprule
-    Model & Specification \\
-    \midrule
-    Majority baseline & Always predicts the most common class \\
-    Logistic Regression & L2 penalty, $C=1.0$, balanced class weights \\
-    L1 Logistic Regression & L1 penalty, $C=0.1$, balanced class weights \\
-    L2 Logistic Regression & L2 penalty, $C=0.1$, balanced class weights \\
-    Decision Tree & Maximum depth 5; minimum leaf size 50 \\
-    Random Forest & 300 trees; unrestricted depth; minimum leaf size 50;
-      $\sqrt{p}$ candidate predictors per split \\
-    Gradient Boosting & 150 trees; learning rate 0.05; maximum depth 3;
-      minimum leaf size 100 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+The parameter grids are intentionally small. They cover the main complexity
+controls without turning the project into a large search exercise. A compact
+specification table is provided in Appendix~\ref{app:model-results}.
 
 \subsection{PCA extension}
 
@@ -566,7 +560,7 @@ models and the single Decision Tree.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.92\textwidth]{model_performance_summary.png}
+  \includegraphics[width=0.82\textwidth]{model_performance_summary.png}
   \caption{Final-test performance for the failed class. PR-AUC refers to
     average precision. The values come from the fixed held-out test set.}
   \label{fig:test-performance}
@@ -633,7 +627,7 @@ ranking than a non-informative classifier at the corresponding recall level.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.82\textwidth]{precision_recall_key_models.png}
+  \includegraphics[width=0.74\textwidth]{precision_recall_key_models.png}
   \caption{Final-test precision--recall curves for the key models. The legend
     reports average precision, labelled PR-AUC in the project outputs.}
   \label{fig:test-pr}
@@ -662,7 +656,7 @@ holding the other predictors fixed.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.84\textwidth]{top_logistic_coefficients.png}
+  \includegraphics[width=0.76\textwidth]{top_logistic_coefficients.png}
   \caption{Largest Logistic Regression coefficients. Predictors are
     standardized, and the target value one represents a failed observation.}
   \label{fig:logistic-coefficients}
@@ -700,7 +694,7 @@ show whether higher values increase or decrease predicted risk.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.90\textwidth]{top_tree_feature_importance.png}
+  \includegraphics[width=0.80\textwidth]{top_tree_feature_importance.png}
   \caption{Leading feature importance values within the Random Forest and
     Gradient Boosting models. Magnitudes should be compared mainly within each
     model rather than directly across models.}
@@ -735,18 +729,11 @@ while the logistic model is easier to explain in financial terms.
 \label{sec:pca-results}
 
 The PCA extension asks whether the 18 standardized financial variables can be
-compressed without losing much predictive information. Figure~\ref{fig:pca-variance}
-shows that the first few components explain a large share of the variation in
-the predictors. Two components retain 83.8\% of total variance, five retain
-93.9\%, and ten retain 99.2\%.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.82\textwidth]{pca_explained_variance.png}
-  \caption{Cumulative explained variance from PCA on the standardized
-    financial predictors. Results use the internal validation design.}
-  \label{fig:pca-variance}
-\end{figure}
+compressed without losing much predictive information. The first few
+components explain a large share of the variation in the predictors. Two
+components retain 83.8\% of total variance, five retain 93.9\%, and ten retain
+99.2\%. The full explained-variance curve is provided in
+Appendix~\ref{app:pca}.
 
 High explained variance does not automatically produce good failure
 prediction. Table~\ref{tab:pca-results} reports the validation results for PCA
@@ -940,6 +927,28 @@ application of classification methods to an important problem in finance.
 \section{Additional Model Results}
 \label{app:model-results}
 
+\begin{table}[H]
+  \centering
+  \caption{Model specifications used in the final-test comparison}
+  \label{tab:model-settings}
+  \small
+  \begin{tabular}{p{0.27\textwidth}p{0.58\textwidth}}
+    \toprule
+    Model & Specification \\
+    \midrule
+    Majority baseline & Always predicts the most common class \\
+    Logistic Regression & L2 penalty, $C=1.0$, balanced class weights \\
+    L1 Logistic Regression & L1 penalty, $C=0.1$, balanced class weights \\
+    L2 Logistic Regression & L2 penalty, $C=0.1$, balanced class weights \\
+    Decision Tree & Maximum depth 5; minimum leaf size 50 \\
+    Random Forest & 300 trees; unrestricted depth; minimum leaf size 50;
+      $\sqrt{p}$ candidate predictors per split \\
+    Gradient Boosting & 150 trees; learning rate 0.05; maximum depth 3;
+      minimum leaf size 100 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 Table~\ref{tab:all-test-results} gives the complete final-test comparison,
 including the regularized logistic models and the single Decision Tree. The
 regularized logistic variants are very close to the fixed Logistic Regression
@@ -1013,6 +1022,14 @@ were not applied to the final test comparison.
 
 \section{PCA Diagnostics}
 \label{app:pca}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.78\textwidth]{pca_explained_variance.png}
+  \caption{Cumulative explained variance from PCA on the standardized
+    financial predictors. Results use the internal validation design.}
+  \label{fig:pca-variance}
+\end{figure}
 
 Figure~\ref{fig:pca-metric-comparison} complements the PCA table in
 Section~\ref{sec:pca-results}. It shows that classification performance rises
