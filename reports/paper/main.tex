@@ -516,9 +516,9 @@ trapezoidal rule to a precision--recall curve.
 
 The ranking measures use predicted scores across many possible cut-offs. In
 contrast, accuracy, precision, recall, F1, and the confusion matrix require one
-classification threshold. The two groups of measures answer different
-questions: ranking measures assess ordering quality, while threshold-based
-measures describe the decisions made at a chosen cut-off.
+classification threshold and a set of predicted labels. The two groups of
+measures answer different questions: ranking measures assess ordering quality,
+while threshold-based measures describe the decisions made at a chosen cut-off.
 
 \subsection{Threshold analysis}
 
@@ -554,7 +554,8 @@ Figure~\ref{fig:test-performance} compares the majority-class baseline with
 Logistic Regression, Random Forest, and Gradient Boosting on the held-out test
 set. These models are shown because they make the main performance trade-offs
 easy to see. The complete saved results also contain the regularized logistic
-models and the single Decision Tree.
+models and the single Decision Tree. Gradient Boosting is the model selected
+by validation PR-AUC, while the final test set is used only for evaluation.
 
 \begin{figure}[H]
   \centering
@@ -571,11 +572,13 @@ imbalanced problem.
 
 No model is best on every measure. Logistic Regression has the highest failed
 recall at 0.884, but its failed precision is only 0.095. Random Forest has the
-highest PR-AUC among the models shown at 0.159 and the highest failed-class
-F1-score at 0.232. Gradient Boosting has the highest balanced accuracy at 0.638
-and an intermediate recall of 0.590. The ROC-AUC values of the three models are
-fairly close, ranging from 0.688 to 0.699. The results therefore support a
-comparison of trade-offs rather than one simple claim that a single model wins.
+highest observed final-test PR-AUC among the models shown at 0.159 and the
+highest failed-class F1-score at 0.232. This is a test-set observation, not a
+retroactive model-selection rule. Gradient Boosting has the highest balanced
+accuracy at 0.638 and an intermediate recall of 0.590. The ROC-AUC values of
+the three models are fairly close, ranging from 0.688 to 0.699. The results
+therefore support a comparison of trade-offs rather than one simple claim that
+a single model wins.
 
 \subsection{Classification trade-offs}
 
@@ -633,12 +636,13 @@ ranking than a non-informative classifier at the corresponding recall level.
 
 The curves are close, which is consistent with their similar average precision
 values of 0.153, 0.159, and 0.158. Random Forest has the highest value, but its
-advantage over Gradient Boosting is very small. Logistic Regression is also
-close in ranking performance even though its classifications at the default
-threshold produce a very different confusion matrix. This illustrates why a
-model's ranking quality and its decisions at one threshold should be discussed
-separately. Overall, the models contain predictive information, but the low
-precision levels also show that bankruptcy prediction remains difficult.
+advantage over the validation-selected Gradient Boosting model is very small.
+Logistic Regression is also close in ranking performance even though its
+classifications at the default threshold produce a very different confusion
+matrix. This illustrates why a model's ranking quality and its decisions at one
+threshold should be discussed separately. Overall, the models contain
+predictive information, but the low precision levels also show that bankruptcy
+prediction remains difficult.
 
 \section{Model Interpretation}
 \label{sec:interpretation}
@@ -808,12 +812,13 @@ classification of company-year observations rather than a complete real-time
 forecasting system.
 
 The predictors are financial statement levels. They contain information about
-firm condition, but they also reflect company size and accounting scale. The
-project does not add ratios, changes over time, industry indicators,
-macroeconomic conditions, governance information, or market returns. Dataset
-coverage and reporting choices may also make the sample different from other
-countries, private firms, or later periods. These issues limit external
-generalization.
+firm condition, but they may also partly reflect company size and accounting
+scale. This matters because large firms naturally have larger assets,
+liabilities, sales, and expenses. The project does not add ratios, changes over
+time, industry indicators, macroeconomic conditions, governance information, or
+market returns. Dataset coverage and reporting choices may also make the
+sample different from other countries, private firms, or later periods. These
+issues limit external generalization.
 
 \subsection{Validation and modelling limitations}
 
@@ -881,13 +886,15 @@ remains difficult and no model is best for every objective.
 The majority-class baseline achieved 92.5\% accuracy while detecting none of
 the failed observations. This is the clearest reason not to judge the project
 by accuracy alone. Among the key models, Random Forest produced the highest
-final-test PR-AUC and failed-class F1-score. Gradient Boosting achieved the
-highest balanced accuracy and detected more failures than Random Forest, but it
-also generated more false alarms. Logistic Regression detected the largest
-share of failures and was the easiest model to explain, although its broad
-screening rule produced many false positives. The tree-based models therefore
-improved some measures, but they did not dominate the logistic benchmark on
-every relevant outcome.
+observed final-test PR-AUC and failed-class F1-score, while Gradient Boosting
+was the validation-selected ranking model. This distinction avoids choosing a
+model after seeing the test set. Gradient Boosting achieved the highest
+balanced accuracy and detected more failures than Random Forest, but it also
+generated more false alarms. Logistic Regression detected the largest share of
+failures and was the easiest model to explain, although its broad screening
+rule produced many false positives. The tree-based models therefore improved
+some measures, but they did not dominate the logistic benchmark on every
+relevant outcome.
 
 The additional analyses support this trade-off-based view. Threshold tuning
 showed that higher recall requires lower precision and a larger review burden.
