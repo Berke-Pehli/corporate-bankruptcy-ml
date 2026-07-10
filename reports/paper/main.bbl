@@ -1,0 +1,57 @@
+\begin{thebibliography}{}
+
+\bibitem[Altman, 1968]{altman1968}
+Altman, E.~I. (1968).
+\newblock Financial ratios, discriminant analysis and the prediction of
+  corporate bankruptcy.
+\newblock {\em The Journal of Finance}, 23(4):589--609.
+
+\bibitem[Breiman, 2001]{breiman2001}
+Breiman, L. (2001).
+\newblock Random forests.
+\newblock {\em Machine Learning}, 45(1):5--32.
+
+\bibitem[Davis and Goadrich, 2006]{davis2006}
+Davis, J. and Goadrich, M. (2006).
+\newblock The relationship between precision-recall and {ROC} curves.
+\newblock In {\em Proceedings of the 23rd International Conference on Machine
+  Learning}, pages 233--240. Association for Computing Machinery.
+
+\bibitem[Friedman, 2001]{friedman2001}
+Friedman, J.~H. (2001).
+\newblock Greedy function approximation: A gradient boosting machine.
+\newblock {\em The Annals of Statistics}, 29(5):1189--1232.
+
+\bibitem[James et~al., 2023]{james2023}
+James, G., Witten, D., Hastie, T., Tibshirani, R., and Taylor, J. (2023).
+\newblock {\em An Introduction to Statistical Learning: With Applications in
+  Python}.
+\newblock Springer, Cham.
+
+\bibitem[Jolliffe and Cadima, 2016]{jolliffe2016}
+Jolliffe, I.~T. and Cadima, J. (2016).
+\newblock Principal component analysis: A review and recent developments.
+\newblock {\em Philosophical Transactions of the Royal Society A: Mathematical,
+  Physical and Engineering Sciences}, 374(2065):20150202.
+
+\bibitem[Lombardo et~al., 2022]{lombardo2022}
+Lombardo, G., Pellegrino, M., Adosoglou, G., Cagnoni, S., Pardalos, P.~M., and
+  Poggi, A. (2022).
+\newblock Machine learning for bankruptcy prediction in the american stock
+  market: Dataset and benchmarks.
+\newblock {\em Future Internet}, 14(8):244.
+
+\bibitem[Ohlson, 1980]{ohlson1980}
+Ohlson, J.~A. (1980).
+\newblock Financial ratios and the probabilistic prediction of bankruptcy.
+\newblock {\em Journal of Accounting Research}, 18(1):109--131.
+
+\bibitem[Pedregosa et~al., 2011]{pedregosa2011}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
+  O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., VanderPlas, J.,
+  Passos, A., Cournapeau, D., Brucher, M., Perrot, M., and Duchesnay, {\'E}.
+  (2011).
+\newblock Scikit-learn: Machine learning in python.
+\newblock {\em Journal of Machine Learning Research}, 12(85):2825--2830.
+
+\end{thebibliography}
