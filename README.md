@@ -253,3 +253,28 @@ At the time of the final project cleanup:
 - the full pipeline runs with `pixi run build`;
 - the paper compiles with `latexmk`;
 - prediction CSV serialization is stable across repeated forced builds.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome. A sensible workflow is:
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Add or update tests.
+4. Submit a pull request.
+
+## Author
+
+Berke Pehlivan  
+Econometrics MSc — University of Bonn  
+Data Analytics | SQL | Python | Power BI | Econometrics | Statistics
+
+- GitHub: [Berke-Pehli](https://github.com/Berke-Pehli)
+
+This project is part of my portfolio work in analytics, experimentation, SQL, Python, and Power BI.
+
+Questions? Open an issue on GitHub or contact the author directly.

@@ -258,7 +258,7 @@ def plot_paper_annual_failure_rate(
     final = annual_failure_rate.sort_values("year").iloc[-1]
     for label, row, xytext, text_alignment, vertical_alignment in [
         ("Peak", peak, (12, -34), "left", "center"),
-        ("Final year", final, (-28, 34), "right", "bottom"),
+        ("Final year", final, (-68, 28), "right", "bottom"),
     ]:
         ax.annotate(
             f"{label}: {row['failure_rate']:.1%}",
