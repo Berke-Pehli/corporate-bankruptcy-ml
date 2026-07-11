@@ -16,7 +16,9 @@ Outputs:
 Methodological note:
     Validation metrics were used for model comparison and parameter selection.
     Final test metrics are used only after the modeling choices are fixed. This
-    avoids evaluating models on the same data used for selection.
+    avoids evaluating models on the same data used for selection. Final-test
+    class labels come from each fitted model's default ``predict`` method; the
+    separate threshold-analysis stage does not set final-test thresholds.
 """
 
 from __future__ import annotations

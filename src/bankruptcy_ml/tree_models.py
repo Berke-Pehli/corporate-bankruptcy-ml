@@ -5,11 +5,9 @@ corporate bankruptcy prediction project. Tree-based methods are useful because
 they can capture nonlinear relationships and interactions between financial
 statement variables.
 
-Inputs:
-    - data/processed/train.csv
-
-Outputs:
-    - fitted tree-based models saved under outputs/models/
+The module builds and selects in-memory model objects. The pytask modeling stage
+reads ``data/processed/train.csv`` and saves fitted models under
+``outputs/models/``.
 
 Models:
     - Decision Tree

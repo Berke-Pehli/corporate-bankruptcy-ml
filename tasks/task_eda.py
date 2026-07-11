@@ -1,8 +1,8 @@
 """pytask tasks for exploratory data analysis outputs.
 
 This task module creates descriptive finance diagnostics for the corporate
-bankruptcy dataset. These outputs are used in the README, final report, and oral
-exam preparation.
+bankruptcy dataset. These outputs are used in the README, study guide, and final
+paper.
 
 Run:
     pixi run build

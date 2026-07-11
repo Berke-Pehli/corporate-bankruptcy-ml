@@ -11,6 +11,7 @@ from bankruptcy_ml.paper_outputs import (
 
 
 def _minimal_final_test_metrics() -> pd.DataFrame:
+    """Return a compact final-test metric table for paper-output tests."""
     rows = []
 
     for index, model in enumerate(PAPER_MODELS):

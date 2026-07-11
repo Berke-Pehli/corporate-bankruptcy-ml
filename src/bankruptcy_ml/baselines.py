@@ -4,11 +4,8 @@ This module defines simple benchmark models used to evaluate whether machine
 learning models add predictive value. The most important benchmark is the
 majority-class baseline, which always predicts the most common class.
 
-Inputs:
-    - data/processed/train.csv
-
-Outputs:
-    - fitted baseline model objects saved under outputs/models/
+The module only constructs model objects. The pytask modeling stage fits and
+saves those objects under ``outputs/models/``.
 
 Purpose:
     Bankruptcy prediction is an imbalanced classification problem. A model can

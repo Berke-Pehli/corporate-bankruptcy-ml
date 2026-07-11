@@ -2,8 +2,8 @@
 
 This module creates descriptive tables and one retained supporting figure that
 help explain the dataset before machine learning models are evaluated. The
-focus is on financial diagnostics that are useful for the final paper, README,
-and oral exam.
+focus is on financial diagnostics that are useful for the README, study guide,
+and final paper.
 
 Inputs:
     - data/processed/model_dataset.csv

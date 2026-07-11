@@ -1,7 +1,9 @@
 """pytask tasks for final test evaluation.
 
 This task module evaluates the already selected bankruptcy prediction models on
-the untouched final test set and creates the final evaluation figures.
+the untouched final test set and creates final evaluation tables and prediction
+outputs. Paper figures are generated later by ``task_paper_outputs.py`` from
+these canonical outputs.
 
 Run:
     pixi run build

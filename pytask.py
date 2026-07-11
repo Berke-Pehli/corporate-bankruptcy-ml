@@ -6,7 +6,4 @@ modeled, evaluated, and summarized.
 
 Run:
     pixi run build
-
-or equivalently:
-    pixi run pytask
 """

@@ -4,11 +4,9 @@ This module builds interpretable and regularized Logistic Regression pipelines.
 Logistic Regression is the main benchmark because bankruptcy is a binary
 classification problem and the model produces predicted probabilities.
 
-Inputs:
-    - data/processed/train.csv
-
-Outputs:
-    - fitted Logistic Regression models saved under outputs/models/
+The module builds and selects in-memory model objects. The pytask modeling stage
+reads ``data/processed/train.csv`` and saves fitted models under
+``outputs/models/``.
 
 Models:
     - Interpretable Logistic Regression with L2 penalty and fixed C = 1

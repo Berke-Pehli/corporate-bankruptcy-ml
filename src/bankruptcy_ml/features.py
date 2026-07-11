@@ -9,10 +9,6 @@ traceability, the modeling dataset keeps these original column names. For
 tables, figures, README explanations, and the final paper, this module also
 provides readable names and descriptions.
 
-Inputs:
-    - data/processed/train.csv
-    - data/processed/test.csv
-
 Feature design:
     - company_name is used for splitting only, not modeling
     - year is kept for diagnostics but excluded from the baseline feature matrix
