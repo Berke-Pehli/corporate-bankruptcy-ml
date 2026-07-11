@@ -16,6 +16,8 @@ Outputs:
 
 from pathlib import Path
 
+import pandas as pd
+
 from bankruptcy_ml.config import (
     FEATURE_DICTIONARY_PATH,
     MODEL_DATASET_PATH,
@@ -24,7 +26,7 @@ from bankruptcy_ml.config import (
     TEST_DATA_PATH,
     TRAIN_DATA_PATH,
 )
-from bankruptcy_ml.preprocessing import save_model_dataset
+from bankruptcy_ml.preprocessing import create_model_dataset, save_model_dataset
 from bankruptcy_ml.splitting import save_company_level_split
 
 
@@ -59,6 +61,7 @@ def task_create_company_level_split(
         test_path=test_path,
         split_summary_path=split_summary_path,
     )
+
 
 def test_create_model_dataset_does_not_duplicate_target_as_feature() -> None:
     """Check that the encoded target is not accidentally included as a predictor."""

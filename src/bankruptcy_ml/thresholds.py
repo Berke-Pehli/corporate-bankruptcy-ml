@@ -26,7 +26,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import f1_score, precision_score, recall_score
 
-
 KEY_MODELS_FOR_THRESHOLD_ANALYSIS = [
     "Logistic Regression",
     "Random Forest",

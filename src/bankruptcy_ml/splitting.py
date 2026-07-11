@@ -103,7 +103,10 @@ def create_split_summary(
         A DataFrame summarizing row counts, company counts, and failure rates.
     """
 
-    def _summarize_split(name: str, split_data: pd.DataFrame) -> dict[str, float | int | str]:
+    def _summarize_split(
+        name: str,
+        split_data: pd.DataFrame,
+    ) -> dict[str, float | int | str]:
         return {
             "split": name,
             "n_rows": int(len(split_data)),

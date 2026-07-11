@@ -46,7 +46,6 @@ import pandas as pd
 
 from bankruptcy_ml.config import COMPANY_COLUMN, TARGET_COLUMN, YEAR_COLUMN
 
-
 FEATURE_NAME_MAP = {
     "X1": "Current assets",
     "X2": "Cost of goods sold",

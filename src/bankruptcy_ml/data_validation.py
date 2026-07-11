@@ -118,7 +118,8 @@ def identify_feature_columns(data: pd.DataFrame) -> list[str]:
     return [
         column
         for column in data.columns
-        if column not in excluded_columns and pd.api.types.is_numeric_dtype(data[column])
+        if column not in excluded_columns
+        and pd.api.types.is_numeric_dtype(data[column])
     ]
 
 
