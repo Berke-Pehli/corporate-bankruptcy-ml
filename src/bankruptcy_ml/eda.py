@@ -14,16 +14,12 @@ Outputs:
     - outputs/tables/annual_failure_rate.csv
     - outputs/tables/train_test_year_distribution.csv
     - outputs/tables/class_feature_summary.csv
-    - outputs/figures/annual_failure_rate.png
-    - outputs/figures/train_test_year_distribution.png
-    - outputs/figures/feature_correlation_heatmap.png
-    - outputs/figures/key_feature_distributions_by_status.png
     - outputs/figures/key_feature_median_by_status.png
 
 Purpose:
     These outputs document class imbalance over time, check whether train and
-    test sets cover similar years, show correlations between financial
-    variables, and compare key financial features between alive and failed firms.
+    test sets cover similar years, and compare key financial features between
+    alive and failed firms.
 """
 
 from __future__ import annotations
@@ -35,7 +31,6 @@ import pandas as pd
 
 from bankruptcy_ml.config import TARGET_COLUMN, YEAR_COLUMN
 from bankruptcy_ml.features import FEATURE_NAME_MAP, get_feature_columns
-
 
 KEY_FEATURES_FOR_EDA = ["X8", "X6", "X11", "X1", "X17", "X15"]
 
@@ -325,10 +320,6 @@ def save_eda_outputs(
     annual_failure_rate_path: Path,
     train_test_year_distribution_path: Path,
     class_feature_summary_path: Path,
-    annual_failure_rate_figure_path: Path,
-    train_test_year_distribution_figure_path: Path,
-    feature_correlation_heatmap_path: Path,
-    key_feature_distributions_figure_path: Path,
     key_feature_median_by_status_figure_path: Path,
 ) -> None:
     """Create and save all EDA tables and figures.
@@ -340,10 +331,6 @@ def save_eda_outputs(
         annual_failure_rate_path: Output path for annual failure-rate table.
         train_test_year_distribution_path: Output path for split-year table.
         class_feature_summary_path: Output path for class feature summary.
-        annual_failure_rate_figure_path: Output path for annual failure figure.
-        train_test_year_distribution_figure_path: Output path for year split figure.
-        feature_correlation_heatmap_path: Output path for correlation heatmap.
-        key_feature_distributions_figure_path: Output path for distribution figure.
         key_feature_median_by_status_figure_path: Output path for median comparison
             figure.
     """
@@ -363,22 +350,6 @@ def save_eda_outputs(
     year_distribution.to_csv(train_test_year_distribution_path, index=False)
     class_feature_summary.to_csv(class_feature_summary_path, index=False)
 
-    plot_annual_failure_rate(
-        annual_failure_rate=annual_failure_rate,
-        output_path=annual_failure_rate_figure_path,
-    )
-    plot_train_test_year_distribution(
-        year_distribution=year_distribution,
-        output_path=train_test_year_distribution_figure_path,
-    )
-    plot_feature_correlation_heatmap(
-        data=data,
-        output_path=feature_correlation_heatmap_path,
-    )
-    plot_key_feature_distributions_by_status(
-        data=data,
-        output_path=key_feature_distributions_figure_path,
-    )
     plot_key_feature_median_by_status(
         class_feature_summary=class_feature_summary,
         output_path=key_feature_median_by_status_figure_path,

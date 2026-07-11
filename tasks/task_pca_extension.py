@@ -14,7 +14,6 @@ Inputs:
 Outputs:
     - outputs/tables/pca_logistic_results.csv
     - outputs/tables/pca_component_loadings.csv
-    - outputs/figures/pca_explained_variance.png
     - outputs/figures/pca_logistic_metric_comparison.png
 """
 
@@ -24,7 +23,6 @@ from bankruptcy_ml.config import (
     FEATURE_DICTIONARY_PATH,
     PCA_COMPONENT_GRID,
     PCA_COMPONENT_LOADINGS_PATH,
-    PCA_EXPLAINED_VARIANCE_FIGURE_PATH,
     PCA_LOGISTIC_METRIC_COMPARISON_FIGURE_PATH,
     PCA_LOGISTIC_RESULTS_PATH,
     TRAIN_DATA_PATH,
@@ -37,10 +35,9 @@ def task_create_pca_extension_outputs(
         TRAIN_DATA_PATH,
         FEATURE_DICTIONARY_PATH,
     ),
-    produces: tuple[Path, Path, Path, Path] = (
+    produces: tuple[Path, Path, Path] = (
         PCA_LOGISTIC_RESULTS_PATH,
         PCA_COMPONENT_LOADINGS_PATH,
-        PCA_EXPLAINED_VARIANCE_FIGURE_PATH,
         PCA_LOGISTIC_METRIC_COMPARISON_FIGURE_PATH,
     ),
 ) -> None:
@@ -49,7 +46,6 @@ def task_create_pca_extension_outputs(
     (
         pca_logistic_results_path,
         pca_component_loadings_path,
-        pca_explained_variance_figure_path,
         pca_logistic_metric_comparison_figure_path,
     ) = produces
 
@@ -58,7 +54,6 @@ def task_create_pca_extension_outputs(
         feature_dictionary_path=feature_dictionary_path,
         pca_logistic_results_path=pca_logistic_results_path,
         pca_component_loadings_path=pca_component_loadings_path,
-        pca_explained_variance_figure_path=pca_explained_variance_figure_path,
         pca_logistic_metric_comparison_figure_path=pca_logistic_metric_comparison_figure_path,
         component_grid=PCA_COMPONENT_GRID,
     )

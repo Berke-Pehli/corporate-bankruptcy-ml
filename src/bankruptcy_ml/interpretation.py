@@ -12,8 +12,6 @@ Inputs:
 Outputs:
     - outputs/tables/logistic_coefficients.csv
     - outputs/tables/tree_feature_importance.csv
-    - outputs/figures/logistic_coefficients.png
-    - outputs/figures/tree_feature_importance.png
 
 Interpretation:
     - Logistic Regression coefficients indicate associations with log-odds of
@@ -106,7 +104,11 @@ def extract_logistic_coefficients(
         "coefficient"
     ].abs()
     coefficient_table["direction"] = coefficient_table["coefficient"].apply(
-        lambda value: "higher predicted failure risk" if value > 0 else "lower predicted failure risk"
+        lambda value: (
+            "higher predicted failure risk"
+            if value > 0
+            else "lower predicted failure risk"
+        )
     )
 
     coefficient_table = add_feature_metadata(

@@ -154,47 +154,47 @@ Summarizes failed-class precision versus recall over thresholds. It focuses on t
 
 ## 9. Reading the important figures
 
-### `class_balance.png`
+### `outputs/paper/figures/class_balance.png`
 
 The alive bar overwhelms the failed bar. Say: “This is why a high accuracy number can coexist with no useful failure detection.”
 
-### `annual_failure_rate.png`
+### `outputs/paper/figures/annual_failure_rate.png`
 
 The observed rate changes substantially over 1999–2018 and generally declines later in the sample. Say: “The data are not temporally homogeneous; the plot is descriptive and may reflect composition as well as economic conditions.”
 
-### `key_feature_median_by_status.png`
+### `outputs/figures/key_feature_median_by_status.png`
 
 Compares robust class medians for selected financial variables. Failed observations have lower median market value, net income, current assets, and retained earnings, and higher median long-term debt and total liabilities in the reported table. Say: “These are unconditional associations, not causal effects.”
 
-### `final_test_core_metric_summary.png`
+### `outputs/paper/figures/model_performance_summary.png`
 
 Compares the core models on metrics relevant to failure detection. Use it to show that model rankings depend on the metric: Random Forest leads F1/PR-AUC, while Gradient Boosting leads balanced accuracy and has higher recall.
 
-### `final_test_precision_recall_curves_key_models.png`
+### `outputs/paper/figures/precision_recall_key_models.png`
 
 At each recall level, inspect attainable precision. Curves above the prevalence baseline show useful ranking. Emphasize that PR curves are more directly connected to rare failure alerts than accuracy.
 
-### `final_test_confusion_matrices_key_models.png`
+### `outputs/paper/figures/confusion_matrix_summary.png`
 
 This makes operational costs concrete. Logistic Regression catches 1,041 of 1,177 failures but creates 9,906 false positives. Random Forest catches 442 with 2,190 false positives. Gradient Boosting catches 695 with 4,563 false positives. The baseline catches none.
 
-### `logistic_coefficients.png`
+### `outputs/paper/figures/top_logistic_coefficients.png`
 
 Inputs are standardized, so coefficient magnitudes are more comparable. Current assets and market value have the largest negative coefficients; current liabilities has the largest positive coefficient. Discuss signs as conditional predictive associations. Correlation and financial scale structure mean signs need care.
 
-### `tree_feature_importance.png`
+### `outputs/paper/figures/top_tree_feature_importance.png`
 
 Market value, net income, and long-term debt are prominent across tree models. Importance indicates use in prediction, not direction, causality, or stability across samples.
 
-### `validation_threshold_tradeoff.png`
+### `outputs/figures/validation_threshold_tradeoff.png`
 
 Moving the cutoff changes predicted labels without retraining. Higher thresholds generally reduce flags and recall while potentially improving precision. Selected validation F1 cutoffs are 0.53 (Logistic), 0.57 (Random Forest), and 0.68 (Gradient Boosting).
 
-### `pca_explained_variance.png`
+### `outputs/paper/figures/pca_explained_variance.png`
 
 Shows how much standardized predictor variance is retained as components accumulate. Two components explain 83.8%; five explain 93.9%; ten explain 99.2%. Explain that high explained variance does not guarantee high bankruptcy discrimination.
 
-### `pca_logistic_metric_comparison.png`
+### `outputs/figures/pca_logistic_metric_comparison.png`
 
 Performance generally improves when more components are retained. The best tested PCA validation PR-AUC is 0.151 with 12 components. Compression to very few components loses predictive information even though it retains much total variance.
 

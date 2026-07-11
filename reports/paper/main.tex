@@ -25,7 +25,12 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{fancyhdr}
 
-\graphicspath{{../../outputs/paper/figures/}}
+\graphicspath{
+  {../../outputs/paper/figures/}
+  {../../outputs/figures/}
+  {outputs/paper/figures/}
+  {outputs/figures/}
+}
 
 \sisetup{
   round-mode=places,
@@ -1019,7 +1024,7 @@ were not applied to the final test comparison.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.70\textwidth]{../../outputs/figures/validation_threshold_tradeoff.png}
+  \includegraphics[width=0.70\textwidth]{validation_threshold_tradeoff.png}
   \caption{Validation precision, recall, and failed-class F1 across candidate
     thresholds. The figure uses validation predictions only.}
   \label{fig:threshold-tradeoff}
@@ -1045,7 +1050,7 @@ component weights are stored in
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.88\textwidth]{../../outputs/figures/pca_logistic_metric_comparison.png}
+  \includegraphics[width=0.88\textwidth]{pca_logistic_metric_comparison.png}
   \caption{Internal validation metrics for PCA plus Logistic Regression across
     the tested component counts.}
   \label{fig:pca-metric-comparison}

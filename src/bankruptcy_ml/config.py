@@ -72,42 +72,18 @@ GRADIENT_BOOSTING_MODEL_PATH = MODELS_DIR / "gradient_boosting.joblib"
 VALIDATION_SIZE = 0.2
 LOGISTIC_C_GRID = [0.01, 0.1, 1.0, 10.0]
 
-VALIDATION_ROC_CURVES_PATH = FIGURES_DIR / "validation_roc_curves.png"
-VALIDATION_PRECISION_RECALL_CURVES_PATH = (
-    FIGURES_DIR / "validation_precision_recall_curves.png"
-)
-VALIDATION_CONFUSION_MATRICES_PATH = FIGURES_DIR / "validation_confusion_matrices.png"
-VALIDATION_METRIC_COMPARISON_PATH = FIGURES_DIR / "validation_metric_comparison.png"
-
 LOGISTIC_COEFFICIENTS_PATH = TABLES_DIR / "logistic_coefficients.csv"
 TREE_FEATURE_IMPORTANCE_PATH = TABLES_DIR / "tree_feature_importance.csv"
 
-LOGISTIC_COEFFICIENTS_FIGURE_PATH = FIGURES_DIR / "logistic_coefficients.png"
-TREE_FEATURE_IMPORTANCE_FIGURE_PATH = FIGURES_DIR / "tree_feature_importance.png"
-
 FINAL_TEST_METRICS_PATH = TABLES_DIR / "final_test_metrics.csv"
-FINAL_TEST_CLASSIFICATION_REPORTS_PATH = TABLES_DIR / "final_test_classification_reports.csv"
-FINAL_TEST_PREDICTIONS_PATH = TABLES_DIR / "final_test_predictions.csv"
-
-FINAL_TEST_ROC_CURVES_PATH = FIGURES_DIR / "final_test_roc_curves.png"
-FINAL_TEST_PRECISION_RECALL_CURVES_PATH = (
-    FIGURES_DIR / "final_test_precision_recall_curves.png"
+FINAL_TEST_CLASSIFICATION_REPORTS_PATH = (
+    TABLES_DIR / "final_test_classification_reports.csv"
 )
-FINAL_TEST_CONFUSION_MATRICES_PATH = FIGURES_DIR / "final_test_confusion_matrices.png"
-FINAL_TEST_METRIC_COMPARISON_PATH = FIGURES_DIR / "final_test_metric_comparison.png"
+FINAL_TEST_PREDICTIONS_PATH = TABLES_DIR / "final_test_predictions.csv"
 
 ANNUAL_FAILURE_RATE_PATH = TABLES_DIR / "annual_failure_rate.csv"
 TRAIN_TEST_YEAR_DISTRIBUTION_PATH = TABLES_DIR / "train_test_year_distribution.csv"
 CLASS_FEATURE_SUMMARY_PATH = TABLES_DIR / "class_feature_summary.csv"
-
-ANNUAL_FAILURE_RATE_FIGURE_PATH = FIGURES_DIR / "annual_failure_rate.png"
-TRAIN_TEST_YEAR_DISTRIBUTION_FIGURE_PATH = (
-    FIGURES_DIR / "train_test_year_distribution.png"
-)
-FEATURE_CORRELATION_HEATMAP_PATH = FIGURES_DIR / "feature_correlation_heatmap.png"
-KEY_FEATURE_DISTRIBUTIONS_FIGURE_PATH = (
-    FIGURES_DIR / "key_feature_distributions_by_status.png"
-)
 
 KEY_FEATURE_MEDIAN_BY_STATUS_FIGURE_PATH = (
     FIGURES_DIR / "key_feature_median_by_status.png"
@@ -123,22 +99,8 @@ VALIDATION_THRESHOLD_TRADEOFF_FIGURE_PATH = (
 PCA_LOGISTIC_RESULTS_PATH = TABLES_DIR / "pca_logistic_results.csv"
 PCA_COMPONENT_LOADINGS_PATH = TABLES_DIR / "pca_component_loadings.csv"
 
-PCA_EXPLAINED_VARIANCE_FIGURE_PATH = FIGURES_DIR / "pca_explained_variance.png"
 PCA_LOGISTIC_METRIC_COMPARISON_FIGURE_PATH = (
     FIGURES_DIR / "pca_logistic_metric_comparison.png"
 )
 
 PCA_COMPONENT_GRID = [2, 3, 5, 8, 10, 12, 15, 18]
-
-FINAL_TEST_CORE_METRIC_SUMMARY_PATH = (
-    FIGURES_DIR / "final_test_core_metric_summary.png"
-)
-FINAL_TEST_CONFUSION_MATRICES_KEY_MODELS_PATH = (
-    FIGURES_DIR / "final_test_confusion_matrices_key_models.png"
-)
-FINAL_TEST_ROC_CURVES_KEY_MODELS_PATH = (
-    FIGURES_DIR / "final_test_roc_curves_key_models.png"
-)
-FINAL_TEST_PRECISION_RECALL_CURVES_KEY_MODELS_PATH = (
-    FIGURES_DIR / "final_test_precision_recall_curves_key_models.png"
-)

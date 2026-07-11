@@ -16,11 +16,11 @@ The American Companies Bankruptcy Prediction dataset contains **78,682 company-y
 
 Only **5,220 observations (6.63%)** are failed; 73,462 (93.37%) are alive. This imbalance makes plain accuracy misleading.
 
-![Class balance](outputs/figures/class_balance.png)
+![Class balance](outputs/paper/figures/class_balance.png)
 
 Failure rates also vary over time, which can reflect changing sample composition and economic conditions; the plot is descriptive, not causal.
 
-![Annual failure rate](outputs/figures/annual_failure_rate.png)
+![Annual failure rate](outputs/paper/figures/annual_failure_rate.png)
 
 Median differences provide an initial financial view of the classes without implying that any variable causes failure.
 
@@ -74,21 +74,21 @@ The final test set contains 15,694 observations, including 1,177 failures (7.50%
 
 The baseline's 92.5% accuracy hides complete failure to detect the positive class. Random Forest provides the strongest final-test PR-AUC and failed-class F1, while Gradient Boosting produces higher recall and the best balanced accuracy (0.638) among all evaluated models. Logistic Regression detects most failures but creates many false alarms. There is therefore no universal winner: the preferred model and threshold depend on the relative cost of missed failures versus unnecessary reviews. Differences are modest and should not be overinterpreted.
 
-![Final test core metric summary](outputs/figures/final_test_core_metric_summary.png)
+![Final test core metric summary](outputs/paper/figures/model_performance_summary.png)
 
-![Final test precision-recall curves](outputs/figures/final_test_precision_recall_curves_key_models.png)
+![Final test precision-recall curves](outputs/paper/figures/precision_recall_key_models.png)
 
-![Final test confusion matrices](outputs/figures/final_test_confusion_matrices_key_models.png)
+![Final test classification outcomes](outputs/paper/figures/confusion_matrix_summary.png)
 
 ## Model interpretation
 
 For standardized Logistic Regression inputs, current assets and market value have the largest negative coefficients, while total current liabilities has the largest positive coefficient. These are associations conditional on the other inputs and do not establish causal effects. Correlated financial levels can also make individual coefficient signs unstable or unintuitive.
 
-![Logistic Regression coefficients](outputs/figures/logistic_coefficients.png)
+![Logistic Regression coefficients](outputs/paper/figures/top_logistic_coefficients.png)
 
 Across the tree models, market value, net income, and long-term debt rank prominently. Feature importance shows how much a fitted model used a variable for prediction; it does not give an effect direction or causal interpretation.
 
-![Tree feature importance](outputs/figures/tree_feature_importance.png)
+![Tree feature importance](outputs/paper/figures/top_tree_feature_importance.png)
 
 ## Threshold tuning
 
@@ -100,7 +100,7 @@ The default 0.50 cutoff is not automatically appropriate for bankruptcy screenin
 
 PCA converts standardized, correlated financial predictors into orthogonal components. Two components explain 83.8% of validation-split variance, and ten explain 99.2%, but variance preservation is not the same as preserving class-separation information. The best PCA validation PR-AUC in the tested grid occurs with 12 components (0.151), only marginally above the non-PCA Logistic Regression validation result (0.148) and with less direct financial interpretability. More generally, PCA performance improves as more components are retained and does not provide a clear reason to replace the original-feature benchmark. PCA results are internal-validation results, not final-test claims.
 
-![PCA explained variance](outputs/figures/pca_explained_variance.png)
+![PCA explained variance](outputs/paper/figures/pca_explained_variance.png)
 
 ![PCA Logistic Regression comparison](outputs/figures/pca_logistic_metric_comparison.png)
 
@@ -126,7 +126,8 @@ src/bankruptcy_ml/        Validation, preprocessing, modeling, and evaluation lo
 tasks/                    pytask workflow definitions
 tests/                    pytest test suite
 outputs/tables/           Generated summaries, metrics, predictions, and interpretations
-outputs/figures/          Generated EDA, evaluation, threshold, and PCA figures
+outputs/figures/          Retained diagnostic/supporting figures
+outputs/paper/figures/    Curated paper-ready public figures
 outputs/models/           Fitted joblib model artifacts
 docs/                     Detailed project study guide
 reports/oral_exam/        Concise speaking notes

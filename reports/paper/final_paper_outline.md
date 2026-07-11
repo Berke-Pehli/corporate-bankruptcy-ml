@@ -24,7 +24,7 @@ High accuracy is not enough in bankruptcy prediction. When failures are rare, a 
 - examine validation-only threshold tuning;
 - add PCA as a dimensionality-reduction extension.
 
-Suggested figures: `outputs/figures/class_balance.png` and `outputs/figures/annual_failure_rate.png`.
+Suggested figures: `outputs/paper/figures/class_balance.png` and `outputs/paper/figures/annual_failure_rate.png`.
 
 ## 2. Research question
 
@@ -106,8 +106,8 @@ Include the complete variable table from `outputs/tables/feature_dictionary.csv`
 
 Suggested figures:
 
-- `outputs/figures/class_balance.png`
-- `outputs/figures/annual_failure_rate.png`
+- `outputs/paper/figures/class_balance.png`
+- `outputs/paper/figures/annual_failure_rate.png`
 - `outputs/figures/key_feature_median_by_status.png`
 
 ## 5. Methodology
@@ -153,8 +153,8 @@ References:
 
 - `outputs/tables/logistic_coefficients.csv`
 - `outputs/tables/tree_feature_importance.csv`
-- `outputs/figures/logistic_coefficients.png`
-- `outputs/figures/tree_feature_importance.png`
+- `outputs/paper/figures/top_logistic_coefficients.png`
+- `outputs/paper/figures/top_tree_feature_importance.png`
 
 ## 6. Evaluation strategy
 
@@ -221,9 +221,9 @@ Use exact final-test counts from `outputs/tables/final_test_metrics.csv`:
 
 Suggested figures:
 
-- `outputs/figures/final_test_core_metric_summary.png`
-- `outputs/figures/final_test_precision_recall_curves_key_models.png`
-- `outputs/figures/final_test_confusion_matrices_key_models.png`
+- `outputs/paper/figures/model_performance_summary.png`
+- `outputs/paper/figures/precision_recall_key_models.png`
+- `outputs/paper/figures/confusion_matrix_summary.png`
 
 ## 8. Interpretation
 
@@ -273,7 +273,7 @@ Reference: `outputs/tables/pca_logistic_results.csv`.
 
 Suggested figures:
 
-- `outputs/figures/pca_explained_variance.png`
+- `outputs/paper/figures/pca_explained_variance.png`
 - `outputs/figures/pca_logistic_metric_comparison.png`
 
 ## 10. Limitations

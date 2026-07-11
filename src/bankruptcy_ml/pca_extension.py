@@ -11,7 +11,6 @@ Inputs:
 Outputs:
     - outputs/tables/pca_logistic_results.csv
     - outputs/tables/pca_component_loadings.csv
-    - outputs/figures/pca_explained_variance.png
     - outputs/figures/pca_logistic_metric_comparison.png
 
 Methodological note:
@@ -310,7 +309,6 @@ def save_pca_extension_outputs(
     feature_dictionary_path: Path,
     pca_logistic_results_path: Path,
     pca_component_loadings_path: Path,
-    pca_explained_variance_figure_path: Path,
     pca_logistic_metric_comparison_figure_path: Path,
     component_grid: list[int],
 ) -> None:
@@ -321,7 +319,6 @@ def save_pca_extension_outputs(
         feature_dictionary_path: Path to the feature dictionary.
         pca_logistic_results_path: Output path for PCA Logistic Regression metrics.
         pca_component_loadings_path: Output path for PCA component loadings.
-        pca_explained_variance_figure_path: Output path for explained variance plot.
         pca_logistic_metric_comparison_figure_path: Output path for PCA metric plot.
         component_grid: Candidate PCA component counts.
     """
@@ -332,7 +329,6 @@ def save_pca_extension_outputs(
         train_data=train_data,
         component_grid=component_grid,
     )
-    explained_variance = create_pca_explained_variance_table(train_data)
     component_loadings = create_pca_component_loadings(
         fitted_model=best_model,
         train_data=train_data,
@@ -345,10 +341,6 @@ def save_pca_extension_outputs(
     pca_results.to_csv(pca_logistic_results_path, index=False)
     component_loadings.to_csv(pca_component_loadings_path, index=False)
 
-    plot_pca_explained_variance(
-        explained_variance=explained_variance,
-        output_path=pca_explained_variance_figure_path,
-    )
     plot_pca_logistic_metric_comparison(
         pca_results=pca_results,
         output_path=pca_logistic_metric_comparison_figure_path,
