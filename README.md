@@ -131,7 +131,7 @@ outputs/paper/figures/    Curated paper-ready public figures
 outputs/models/           Fitted joblib model artifacts
 docs/                     Detailed project study guide
 reports/oral_exam/        Concise speaking notes
-reports/paper/             Expandable final-paper outline
+reports/paper/             Final LaTeX paper, PDF, bibliography, and planning outline
 ```
 
 ## How to run the project
