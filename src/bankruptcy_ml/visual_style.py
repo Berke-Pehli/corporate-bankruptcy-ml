@@ -50,6 +50,7 @@ def apply_project_style() -> None:
     """Apply consistent Matplotlib defaults for project-generated figures."""
     plt.rcParams.update(
         {
+            "font.family": "DejaVu Sans",
             "figure.facecolor": "white",
             "axes.facecolor": "white",
             "axes.titlesize": 12,

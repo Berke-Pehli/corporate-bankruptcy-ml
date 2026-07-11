@@ -67,6 +67,7 @@ def task_create_paper_outputs(
         PAPER_FIGURES_DIR / "model_performance_summary.png",
         PAPER_FIGURES_DIR / "confusion_matrix_summary.png",
         PAPER_FIGURES_DIR / "precision_recall_key_models.png",
+        PAPER_FIGURES_DIR / "roc_curves_key_models.png",
         PAPER_FIGURES_DIR / "top_logistic_coefficients.png",
         PAPER_FIGURES_DIR / "top_tree_feature_importance.png",
         PAPER_FIGURES_DIR / "pca_explained_variance.png",

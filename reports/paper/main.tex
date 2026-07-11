@@ -988,6 +988,24 @@ weaker ranking performance and produces more false positives. The source is
   }
 \end{table}
 
+Figure~\ref{fig:test-roc} provides a supplementary ROC-curve view for the three
+key predictive models. ROC curves are useful for comparing threshold-independent
+ranking performance, and the diagonal line represents a random classifier.
+However, because failed firms are rare in this application, the main discussion
+emphasizes precision--recall performance and minority-class operating metrics.
+Those measures show the screening burden more directly than the false-positive
+rate alone.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.74\textwidth]{roc_curves_key_models.png}
+  \caption{Supplementary final-test ROC curves for the key models. The legend
+    reports ROC-AUC values. The figure is included as a secondary ranking view;
+    the main analysis emphasizes precision--recall performance because failed
+    firms are rare.}
+  \label{fig:test-roc}
+\end{figure}
+
 \section{Threshold Analysis}
 \label{app:thresholds}
 

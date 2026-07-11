@@ -14,7 +14,12 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import Patch
-from sklearn.metrics import average_precision_score, precision_recall_curve
+from sklearn.metrics import (
+    average_precision_score,
+    precision_recall_curve,
+    roc_auc_score,
+    roc_curve,
+)
 
 from bankruptcy_ml.visual_style import (
     BASELINE_COLOR,
@@ -408,6 +413,60 @@ def plot_paper_precision_recall_key_models(
     save_figure(fig, output_path)
 
 
+def plot_paper_roc_key_models(
+    final_test_predictions: pd.DataFrame,
+    output_path: Path,
+) -> None:
+    """Plot final-test ROC curves for the key models as a supporting figure."""
+    fig, ax = plt.subplots(figsize=(7.0, 4.8))
+
+    for model_name in PAPER_CURVE_MODELS:
+        model_predictions = final_test_predictions[
+            final_test_predictions["model"] == model_name
+        ]
+        y_true = model_predictions["actual_failed"]
+        y_score = model_predictions["probability_failed"]
+        roc_auc = roc_auc_score(y_true, y_score)
+        false_positive_rate, true_positive_rate, _ = roc_curve(y_true, y_score)
+
+        ax.plot(
+            false_positive_rate,
+            true_positive_rate,
+            color=MODEL_COLORS.get(model_name),
+            linewidth=2.2,
+            label=f"{model_name} (ROC-AUC = {roc_auc:.3f})",
+        )
+
+    ax.plot(
+        [0, 1],
+        [0, 1],
+        linestyle="--",
+        linewidth=1,
+        color=BASELINE_COLOR,
+        label="Random classifier",
+    )
+
+    ax.set_title("Final-Test ROC Curves", pad=22)
+    ax.text(
+        0.5,
+        1.01,
+        "Supporting ranking view; precision-recall remains central for rare failures.",
+        transform=ax.transAxes,
+        ha="center",
+        va="bottom",
+        fontsize=8.5,
+        color="#4d4d4d",
+    )
+    ax.set_xlabel("False positive rate")
+    ax.set_ylabel("True positive rate")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1.02)
+    style_axis(ax, grid_axis="both")
+    ax.legend(loc="lower right")
+
+    save_figure(fig, output_path)
+
+
 def plot_paper_logistic_coefficients(
     logistic_coefficients: pd.DataFrame,
     output_path: Path,
@@ -638,6 +697,10 @@ def save_paper_outputs(
     plot_paper_precision_recall_key_models(
         final_test_predictions=final_test_predictions,
         output_path=paper_figures_dir / "precision_recall_key_models.png",
+    )
+    plot_paper_roc_key_models(
+        final_test_predictions=final_test_predictions,
+        output_path=paper_figures_dir / "roc_curves_key_models.png",
     )
     plot_paper_logistic_coefficients(
         logistic_coefficients=logistic_coefficients,

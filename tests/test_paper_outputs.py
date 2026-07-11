@@ -187,4 +187,5 @@ def test_save_paper_outputs_creates_expected_files(tmp_path) -> None:
     assert (paper_tables_dir / "model_performance_summary.csv").exists()
     assert (paper_tables_dir / "selected_threshold_summary.csv").exists()
     assert (paper_figures_dir / "precision_recall_key_models.png").exists()
+    assert (paper_figures_dir / "roc_curves_key_models.png").exists()
     assert (paper_figures_dir / "top_tree_feature_importance.png").exists()
