@@ -26,6 +26,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import f1_score, precision_score, recall_score
 
+from bankruptcy_ml.visual_style import (
+    METRIC_COLORS,
+    apply_project_style,
+    save_figure,
+    style_axis,
+)
+
 KEY_MODELS_FOR_THRESHOLD_ANALYSIS = [
     "Logistic Regression",
     "Random Forest",
@@ -184,42 +191,76 @@ def plot_threshold_tradeoff(
     ].copy()
 
     n_models = len(model_names)
-    fig, axes = plt.subplots(n_models, 1, figsize=(9, 4 * n_models), sharex=True)
+    apply_project_style()
+    fig, axes = plt.subplots(
+        1,
+        n_models,
+        figsize=(11.5, 3.8),
+        sharex=True,
+        sharey=True,
+    )
 
     if n_models == 1:
         axes = [axes]
 
+    selected_thresholds = select_thresholds(filtered_data)
+
     for ax, model_name in zip(axes, model_names, strict=False):
         model_data = filtered_data[filtered_data["model"] == model_name]
+        selected_model_thresholds = selected_thresholds[
+            (selected_thresholds["model"] == model_name)
+            & (selected_thresholds["selection_rule"] == "maximize_f1")
+        ]
 
         ax.plot(
             model_data["threshold"],
             model_data["precision_failed"],
-            label="Precision failed",
+            label="Precision",
+            color=METRIC_COLORS["Precision"],
         )
         ax.plot(
             model_data["threshold"],
             model_data["recall_failed"],
-            label="Recall failed",
+            label="Recall",
+            color=METRIC_COLORS["Recall"],
         )
         ax.plot(
             model_data["threshold"],
             model_data["f1_failed"],
-            label="F1 failed",
+            label="F1",
+            color=METRIC_COLORS["F1"],
         )
 
-        ax.set_title(f"Threshold Trade-off: {model_name}")
-        ax.set_ylabel("Metric value")
+        if not selected_model_thresholds.empty:
+            selected_threshold = selected_model_thresholds.iloc[0]["threshold"]
+            ax.axvline(
+                selected_threshold,
+                color="#4d4d4d",
+                linestyle=":",
+                linewidth=1.4,
+                label="Max-F1 threshold" if ax is axes[0] else None,
+            )
+            ax.text(
+                selected_threshold + 0.015,
+                0.05,
+                f"{selected_threshold:.2f}",
+                rotation=90,
+                fontsize=8,
+                color="#4d4d4d",
+            )
+
+        ax.set_title(model_name)
         ax.set_ylim(0, 1)
-        ax.legend(loc="best", fontsize=8)
+        style_axis(ax, grid_axis="both")
 
-    axes[-1].set_xlabel("Probability threshold for predicting failure")
+    axes[0].set_ylabel("Metric value")
+    for ax in axes:
+        ax.set_xlabel("Failure-probability threshold")
 
-    fig.suptitle("Validation Threshold Trade-off", fontsize=14)
-    fig.tight_layout()
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=300)
-    plt.close(fig)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="upper center", ncol=4, bbox_to_anchor=(0.5, 0.03))
+    fig.suptitle("Validation Threshold Trade-off", fontsize=12)
+    save_figure(fig, output_path)
 
 
 def save_threshold_outputs(

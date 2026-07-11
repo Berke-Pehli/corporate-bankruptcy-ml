@@ -38,6 +38,12 @@ from bankruptcy_ml.evaluation import (
 )
 from bankruptcy_ml.features import get_feature_columns, split_features_target
 from bankruptcy_ml.splitting import create_company_level_split
+from bankruptcy_ml.visual_style import (
+    METRIC_COLORS,
+    apply_project_style,
+    save_figure,
+    style_axis,
+)
 
 
 def build_pca_logistic_pipeline(n_components: int) -> Pipeline:
@@ -237,12 +243,14 @@ def plot_pca_explained_variance(
         explained_variance: PCA explained variance table.
         output_path: Path where the figure should be saved.
     """
-    fig, ax = plt.subplots(figsize=(8, 5))
+    apply_project_style()
+    fig, ax = plt.subplots(figsize=(7.2, 4.4))
 
     ax.plot(
         explained_variance["component"],
         explained_variance["cumulative_explained_variance"],
         marker="o",
+        color=METRIC_COLORS["ROC-AUC"],
     )
 
     ax.axhline(0.8, linestyle="--", linewidth=1, label="80% variance")
@@ -253,12 +261,10 @@ def plot_pca_explained_variance(
     ax.set_xlabel("Number of principal components")
     ax.set_ylabel("Cumulative explained variance")
     ax.set_ylim(0, 1.05)
+    style_axis(ax, grid_axis="both", percent_y=True, integer_x=True)
     ax.legend(loc="lower right")
 
-    fig.tight_layout()
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=300)
-    plt.close(fig)
+    save_figure(fig, output_path)
 
 
 def plot_pca_logistic_metric_comparison(
@@ -271,37 +277,51 @@ def plot_pca_logistic_metric_comparison(
         pca_results: PCA Logistic Regression validation metric table.
         output_path: Path where the figure should be saved.
     """
-    fig, ax = plt.subplots(figsize=(9, 5))
+    apply_project_style()
+    fig, axes = plt.subplots(
+        1,
+        2,
+        figsize=(10.4, 4.2),
+        sharex=True,
+        width_ratios=[1, 1],
+    )
 
-    ax.plot(
+    axes[0].plot(
         pca_results["n_components"],
         pca_results["roc_auc"],
         marker="o",
         label="ROC-AUC",
+        color=METRIC_COLORS["ROC-AUC"],
     )
-    ax.plot(
+    axes[1].plot(
         pca_results["n_components"],
         pca_results["pr_auc"],
         marker="o",
         label="PR-AUC",
+        color=METRIC_COLORS["PR-AUC"],
     )
-    ax.plot(
+    axes[1].plot(
         pca_results["n_components"],
         pca_results["f1_failed"],
         marker="o",
-        label="F1 failed",
+        label="Failed F1",
+        color=METRIC_COLORS["Failed F1"],
     )
 
-    ax.set_title("PCA Logistic Regression Validation Performance")
-    ax.set_xlabel("Number of principal components")
-    ax.set_ylabel("Metric value")
-    ax.set_ylim(0, 1)
-    ax.legend(loc="best")
+    axes[0].set_title("Ranking performance")
+    axes[0].set_ylabel("ROC-AUC")
+    axes[0].set_ylim(0.45, 0.75)
+    axes[1].set_title("Minority-class operating metrics")
+    axes[1].set_ylabel("Metric value")
+    axes[1].set_ylim(0.04, 0.20)
 
-    fig.tight_layout()
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=300)
-    plt.close(fig)
+    for ax in axes:
+        ax.set_xlabel("Number of principal components")
+        style_axis(ax, grid_axis="both", integer_x=True)
+        ax.legend(loc="best")
+
+    fig.suptitle("PCA Validation Performance", fontsize=12)
+    save_figure(fig, output_path)
 
 
 def save_pca_extension_outputs(

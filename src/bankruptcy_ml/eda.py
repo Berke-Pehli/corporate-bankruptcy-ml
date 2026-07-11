@@ -32,6 +32,7 @@ import pandas as pd
 
 from bankruptcy_ml.config import TARGET_COLUMN, YEAR_COLUMN
 from bankruptcy_ml.features import FEATURE_NAME_MAP
+from bankruptcy_ml.visual_style import apply_project_style, save_figure, style_axis
 
 KEY_FEATURES_FOR_EDA = ["X8", "X6", "X11", "X1", "X17", "X15"]
 
@@ -141,30 +142,73 @@ def plot_key_feature_median_by_status(
         class_feature_summary: Output from ``create_class_feature_summary``.
         output_path: Path where the median comparison figure should be saved.
     """
-    plot_data = class_feature_summary.pivot(
-        index="readable_name",
+    medians = class_feature_summary.pivot(
+        index=["feature", "readable_name"],
         columns="status",
         values="median",
     )
+    plot_data = medians.copy()
+    relative_scale = (plot_data["failed"].abs() + plot_data["alive"].abs()) / 2
+    plot_data["relative_median_difference"] = (
+        plot_data["failed"] - plot_data["alive"]
+    ) / relative_scale.replace(0, pd.NA)
+    plot_data = plot_data.reset_index()
+    plot_data["readable_name"] = pd.Categorical(
+        plot_data["readable_name"],
+        categories=[
+            FEATURE_NAME_MAP.get(feature, feature) for feature in KEY_FEATURES_FOR_EDA
+        ],
+        ordered=True,
+    )
+    plot_data = plot_data.sort_values("readable_name")
 
-    preferred_order = [
-        FEATURE_NAME_MAP.get(feature, feature) for feature in KEY_FEATURES_FOR_EDA
+    apply_project_style()
+    fig, ax = plt.subplots(figsize=(8.2, 4.8))
+    colors = [
+        "#c44e52" if value > 0 else "#4c78a8"
+        for value in plot_data["relative_median_difference"]
     ]
-    plot_data = plot_data.reindex(preferred_order)
+    bars = ax.barh(
+        plot_data["readable_name"],
+        plot_data["relative_median_difference"],
+        color=colors,
+    )
+    max_abs_difference = plot_data["relative_median_difference"].abs().max()
+    label_offset = max_abs_difference * 0.04
 
-    fig, ax = plt.subplots(figsize=(10, 6))
-    plot_data.plot(kind="barh", ax=ax)
-
-    ax.set_title("Median Financial Feature Values by Bankruptcy Status")
-    ax.set_xlabel("Median value")
+    ax.set_title("Relative Median Gap by Bankruptcy Status", pad=22)
+    ax.text(
+        0.5,
+        1.01,
+        "Descriptive comparison only; values do not imply causality.",
+        transform=ax.transAxes,
+        ha="center",
+        va="bottom",
+        fontsize=8.5,
+        color="#4d4d4d",
+    )
+    ax.set_xlabel("Difference in group medians divided by average absolute magnitude")
     ax.set_ylabel("Financial variable")
-    ax.axvline(0, linewidth=1)
-    ax.legend(title="Status")
+    ax.axvline(0, linewidth=1, color="black")
+    ax.set_xlim(-max_abs_difference * 1.25, max_abs_difference * 1.25)
+    style_axis(ax, grid_axis="x", percent_y=False)
+    ax.xaxis.set_major_formatter(lambda value, _: f"{value:.0%}")
 
-    fig.tight_layout()
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=300)
-    plt.close(fig)
+    for bar, value in zip(
+        bars,
+        plot_data["relative_median_difference"],
+        strict=False,
+    ):
+        ax.text(
+            value + (label_offset if value >= 0 else -label_offset),
+            bar.get_y() + bar.get_height() / 2,
+            f"{value:.0%}",
+            va="center",
+            ha="left" if value >= 0 else "right",
+            fontsize=8,
+        )
+
+    save_figure(fig, output_path)
 
 
 def save_eda_outputs(
