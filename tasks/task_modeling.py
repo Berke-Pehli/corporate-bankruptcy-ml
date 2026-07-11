@@ -69,6 +69,7 @@ from bankruptcy_ml.evaluation import (
     create_prediction_table,
     evaluate_binary_classifier,
     get_probability_failed,
+    save_prediction_table,
 )
 from bankruptcy_ml.features import split_features_target
 from bankruptcy_ml.logistic_models import (
@@ -85,7 +86,19 @@ from bankruptcy_ml.tree_models import (
 
 def task_train_bankruptcy_prediction_models(
     depends_on: Path = TRAIN_DATA_PATH,
-    produces: tuple[Path, Path, Path, Path, Path, Path, Path, Path, Path, Path, Path] = (
+    produces: tuple[
+        Path,
+        Path,
+        Path,
+        Path,
+        Path,
+        Path,
+        Path,
+        Path,
+        Path,
+        Path,
+        Path,
+    ] = (
         VALIDATION_MODEL_COMPARISON_PATH,
         VALIDATION_CLASSIFICATION_REPORTS_PATH,
         MODEL_SPECIFICATION_PATH,
@@ -300,7 +313,7 @@ def task_train_bankruptcy_prediction_models(
     model_comparison.to_csv(model_comparison_path, index=False)
     classification_reports.to_csv(classification_reports_path, index=False)
     model_specification.to_csv(model_specification_path, index=False)
-    validation_predictions.to_csv(predictions_path, index=False)
+    save_prediction_table(validation_predictions, predictions_path)
 
     joblib.dump(majority_model, majority_model_path)
     joblib.dump(interpretable_logit, interpretable_logit_path)

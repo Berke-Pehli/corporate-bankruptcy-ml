@@ -31,6 +31,7 @@ from bankruptcy_ml.evaluation import (
     create_prediction_table,
     evaluate_binary_classifier,
     get_probability_failed,
+    save_prediction_table,
 )
 from bankruptcy_ml.features import split_features_target
 
@@ -149,4 +150,4 @@ def save_final_test_evaluation(
 
     metrics.to_csv(final_test_metrics_path, index=False)
     classification_reports.to_csv(final_test_classification_reports_path, index=False)
-    predictions.to_csv(final_test_predictions_path, index=False)
+    save_prediction_table(predictions, final_test_predictions_path)

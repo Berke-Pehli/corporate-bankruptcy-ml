@@ -43,6 +43,16 @@ from sklearn.metrics import (
 
 from bankruptcy_ml.config import COMPANY_COLUMN, TARGET_COLUMN, YEAR_COLUMN
 
+PREDICTION_PROBABILITY_FLOAT_FORMAT = "%.11f"
+PREDICTION_TABLE_COLUMNS = [
+    "model",
+    COMPANY_COLUMN,
+    YEAR_COLUMN,
+    "actual_failed",
+    "predicted_failed",
+    "probability_failed",
+]
+
 
 def get_probability_failed(model, x: pd.DataFrame) -> np.ndarray:
     """Return predicted probabilities for the bankruptcy class.
@@ -150,7 +160,7 @@ def create_prediction_table(
         A DataFrame containing identifiers, actual labels, predictions, and
         predicted bankruptcy probabilities.
     """
-    return pd.DataFrame(
+    prediction_table = pd.DataFrame(
         {
             "model": model_name,
             COMPANY_COLUMN: validation_data[COMPANY_COLUMN].to_numpy(),
@@ -159,4 +169,26 @@ def create_prediction_table(
             "predicted_failed": y_pred,
             "probability_failed": probability_failed,
         }
+    )
+
+    return prediction_table[PREDICTION_TABLE_COLUMNS]
+
+
+def save_prediction_table(predictions: pd.DataFrame, output_path) -> None:
+    """Save prediction tables with deterministic probability serialization.
+
+    Random Forest probabilities can differ across repeated forced builds only at
+    machine precision. Metrics are computed from the in-memory predictions
+    before writing. This helper only standardizes the public CSV representation
+    so repeated builds are byte-stable while retaining 11 decimal places of
+    probability precision.
+
+    Args:
+        predictions: Prediction table created by ``create_prediction_table``.
+        output_path: Path where the CSV file should be written.
+    """
+    predictions[PREDICTION_TABLE_COLUMNS].to_csv(
+        output_path,
+        index=False,
+        float_format=PREDICTION_PROBABILITY_FLOAT_FORMAT,
     )
