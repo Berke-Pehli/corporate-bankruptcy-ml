@@ -2,7 +2,7 @@
 
 ## 1. Project objective and central argument
 
-The project asks whether company-year financial variables can identify failed observations out of sample and whether tree-based machine-learning models improve on Logistic Regression.
+The project asks whether company-year financial variables can distinguish failed from alive observations for previously unseen companies and whether tree-based machine-learning models improve on Logistic Regression.
 
 The central argument is not that one model “solves” bankruptcy prediction. It is that rare-event screening requires leakage-aware splitting, metrics focused on the failed class, and an explicit choice between missed failures and false alarms. The majority baseline proves that accuracy alone is inadequate.
 
@@ -263,7 +263,7 @@ PCA is an instructive third point: it keeps a linear classifier but makes the in
 
 ## 14. Limitations and critical reflection
 
-- The split is company-level but not time-based; genuine forward forecasting may be harder.
+- The split is company-level but not time-based; a true forward forecasting design would require a defined prediction horizon and chronological testing.
 - Repeated company-year observations may have within-company dependence.
 - Failure-label timing is crucial for determining a real prediction horizon.
 - Dataset coverage and the declining failure rate may create temporal or composition shift.
@@ -336,7 +336,7 @@ The project evaluates discrimination and classification, not formal calibration.
 
 ### What would you improve next?
 
-I would define a clear prediction horizon, use chronological backtesting, add financial ratios and industry/macro controls, use repeated grouped validation, assess calibration and uncertainty, and choose a threshold with an explicit economic cost function.
+I would define a clear prediction horizon, use chronological backtesting, add financial ratios and industry/macro controls, use repeated company-grouped validation, assess calibration and uncertainty, and choose a threshold with an explicit economic cost function.
 
 ## 16. A strong closing statement
 

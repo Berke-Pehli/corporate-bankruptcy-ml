@@ -1,16 +1,16 @@
 # Corporate Bankruptcy Prediction with Machine Learning
 
-> A reproducible comparison of interpretable and tree-based classifiers for predicting corporate bankruptcy in an imbalanced company-year dataset.
+> A reproducible comparison of interpretable and tree-based classifiers for company-year bankruptcy-risk classification in an imbalanced dataset.
 
 ## Project Overview
 
-This project predicts whether a company-year observation is classified as failed or alive using financial-statement variables from an American companies bankruptcy dataset. Because bankruptcy is rare, a model can look accurate while still missing nearly every failed firm. For that reason, the project focuses on the failed class instead of only reporting overall accuracy.
+This project classifies whether a company-year observation is labeled as failed or alive using financial-statement variables from an American companies bankruptcy dataset. Because bankruptcy is rare, a model can look accurate while still missing nearly every failed firm. For that reason, the project focuses on the failed class instead of only reporting overall accuracy.
 
 The analysis compares a majority-class baseline, Logistic Regression, regularized Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, and a PCA + Logistic Regression extension. The workflow is reproducible with Pixi, pytask, and pytest, and it produces the processed data, fitted models, metrics, tables, figures, and paper-ready outputs from the project pipeline.
 
 ## Research Question
 
-Can interpretable and tree-based machine-learning models identify future corporate failures better than a majority-class benchmark, and what trade-offs arise between failure detection and false-alarm burden?
+How effectively can interpretable and tree-based machine-learning models distinguish failed from alive company-year observations for previously unseen companies, and what trade-offs arise between failure detection and false alarms?
 
 ## Key Methodological Decisions
 

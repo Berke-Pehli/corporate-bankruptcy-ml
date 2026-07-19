@@ -163,9 +163,10 @@ default value of 0.50 is economically optimal.
 This paper investigates the following research question:
 
 \begin{quote}
-\emph{How well can company-year financial statement variables identify failed
-observations out of sample, and do flexible tree-based classifiers improve on an
-interpretable Logistic Regression benchmark?}
+\emph{How effectively can interpretable and tree-based machine-learning models
+distinguish failed from alive company-year observations for previously unseen
+companies, and what trade-offs arise between failure detection and false
+alarms?}
 \end{quote}
 
 The analysis uses the American corporate bankruptcy dataset introduced by
@@ -885,7 +886,7 @@ This paper examined how well company-year financial statement variables can
 identify failed observations for companies not seen during model fitting. It
 also tested whether flexible tree-based classifiers improve on an interpretable
 Logistic Regression benchmark. The results show that the financial variables
-contain out-of-sample predictive information, but bankruptcy classification
+contain information for out-of-company generalization, but bankruptcy classification
 remains difficult and no model is best for every objective.
 
 The majority-class baseline achieved 92.5\% accuracy while detecting none of
@@ -909,8 +910,8 @@ the inputs less direct. Logistic coefficients and tree importance highlighted
 market value, profitability, liquidity, and debt variables, but these patterns
 are predictive associations rather than causal effects.
 
-The main lesson is that corporate failure prediction is both a statistical and
-a financial decision problem. Model rankings, classification thresholds, error
+The main lesson is that company-year bankruptcy-risk classification is both a
+statistical and financial decision problem. Model rankings, classification thresholds, error
 costs, and interpretability must be considered together. Under the current
 company-level split, the models provide a structured way to rank or screen
 firms, not a basis for automatic decisions. A stronger next study would define

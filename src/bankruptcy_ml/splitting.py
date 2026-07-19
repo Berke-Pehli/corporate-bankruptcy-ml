@@ -3,7 +3,7 @@
 The American bankruptcy dataset contains repeated observations for the same
 company across multiple years. A random row-level split could place the same
 company in both training and test sets, causing data leakage and overstating
-out-of-sample performance.
+generalization to previously unseen companies.
 
 This module therefore splits the data at the company level.
 
