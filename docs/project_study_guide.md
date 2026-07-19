@@ -105,11 +105,11 @@ A tree creates nonlinear decision rules and interactions without scaling. It is 
 
 ### Random Forest
 
-Random Forest averages many trees trained with resampling and random feature subsets. Averaging reduces the high variance of individual trees. In this project it gives the best final-test ROC-AUC, PR-AUC, failed precision, and failed F1 among the core comparisons.
+Random Forest averages many trees trained with resampling and random feature subsets. Averaging reduces the high variance of individual trees. In this project it gives the numerically highest observed final-test ROC-AUC, PR-AUC, failed precision, and failed F1 among the core comparisons, but that final-test observation does not replace the validation-based selection rule.
 
 ### Gradient Boosting
 
-Gradient Boosting builds shallow trees sequentially, emphasizing errors left by previous trees. It can capture nonlinear structure efficiently. Here it gives the best final-test balanced accuracy and more failed recall than Random Forest, but lower precision.
+Gradient Boosting builds shallow trees sequentially, emphasizing errors left by previous trees. It can capture nonlinear structure efficiently. It was selected using internal validation PR-AUC. On the final test set, it gives the highest observed balanced accuracy and more failed recall than Random Forest, but lower precision.
 
 ### PCA + Logistic Regression
 
@@ -300,7 +300,7 @@ ROC-AUC is a standard threshold-independent ranking measure and makes comparison
 
 ### Which model is best?
 
-There is no metric-free winner. Random Forest has the best final-test PR-AUC and failed F1. Gradient Boosting has the best balanced accuracy and higher failed recall. Logistic catches the most failures but creates far more false alarms. The correct choice depends on error costs.
+There is no metric-free winner. Gradient Boosting is the validation-selected model because it achieved the highest internal-validation PR-AUC. Random Forest has the numerically highest observed final-test PR-AUC and failed F1, but this ex post result does not redefine the selected model. Gradient Boosting has the highest observed final-test balanced accuracy and higher failed recall. Logistic catches the most failures but creates far more false alarms. The correct choice depends on error costs.
 
 ### Why is Logistic Regression accuracy so low?
 

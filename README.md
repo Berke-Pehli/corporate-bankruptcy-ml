@@ -48,7 +48,7 @@ Selected final-test results are shown below. PR-AUC and ROC-AUC evaluate ranking
 | Random Forest | 0.159 | 0.168 | 0.376 | 0.232 |
 | Gradient Boosting | 0.158 | 0.132 | 0.590 | 0.216 |
 
-Gradient Boosting was selected based on validation PR-AUC. On the final test set, Random Forest marginally achieved the best observed PR-AUC and failed-class F1. This is reported as a final-test observation, not as retrospective model selection.
+Gradient Boosting was selected ex ante based on validation PR-AUC. On the final test set, Random Forest produced a marginally higher observed PR-AUC and failed-class F1. This is reported as an ex post final-test observation, not as retrospective model selection.
 
 Logistic Regression detects the largest share of failed firms, but it also creates many false alarms. Random Forest is more selective, while Gradient Boosting sits between the two. The differences in PR-AUC among the main predictive models are small, so the results should be interpreted as evidence of trade-offs rather than a single obvious winner.
 
@@ -85,7 +85,7 @@ Additional supporting figures are available in `outputs/figures/`, `outputs/pape
 - Class imbalance makes overall accuracy misleading.
 - The majority-class baseline has high accuracy but detects no failed firms.
 - Logistic Regression is interpretable and has high failed-class recall, but it creates a large false-alarm burden.
-- Random Forest provides the strongest observed final-test failed-class F1.
+- Random Forest provides the numerically highest observed final-test failed-class F1.
 - Gradient Boosting was validation-selected and provides a balanced trade-off between recall and false alarms.
 - PCA does not materially improve predictive performance and reduces direct interpretability.
 - More flexible models do not clearly dominate the interpretable benchmark.

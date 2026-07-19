@@ -1,6 +1,6 @@
 """Evaluate fitted bankruptcy prediction models on the final test set.
 
-This module evaluates the selected models on the untouched final test set. The
+This module evaluates the fitted models on the untouched final test set. The
 final test set was created through a company-level split and was not used during
 model selection or validation.
 
