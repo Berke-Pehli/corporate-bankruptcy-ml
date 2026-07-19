@@ -21,7 +21,7 @@ How effectively can interpretable and tree-based machine-learning models disting
 - Class imbalance is handled through model design and by using appropriate failed-class metrics.
 - Precision-recall area under the curve (PR-AUC) is the main ranking metric because failures are rare.
 - Receiver operating characteristic area under the curve (ROC-AUC) is reported as a secondary threshold-independent ranking metric.
-- Precision, recall, F1-score, predicted labels, and confusion outcomes depend on the selected operating threshold.
+- Precision, recall, F1-score, predicted labels, and confusion outcomes depend on the operating threshold used for classification.
 - Threshold analysis and PCA are included as course-related extensions.
 - Predictions, tables, and figures are generated through a reproducible pytask pipeline.
 

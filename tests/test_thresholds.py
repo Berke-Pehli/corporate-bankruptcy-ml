@@ -29,7 +29,7 @@ def test_create_threshold_analysis_returns_metrics_for_each_threshold() -> None:
 
 
 def test_select_thresholds_returns_max_f1_rule() -> None:
-    """Check that selected thresholds include the max-F1 rule."""
+    """Check that threshold scenarios include the max-F1 rule."""
     threshold_analysis = pd.DataFrame(
         {
             "model": ["Model A", "Model A", "Model A"],

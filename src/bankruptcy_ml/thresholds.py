@@ -1,9 +1,10 @@
-"""Threshold analysis for bankruptcy prediction models.
+"""Validation threshold analysis for bankruptcy classification models.
 
 This module evaluates how classification metrics change when the probability
-threshold for predicting bankruptcy is varied. This is important because
-bankruptcy prediction is an imbalanced classification problem and the default
-threshold of 0.5 is not necessarily appropriate.
+threshold for converting failure probabilities into class labels is varied.
+This is important because bankruptcy classification is an imbalanced problem
+and the default threshold of 0.5 is not necessarily appropriate for every
+screening objective.
 
 Inputs:
     - outputs/tables/validation_predictions.csv
@@ -14,8 +15,8 @@ Outputs:
     - outputs/figures/validation_threshold_tradeoff.png
 
 Methodological note:
-    Threshold selection is performed on validation predictions only. The final
-    test set should not be used to choose thresholds.
+    Threshold scenarios are constructed from validation predictions only. The
+    final test set is not used to choose, tune, or revise thresholds.
 """
 
 from __future__ import annotations
@@ -106,9 +107,9 @@ def select_thresholds(
     threshold_analysis: pd.DataFrame,
     recall_targets: tuple[float, ...] = (0.6, 0.8),
 ) -> pd.DataFrame:
-    """Select practical thresholds from threshold-analysis results.
+    """Create validation-based threshold scenarios from analysis results.
 
-    For each model, this function selects:
+    For each model, this function records:
         - the threshold that maximizes F1-score
         - the highest-precision threshold that reaches each recall target
 
@@ -117,7 +118,8 @@ def select_thresholds(
         recall_targets: Minimum recall targets to consider.
 
     Returns:
-        Table of selected thresholds and their corresponding metrics.
+        Table of validation-based threshold scenarios and their corresponding
+        metrics.
     """
     selected_rows = []
 
@@ -269,12 +271,12 @@ def save_threshold_outputs(
     selected_thresholds_path: Path,
     threshold_tradeoff_figure_path: Path,
 ) -> None:
-    """Create and save threshold-analysis tables and figure.
+    """Create and save validation threshold-analysis tables and figure.
 
     Args:
         validation_predictions_path: Path to validation prediction table.
         threshold_analysis_path: Output path for threshold analysis table.
-        selected_thresholds_path: Output path for selected thresholds table.
+        selected_thresholds_path: Output path for validation threshold scenarios.
         threshold_tradeoff_figure_path: Output path for threshold trade-off figure.
     """
     predictions = pd.read_csv(validation_predictions_path)

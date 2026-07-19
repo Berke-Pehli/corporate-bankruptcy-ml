@@ -103,9 +103,9 @@ Evaluation focuses on the minority failed class. The majority baseline reaches
 misleading. Logistic Regression has the highest failed recall among the key
 models but produces many false alarms. Random Forest has the highest test
 average precision and failed-class F1-score, while Gradient Boosting has the
-highest balanced accuracy. Threshold analysis shows that greater recall comes
-with lower precision and a larger review burden. PCA retains much of the
-predictor variance but does not clearly improve validation performance and
+highest balanced accuracy. Validation threshold analysis shows that greater
+recall comes with lower precision and a larger review burden. PCA retains much
+of the predictor variance but does not clearly improve validation performance and
 reduces interpretability. The results support machine learning as a structured
 screening exercise, not as a causal or production-ready bankruptcy system.
 \end{abstract}
@@ -343,7 +343,8 @@ A second company-level split is created inside the training set. It reserves
 sample of 50,323 rows from 5,740 companies and a validation sample of 12,665
 rows from 1,436 companies. Hyperparameters are compared on this validation
 sample using PR-AUC. The same validation predictions are later used for the
-threshold analysis. The final test set is not used for either choice.
+threshold analysis. The final test set is not used for model selection or
+validation threshold analysis.
 
 The saved models remain fitted on the inner model-fitting sample and are then
 evaluated on the final test set. In other words, the validation rows are not
@@ -539,8 +540,8 @@ predictions for Logistic Regression, Random Forest, and Gradient Boosting. The
 analysis considers three rules: the threshold with the highest failed-class
 F1-score, the highest-precision threshold that still reaches at least 60\%
 failed recall, and the corresponding rule for at least 80\% failed recall.
-This shows how the preferred cut-off changes when detecting failures receives
-more weight.
+This shows how the validation-based trade-off changes when detecting failures
+receives more weight.
 
 The final test set is not used to choose a threshold. To keep the main model
 comparison consistent, the reported final-test classifications use each
@@ -619,8 +620,8 @@ is preferable depends on the relative cost of a missed failure and a false
 alarm. Those costs are not estimated in this project.
 
 The validation threshold analysis leads to the same general lesson. For each
-model, thresholds chosen to reach at least 80\% recall label a much larger share
-of observations as failed than thresholds selected to maximize F1. Thus,
+model, validation-based scenarios that reach at least 80\% recall label a much
+larger share of observations as failed than the maximum-F1 scenario. Thus,
 recall can be increased, but only by accepting lower precision and more firms
 sent for further review. Since these cut-offs were studied on validation data,
 they are not used to revise the final-test results above.
@@ -795,8 +796,8 @@ validation results; they are not additional final-test claims.
 
 The project has several useful design choices. Splitting by company prevents the
 same firm from appearing in both training and test data. Keeping the test set
-separate from model and threshold selection also makes the final comparison
-more credible. Finally, the majority baseline and failed-class metrics expose
+separate from model selection and validation threshold analysis also makes the
+final comparison more credible. Finally, the majority baseline and failed-class metrics expose
 weaknesses that would be hidden by accuracy. These choices improve the
 analysis, but they do not remove the following limitations.
 
@@ -903,8 +904,9 @@ rule produced many false positives. The tree-based models therefore improved
 some measures, but they did not dominate the logistic benchmark on every
 relevant outcome.
 
-The additional analyses support this trade-off-based view. Threshold tuning
-showed that higher recall requires lower precision and a larger review burden.
+The additional analyses support this trade-off-based view. Validation threshold
+analysis showed that higher recall requires lower precision and a larger review
+burden.
 The PCA extension retained much of the variation in fewer dimensions, but it
 did not provide a clear predictive advantage and made the financial meaning of
 the inputs less direct. Logistic coefficients and tree importance highlighted
@@ -1011,16 +1013,16 @@ rate alone.
 \section{Threshold Analysis}
 \label{app:thresholds}
 
-Table~\ref{tab:selected-thresholds} reports the validation thresholds discussed
-in Section~\ref{sec:evaluation}. For each rule, the table also reports the share
-of validation observations that would be labelled failed. The sharp rise in
-this share under the 80\% recall rule shows the review burden created by a high
-failure-detection target. These settings are descriptive validation choices and
-were not applied to the final test comparison.
+Table~\ref{tab:selected-thresholds} reports the validation-based threshold
+scenarios discussed in Section~\ref{sec:evaluation}. For each rule, the table
+also reports the share of validation observations that would be labelled failed.
+The sharp rise in this share under the 80\% recall rule shows the review burden
+created by a high failure-detection target. These settings are descriptive
+validation scenarios and were not applied to the final test comparison.
 
 \begin{table}[H]
   \centering
-  \caption{Selected thresholds from the internal validation sample}
+  \caption{Validation-based threshold scenarios from the internal validation sample}
   \label{tab:selected-thresholds}
   \scriptsize
   \begin{tabular}{llrrrrr}

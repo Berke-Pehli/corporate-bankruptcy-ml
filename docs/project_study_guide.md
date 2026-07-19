@@ -188,7 +188,7 @@ Market value, net income, and long-term debt are prominent across tree models. I
 
 ### `outputs/figures/validation_threshold_tradeoff.png`
 
-Moving the cutoff changes predicted labels without retraining. Higher thresholds generally reduce flags and recall while potentially improving precision. Selected validation F1 cutoffs are 0.53 (Logistic), 0.57 (Random Forest), and 0.68 (Gradient Boosting).
+Moving the cutoff changes predicted labels without retraining. Higher thresholds generally reduce flags and recall while potentially improving precision. The validation-based maximum-F1 scenario uses cutoffs of 0.53 (Logistic), 0.57 (Random Forest), and 0.68 (Gradient Boosting).
 
 ### `outputs/paper/figures/pca_explained_variance.png`
 
@@ -220,7 +220,7 @@ Interpretation:
 - Logistic Regression prioritizes recall very strongly because of balanced class weighting, leading to many false positives.
 - These models are better viewed as screening/ranking tools than automatic decision makers.
 
-## 11. Why threshold tuning matters
+## 11. Why validation threshold analysis matters
 
 A classifier first produces a continuous failure score or probability. The cutoff turns that score into a binary decision. The conventional 0.50 cutoff is a convention, not a finance optimum.
 
@@ -232,7 +232,7 @@ Suppose a lender views missed failures as much more expensive than manual review
 - probability calibration;
 - validation on representative, preferably later-period data.
 
-The project explores cutoffs on validation predictions. It does not tune on final-test outcomes, which would leak test information. Selected thresholds demonstrate trade-offs; they are not production recommendations.
+The project explores cutoffs on validation predictions only. It does not tune on final-test outcomes, which would leak test information. The validation-based threshold scenarios demonstrate trade-offs; they are not production recommendations.
 
 ## 12. What PCA adds
 
@@ -314,11 +314,11 @@ No. It is a conditional association with predicted log-odds in this dataset. Cor
 
 No. It shows how much the model used a feature, not whether higher values raise risk. It can also be affected by correlation and the fitting sample.
 
-### Why tune the threshold?
+### Why examine alternative thresholds?
 
 The default 0.50 cutoff ignores business costs and prevalence. Changing the cutoff controls the recall–precision and false-negative–false-positive trade-off without retraining.
 
-### Why must threshold selection use validation data?
+### Why must threshold scenarios use validation data?
 
 Choosing it on test outcomes would optimize to the supposedly unseen test sample and make final performance optimistic.
 

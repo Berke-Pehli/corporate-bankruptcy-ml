@@ -187,7 +187,7 @@ def create_pca_summary(pca_logistic_results: pd.DataFrame) -> pd.DataFrame:
 def create_selected_threshold_summary(
     selected_thresholds: pd.DataFrame,
 ) -> pd.DataFrame:
-    """Create the compact threshold table used in the paper appendix."""
+    """Create the compact validation threshold-scenario table for the appendix."""
     summary = selected_thresholds.copy()
     summary.insert(0, "evaluation_sample", "Internal validation")
 
