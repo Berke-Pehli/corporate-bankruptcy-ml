@@ -106,7 +106,6 @@ corporate-bankruptcy-ml/
 │   ├── paper/               # Curated paper tables and figures
 │   ├── models/              # Locally generated fitted models
 │   └── report/              # Data-validation report
-├── docs/                    # Project study guide
 ├── reports/
 │   └── paper/               # Final LaTeX paper, bibliography, and compiled PDF
 ├── pixi.toml                # Environment and runnable commands
@@ -122,13 +121,17 @@ Some artifacts are generated locally by the pipeline. In particular, processed d
 
 Pixi is used to create the correct Python environment automatically. It installs the required Python version and packages from the lockfile, so no manual package installation is necessary.
 
-### Prerequisites
+### Core Prerequisites for the Analysis Pipeline
 
 - Git
 - Pixi
 - a terminal
 
-No separate Python installation is required if Pixi manages the environment. Install Pixi by following the official installation instructions for your operating system.
+No separate Python installation is required if Pixi manages the environment. `pixi install` creates the Python environment and installs the Python packages recorded in `pixi.lock`. Install Pixi by following the official installation instructions for your operating system.
+
+### Optional Prerequisite for Compiling the Paper
+
+The data and modelling pipeline does not require LaTeX. If you also want to compile `reports/paper/main.tex`, you need a system-level LaTeX distribution that includes or supports `latexmk`. Pixi manages the Python environment, but it does not install this LaTeX distribution.
 
 ### Clone the Repository
 
@@ -195,7 +198,7 @@ cd reports/paper
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-This requires a LaTeX distribution with `latexmk`. The compiled paper is available at `reports/paper/main.pdf`.
+This optional step requires a LaTeX distribution with `latexmk`. The compiled paper is available at `reports/paper/main.pdf`.
 
 ### Quick Reproduction Commands
 
@@ -242,7 +245,6 @@ Repeated builds are intended to be stable. Some generated files, especially proc
 
 - [Final paper](reports/paper/main.pdf)
 - [LaTeX paper source](reports/paper/main.tex)
-- [Project study guide](docs/project_study_guide.md)
 
 ## Reproducibility Status
 
