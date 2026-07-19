@@ -390,7 +390,10 @@ Each Logistic Regression specification is placed after a standardization step.
 The predictors therefore have mean zero and standard deviation one in the
 model-fitting sample. This makes the regularization penalty comparable across
 variables with different units. Balanced class weights give more importance to
-errors on the minority failed class during fitting.
+errors on the minority failed class during fitting. They do not create
+additional failed observations, rebalance the test set, directly choose the
+classification threshold, or make the resulting scores calibrated real-world
+bankruptcy probabilities.
 
 Three Logistic Regression specifications are compared. The main benchmark uses
 an L2 penalty with fixed $C=1$. The parameter $C$ is the inverse of the
@@ -592,7 +595,11 @@ a single model wins.
 Table~\ref{tab:test-confusion} translates the final-test predictions into
 screening outcomes. Logistic Regression detects 1,041 failures and misses only
 136. However, it also creates 9,906 false alarms. This explains why its recall
-is high while its precision and overall accuracy are low.
+is high while its precision and overall accuracy are low. This pattern is
+consistent with balanced class weighting: failed observations have more
+influence during fitting, so the fitted model produces broad screening behavior
+at the default decision rule. The 0.50 rule is a conventional comparison point
+rather than an economically optimized threshold.
 
 \begin{table}[H]
   \centering

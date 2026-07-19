@@ -62,7 +62,7 @@ That is why accuracy is misleading: the abundant alive class dominates it. The p
 - inspecting precision–recall curves and confusion matrices;
 - analyzing alternative probability thresholds.
 
-Class weighting does not create more failed observations. It changes the fitting loss so errors on minority observations matter more.
+Class weighting does not create more failed observations, rebalance the test set, directly set the final classification threshold, guarantee calibrated probabilities, or guarantee higher PR-AUC. It changes the fitting loss so errors on minority observations matter more.
 
 ## 6. Leakage-aware splitting and validation
 
@@ -87,7 +87,7 @@ Always predicts alive. It sets a minimum reference and makes the accuracy parado
 
 ### Logistic Regression
 
-The interpretable benchmark models a linear relationship between standardized predictors and failure log-odds. It outputs scores/probabilities and coefficient directions. The model uses balanced class weights and fixed L2 regularization with `C = 1.0`.
+The interpretable benchmark models a linear relationship between standardized predictors and failure log-odds. It outputs classifier scores/probabilities and coefficient directions. The model uses balanced class weights and fixed L2 regularization with `C = 1.0`.
 
 Interpretation: holding the other standardized variables fixed, a positive coefficient is associated with higher predicted failure log-odds. It is not a direct percentage-point effect and not causal.
 
@@ -304,7 +304,7 @@ There is no metric-free winner. Gradient Boosting is the validation-selected mod
 
 ### Why is Logistic Regression accuracy so low?
 
-Balanced class weighting makes minority failures more influential. At the default decision rule the model predicts many observations as failed, raising recall to 88.4% but creating 9,906 false positives. This is a deliberate trade-off, not necessarily evidence that the ranking scores are useless.
+Balanced class weighting makes minority failures more influential during fitting. It does not change the test-set class balance or directly choose the threshold. At the default decision rule, the fitted model predicts many observations as failed, raising recall to 88.4% but creating 9,906 false positives and lowering accuracy. This is a threshold-dependent trade-off, not necessarily evidence that the ranking scores are useless.
 
 ### Does a positive Logistic coefficient mean the variable causes bankruptcy?
 

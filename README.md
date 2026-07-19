@@ -84,7 +84,7 @@ Additional supporting figures are available in `outputs/figures/`, `outputs/pape
 
 - Class imbalance makes overall accuracy misleading.
 - The majority-class baseline has high accuracy but detects no failed firms.
-- Logistic Regression is interpretable and has high failed-class recall, but it creates a large false-alarm burden.
+- Logistic Regression is interpretable and has high failed-class recall, partly because balanced class weighting gives failed observations more influence during fitting; at the default 0.50 rule, this also creates a large false-alarm burden.
 - Random Forest provides the numerically highest observed final-test failed-class F1.
 - Gradient Boosting was validation-selected and provides a balanced trade-off between recall and false alarms.
 - PCA does not materially improve predictive performance and reduces direct interpretability.

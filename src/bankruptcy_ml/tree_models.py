@@ -252,7 +252,8 @@ def select_gradient_boosting(
 
     GradientBoostingClassifier does not have a ``class_weight`` parameter.
     Therefore, this function uses sample weights to give more importance to the
-    minority bankruptcy class during fitting.
+    minority bankruptcy class during fitting. These weights do not alter the
+    evaluation sample or directly set a classification threshold.
 
     Args:
         x_train: Training feature matrix.

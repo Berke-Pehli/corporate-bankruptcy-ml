@@ -49,7 +49,8 @@ def build_logistic_pipeline(
         c_value: Inverse regularization strength. Smaller values imply stronger
             regularization.
         class_weight: Class-weight strategy. ``"balanced"`` gives more weight
-            to the minority bankruptcy class.
+            to the minority bankruptcy class during fitting. It does not change
+            the evaluation sample or directly set a classification threshold.
 
     Returns:
         An unfitted scikit-learn Pipeline.
