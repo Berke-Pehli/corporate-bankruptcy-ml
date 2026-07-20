@@ -274,7 +274,7 @@ Contributions are welcome. A sensible workflow is:
 ## Author
 
 Berke Pehlivan  
-Econometrics MSc — University of Bonn  
+Economics MSc — University of Bonn  
 Data Analytics | SQL | Python | Power BI | Econometrics | Statistics
 
 - GitHub: [Berke-Pehli](https://github.com/Berke-Pehli)
