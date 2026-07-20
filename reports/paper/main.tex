@@ -91,23 +91,28 @@
 \pagenumbering{roman}
 
 \begin{abstract}
-This paper compares classification models for identifying failed company-year
-observations from financial statement variables. The data contain 78,682
-observations from 8,971 American companies between 1999 and 2018. Because firms
-appear in several years, companies rather than individual rows are assigned to
-the training and test samples. The comparison includes a majority-class
-baseline, Logistic Regression with regularization, a Decision Tree, Random
-Forest, Gradient Boosting, and a PCA plus Logistic Regression extension.
-Evaluation focuses on the minority failed class. The majority baseline reaches
-92.5\% test accuracy but detects no failures, showing why accuracy is
-misleading. Logistic Regression has the highest failed recall among the key
-models but produces many false alarms. Random Forest has the highest test
-average precision and failed-class F1-score, while Gradient Boosting has the
-highest balanced accuracy. Validation threshold analysis shows that greater
-recall comes with lower precision and a larger review burden. PCA retains much
-of the predictor variance but does not clearly improve validation performance and
-reduces interpretability. The results support machine learning as a structured
-screening exercise, not as a causal or production-ready bankruptcy system.
+This paper studies company-year bankruptcy-risk classification using financial
+statement variables. The task is to distinguish failed and alive observations,
+without claiming causality or a defined future forecast horizon. The data contain
+78,682 observations from 8,971 American companies between 1999 and 2018. Because
+firms appear in several years, the split assigns complete companies to the
+training and test samples.
+The comparison includes a majority-class baseline, Logistic Regression and
+regularized Logistic Regression variants, a Decision Tree, Random Forest,
+Gradient Boosting, and a PCA plus Logistic Regression extension. Because
+failures are rare, evaluation focuses on the failed class. Accuracy alone is
+misleading: the majority baseline reaches 92.5\% final-test accuracy but detects
+no failures. Ranking performance is assessed mainly with PR-AUC, implemented as
+average precision. Failed-class recall and F1 are evaluated at the default
+prediction rule, while threshold scenarios use validation predictions only.
+Logistic Regression has the highest failed recall among the key models but
+produces many false alarms. Random Forest has the numerically highest observed
+final-test PR-AUC and failed-class F1. Gradient Boosting has the highest
+balanced accuracy and was selected ex ante using validation PR-AUC. PCA retains
+much of the predictor variance but does not clearly improve validation
+performance. Overall, the models are useful as screening and ranking tools, but
+the results are not causal estimates, the models are not production-ready, and
+no model is best for every objective.
 \end{abstract}
 
 \tableofcontents
@@ -123,40 +128,35 @@ screening exercise, not as a causal or production-ready bankruptcy system.
 \subsection{Financial motivation}
 
 Corporate bankruptcy is an important problem for lenders, investors, auditors,
-and risk managers because a firm's failure can impose losses on creditors and
-shareholders and can disrupt relationships with employees, suppliers, and other
-firms. Financial statements provide a structured record of a company's assets,
+and risk managers. A firm's failure can impose losses on creditors and
+shareholders. It can also disrupt relationships with employees, suppliers, and
+other firms. Financial statements provide structured information about assets,
 liabilities, revenues, expenses, and profitability. These variables may contain
-signals of financial distress before failure occurs, which makes bankruptcy
-prediction a natural application of statistical learning in finance. Early
-research established that combinations of accounting variables can help
-distinguish distressed from healthy firms \citep{altman1968}, while later work
-showed how bankruptcy risk can be studied in a probabilistic classification
-framework \citep{ohlson1980}.
+signals of financial distress, so statistical learning can be used to study
+bankruptcy risk. Early research showed
+that accounting variables can help distinguish distressed from healthy firms
+\citep{altman1968}. Later work studied bankruptcy risk in a probabilistic
+classification framework \citep{ohlson1980}.
 
-Despite this long research history, bankruptcy prediction remains difficult.
-Failure is a rare outcome, so a model can achieve high overall accuracy by
-predicting that almost every observation remains alive. Such a model may appear
-successful while failing to identify the firms that matter most for a distress
-screening exercise. In addition, financial variables are often strongly
-correlated, measured on very different scales, and affected by firm size.
-Relationships between accounting variables and failure may also be nonlinear or
-depend on interactions that are not represented by a simple linear model.
-Finally, false negatives and false positives do not generally have the same
-economic cost: missing a failed firm may be costly, but flagging too many healthy
-firms can make a screening system impractical.
+Despite this long research history, bankruptcy classification remains difficult.
+The first difficulty is class imbalance. Failure is rare, so a model can achieve
+high overall accuracy by predicting that almost every observation is alive. Such
+a model may look successful even though it detects none of the failed
+observations. A second difficulty is the structure of financial statement data.
+Financial variables are often correlated, measured on different scales, and
+partly affected by firm size. The relationship between accounting variables and
+failure may also be nonlinear or depend on interactions. A third difficulty is
+economic interpretation. Missing a failed firm can be costly, but flagging too
+many healthy firms can make a screening system impractical.
 
-These features make model evaluation as important as model fitting. Accuracy is
-reported for completeness, but it cannot be the main criterion in an imbalanced
-setting. This study therefore emphasizes precision and recall for the failed
-class, the failed-class F1-score, balanced accuracy, the area under the receiver
-operating characteristic curve (ROC-AUC), and average precision, reported in
-the project as PR-AUC. Precision--recall analysis is especially
-informative when the negative class greatly outnumbers the positive class,
-because it makes the false-positive burden visible rather than allowing the many
-true negatives to dominate the assessment \citep{davis2006}. The probability
-threshold is also treated as a decision choice rather than assuming that the
-default value of 0.50 is economically optimal.
+For these reasons, evaluation is as important as model fitting. Accuracy is
+reported, but it is not the main criterion in this imbalanced setting. The paper
+therefore emphasizes failed-class precision, recall, F1-score, balanced
+accuracy, ROC-AUC, and average precision, reported as PR-AUC. Precision--recall
+analysis is especially useful when the negative class is much larger than the
+positive class, because it shows the false-positive burden more directly
+\citep{davis2006}. The classification threshold is also treated as a decision
+choice rather than as an automatically optimal value.
 
 \subsection{Research question and contribution}
 
@@ -181,27 +181,27 @@ companies; it is not presented as a chronological forecasting backtest.
 
 The empirical comparison begins with a majority-class baseline, which
 demonstrates why accuracy alone is misleading. Logistic Regression provides the
-main interpretable benchmark, and L1- and L2-regularized variants examine whether
-coefficient shrinkage improves generalization when predictors are correlated.
-A Decision Tree, Random Forest, and Gradient Boosting model then test whether
-nonlinear rules and interactions improve predictive performance. These models
-represent a progression from a transparent parametric classifier to more
-flexible ensemble methods, reflecting the interpretability--flexibility and
-bias--variance trade-offs emphasized in statistical learning
-\citep{james2023}. A PCA plus Logistic Regression specification is included as a
-dimension-reduction extension, not as the main model.
+main interpretable benchmark. L1- and L2-regularized variants test whether
+coefficient shrinkage helps when predictors are correlated. A Decision Tree,
+Random Forest, and Gradient Boosting model then test whether nonlinear rules and
+interactions improve performance. Together, these models move from a transparent
+parametric classifier to more flexible tree-based methods. This reflects the
+interpretability--flexibility and bias--variance trade-offs emphasized in
+statistical learning \citep{james2023}. A PCA plus Logistic Regression
+specification is included as a dimension-reduction extension, not as the main
+model.
 
 The paper makes three practical contributions within the scope of a course
-project. First, it constructs a reproducible and leakage-aware comparison of
-interpretable and tree-based classifiers. Second, it evaluates the models using
-metrics that focus directly on the minority failed class and uses an untouched
-final test set for the principal comparison. Third, it connects statistical
-performance to the financial screening problem by examining confusion-matrix
-counts, validation-based threshold trade-offs, Logistic Regression
-coefficients, and tree-based feature importance. The resulting estimates are
-interpreted as predictive associations rather than causal effects. The study is
-therefore an empirical model comparison and not a claim that the fitted models
-are ready for automated credit or investment decisions.
+project. First, it builds a reproducible comparison of interpretable and
+tree-based classifiers while avoiding direct company overlap between training
+and test data. Second, it evaluates the models with metrics that focus on the
+minority failed class and uses an untouched final test set for the main
+comparison. Third, it links the statistical results to the financial screening
+problem through confusion-matrix counts, validation-based threshold trade-offs,
+Logistic Regression coefficients, and tree-based feature importance. The results
+are interpreted as predictive associations rather than causal effects. The study
+is an educational model comparison, not a production system for automated credit
+or investment decisions.
 
 \section{Data}
 \label{sec:data}
@@ -210,26 +210,25 @@ are ready for automated credit or investment decisions.
 
 The project uses the American corporate bankruptcy dataset published by
 \citet{lombardo2022}. It contains accounting information for public companies
-listed in the United States. The version used in this project has 78,682 rows
-covering the years 1999 to 2018. It contains 8,971 anonymized company
-identifiers, 18 financial predictors, a year variable, and a company status.
-The data summary reports no missing values and no duplicated rows.
+listed in the United States. The version used here has 78,682 company-year
+observations covering the years 1999 to 2018. It contains 8,971 anonymized
+company identifiers, 18 financial predictors, a year variable, and a company
+status. The data summary reports no missing values and no duplicated rows.
 
 One row represents one company in one year. The same company can therefore
-appear in several years. This panel-like structure is important for the way the
-sample is split. A random split of individual rows could place one company's
-earlier observations in the training sample and its later observations in the
-test sample. The model might then benefit from company-specific information that
-is already present in training. To reduce this risk, the project assigns whole
-companies to the training or final-test sample. The split design is explained in
-Section~\ref{sec:methodology}.
+appear in several years. This matters for the train-test design. A random
+row-level split could place observations from the same company in both training
+and test data. The model could then benefit from company-specific information
+already seen during training. To reduce this risk, the project assigns whole
+companies to the training or final-test sample. Section~\ref{sec:methodology}
+explains the split in more detail.
 
 The source data cover a long period in which both the set of listed companies
-and the wider economic environment changed. However, the project does not use a
-time-based holdout. The final test set contains unseen companies, but its years
-overlap with the years in the training set. The results should therefore be read
-as evidence about generalization across companies under this sample design, not
-as a real-time forecast of a later economic period.
+and the wider economic environment changed. The project does not use a
+time-based holdout. The final test set contains unseen companies, but its
+calendar years overlap with the training years. The results should therefore be
+read as evidence about generalization across companies under this split, not as
+a real-time forecast of a later period.
 
 \subsection{Target and financial predictors}
 
@@ -246,17 +245,17 @@ and total assets; profitability measures such as EBITDA, EBIT, net income,
 gross profit, and retained earnings; long-term debt, current liabilities, and
 total liabilities; and activity measures such as sales, revenue, cost of goods
 sold, and operating expenses. Depreciation and amortization is also included.
-The model therefore uses reported financial levels rather than a set of
-engineered financial ratios. Readable names are retained in the tables and
-figures so that the model outputs can be discussed in financial terms.
+The models therefore use reported financial levels rather than engineered
+financial ratios. The tables and figures use readable names so that the outputs
+can be discussed in financial terms.
 
-These variables have very different scales and several describe related parts
-of the same financial statements. For example, revenue and net sales are closely
-connected, as are assets and liabilities. This matters for Logistic Regression,
-because coefficient size depends on measurement scale and correlated predictors
-can make individual coefficients less stable. The Logistic Regression and PCA
-pipelines therefore standardize the predictors using parameters learned from
-the training data. Tree-based models do not require this scaling.
+The variables have very different scales. Several also describe related parts of
+the same financial statements. For example, revenue and net sales are closely
+connected, as are assets and liabilities. This matters for Logistic Regression
+because coefficient size depends on measurement scale. Correlated predictors can
+also make individual coefficients less stable. The Logistic Regression and PCA
+pipelines therefore standardize the predictors using parameters learned from the
+training data. Tree-based models do not require this scaling.
 
 \subsection{Class imbalance and descriptive evidence}
 
@@ -264,7 +263,7 @@ The target is strongly imbalanced. Of the 78,682 company-year observations,
 73,462 are alive and 5,220 are failed. The failed class therefore represents
 only 6.63\% of the full sample. Figure~\ref{fig:class-distribution} shows this
 difference. A classifier that predicts every observation as alive would be
-correct in more than 93\% of the full sample, although it would detect no
+correct in more than 93\% of the full sample. However, it would detect no
 failures. This is the main reason why the later evaluation does not rely on
 accuracy alone.
 
@@ -279,10 +278,10 @@ accuracy alone.
 The share of failed observations also changes over time. As shown in
 Figure~\ref{fig:annual-failure-rate}, the observed rate rises from 7.16\% in
 1999 to a peak of 9.40\% in 2003 and then generally declines, reaching 1.32\%
-in 2018. This pattern should be interpreted with care. It may reflect changes in
-economic conditions, but it may also reflect changes in the companies included
-in the dataset or in the way the status is represented. The figure is used as a
-description of the sample and not as evidence of a causal time trend.
+in 2018. This pattern should be interpreted with care. It may reflect economic
+conditions, changes in the companies included in the dataset, or the way status
+is represented. The figure describes the sample. It is not evidence of a causal
+time trend.
 
 \begin{figure}[H]
   \centering
@@ -297,7 +296,7 @@ often skewed and can contain very large observations. Failed observations have
 lower median market value, net income, current assets, and retained earnings.
 They have higher median long-term debt and total liabilities. The signs are
 financially plausible as descriptive patterns, but they do not show that these
-variables cause failure. They are simple comparisons made before controlling
+variables cause failure. They are simple group comparisons before controlling
 for the other predictors.
 
 \begin{table}[H]
@@ -338,21 +337,20 @@ of companies in training and 20\% in the final test set. A fixed random seed of
 62,988 rows from 7,176 companies, while the final test set contains 15,694 rows
 from 1,795 companies. The failure rates are 6.42\% and 7.50\%, respectively.
 
-A second company-level split is created inside the training set. It reserves
-20\% of the training companies for validation. This produces a model-fitting
-sample of 50,323 rows from 5,740 companies and a validation sample of 12,665
-rows from 1,436 companies. Hyperparameters are compared on this validation
-sample using PR-AUC. The same validation predictions are later used for the
-threshold analysis. The final test set is not used for model selection or
-validation threshold analysis.
+A second company-level split is then created inside the training set. This
+inner split reserves 20\% of the training companies for validation. It produces
+a model-fitting sample of 50,323 rows from 5,740 companies and a validation
+sample of 12,665 rows from 1,436 companies. Hyperparameters are compared on the
+validation sample using PR-AUC. The same validation predictions are later used
+for the threshold analysis. The final test set is not used for model selection
+or validation threshold analysis.
 
-The saved models remain fitted on the inner model-fitting sample and are then
-evaluated on the final test set. In other words, the validation rows are not
-added back for a final refit. This is a conservative design because fewer rows
-are used to fit the final models. A common alternative would be to refit the
-selected specification on all training rows before the final evaluation. That
-alternative was not used here, and this point is considered again in the
-limitations section.
+The final evaluation uses the fitted models from the inner model-fitting sample.
+The validation rows are not added back for a final refit. This is conservative
+because the final models are fitted with fewer observations. It is also less
+data-efficient than refitting the selected specification on all non-test
+training rows. That alternative was not used here, and this point is considered
+again in the limitations section.
 
 All random model components use the same seed. The implementation uses
 scikit-learn pipelines and estimators \citep{pedregosa2011}. Pipelines are
@@ -381,7 +379,7 @@ model links the probability of failure $p_i$ to the financial predictors through
 \end{equation}
 
 The left-hand side is the log-odds of failure. A positive coefficient is linked
-to higher predicted failure log-odds when the other variables are held fixed; a
+to higher predicted failure log-odds when the other variables are held fixed. A
 negative coefficient is linked to lower predicted failure log-odds. The
 coefficients are not direct percentage-point changes in probability, and they
 are not interpreted as causal effects.
@@ -396,39 +394,42 @@ classification threshold, or make the resulting scores calibrated real-world
 bankruptcy probabilities.
 
 Three Logistic Regression specifications are compared. The main benchmark uses
-an L2 penalty with fixed $C=1$. The parameter $C$ is the inverse of the
-regularization strength, so a smaller value means stronger shrinkage. Separate
-L1 and L2 models compare $C \in \{0.01, 0.1, 1, 10\}$ using validation PR-AUC.
-Both regularized models select $C=0.1$. L1 regularization can set some
-coefficients exactly to zero, while L2 regularization usually keeps all
-variables but shrinks their coefficients. These methods can reduce variance
-when predictors are correlated, although they add some bias
-\citep{james2023}.
+an L2 penalty with fixed $C=1$. L1 and L2 variants are added to check whether
+regularization helps when predictors are correlated. The parameter $C$ is the
+inverse of the regularization strength, so a smaller value means stronger
+shrinkage. Separate L1 and L2 models compare
+$C \in \{0.01, 0.1, 1, 10\}$ using validation PR-AUC. Both regularized models
+select $C=0.1$. L1 regularization can set some coefficients exactly to zero. L2
+regularization usually keeps all variables but shrinks their coefficients. These
+methods can reduce variance when predictors are correlated, although they add
+some bias \citep{james2023}.
 
 \subsection{Tree-based models}
 
 Tree-based models are included because they can represent nonlinear patterns and
-interactions without manually specifying them. A Decision Tree repeatedly
-divides the predictor space into smaller regions. Its depth and minimum leaf
-size control complexity. A deep tree may fit the training data closely but can
-have high variance. The selected tree has a maximum depth of 5 and at least 50
-observations in each leaf. Balanced class weights are used during fitting.
+interactions without manually specifying them. The Decision Tree is the simplest
+tree model in the comparison. It repeatedly divides the predictor space into
+smaller regions. Its depth and minimum leaf size control complexity. A deep tree
+may fit the training data closely but can have high variance. The selected tree
+has a maximum depth of 5 and at least 50 observations in each leaf. Balanced
+class weights are used during fitting.
 
-Random Forest reduces the variance of a single tree by averaging many trees
-fitted on resampled data. It also considers a random subset of predictors at
-each split, which makes the trees less similar to each other
+Random Forest is included to reduce the variance of a single tree. It averages
+many trees fitted on resampled data. It also considers a random subset of
+predictors at each split, which makes the trees less similar to each other
 \citep{breiman2001}. The selected model uses 300 trees, no fixed maximum depth,
 at least 50 observations per leaf, and the square root of the available
 predictors at each split. Class weights are balanced separately within each
 bootstrap sample.
 
-Gradient Boosting also combines many trees, but it builds them in sequence.
-Each new tree is added to improve the errors left by the existing ensemble
-\citep{friedman2001}. The learning rate controls how much each new tree changes
-the model. The selected specification uses 150 trees, a learning rate of 0.05,
-a maximum tree depth of 3, and at least 100 observations per leaf. The
-scikit-learn Gradient Boosting estimator does not have a direct class-weight
-argument, so balanced observation weights are supplied during fitting.
+Gradient Boosting is included as a second ensemble approach. It also combines
+many trees, but it builds them in sequence. Each new tree is added to improve
+the errors left by the existing ensemble \citep{friedman2001}. The learning
+rate controls how much each new tree changes the model. The selected
+specification uses 150 trees, a learning rate of 0.05, a maximum tree depth of
+3, and at least 100 observations per leaf. The scikit-learn Gradient Boosting
+estimator does not have a direct class-weight argument, so balanced observation
+weights are supplied during fitting.
 
 The parameter grids are intentionally small. They cover the main complexity
 controls without turning the project into a large search exercise. A compact
@@ -436,19 +437,19 @@ specification table is provided in Appendix~\ref{app:model-results}.
 
 \subsection{PCA extension}
 
-Principal Component Analysis (PCA) is included as a separate extension. PCA
-replaces the original standardized predictors with linear combinations called
-principal components. The first component captures the largest possible share
-of variation in the predictors, and each later component captures another
+Principal Component Analysis (PCA) is included as a separate course extension.
+PCA replaces the original standardized predictors with linear combinations
+called principal components. The first component captures the largest possible
+share of variation in the predictors. Each later component captures another
 orthogonal direction of variation \citep{jolliffe2016}. This can summarize
 correlated financial variables with fewer inputs.
 
 The PCA pipeline first standardizes the 18 predictors, then applies PCA, and
 finally fits a balanced Logistic Regression with $C=1$. The tested component
-counts are 2, 3, 5, 8, 10, 12, 15, and 18. They are compared on the same type of
-internal company-level validation split used for the main models. The PCA
-results are kept as validation results and are not presented as final-test
-results.
+counts are 2, 3, 5, 8, 10, 12, 15, and 18. They are compared on the same type
+of internal company-level validation split used for the main models. The PCA
+results are validation results only. PCA is not used as a final-test
+model-selection stage.
 
 PCA is useful for compression, but it has two important costs in this setting.
 First, it is unsupervised: components are chosen to explain variation in the
@@ -467,16 +468,16 @@ Accuracy is the share of all observations classified correctly. Although it is
 easy to understand, it can be misleading when one class is much more common
 than the other. In this dataset, a model can obtain high accuracy by predicting
 almost every observation as alive. Such a model would still fail at the main
-task of identifying firms at risk of failure. The majority-class baseline is
-therefore included to make this problem visible.
+task because it would detect no failures. The majority-class baseline is
+included to make this problem visible.
 
 The confusion matrix provides a clearer view of the errors. Failed firms are
 treated as the positive class. A true positive is a failed observation that the
-model detects, while a false negative is a failed observation that it misses.
-A false positive is an alive observation flagged as failed, and a true negative
-is an alive observation correctly classified as alive. In a screening setting,
-false negatives represent missed failures and false positives represent false
-alarms. Both matter, but their costs are not assumed to be equal.
+model detects. A false negative is a failed observation that the model misses.
+A false positive is an alive observation flagged as failed. A true negative is
+an alive observation correctly classified as alive. In a screening setting,
+false negatives are missed failures and false positives are false alarms. Both
+matter, but their costs are not assumed to be equal.
 
 Balanced accuracy is also reported. It is the average of the recall for the
 failed class and the recall for the alive class:
@@ -510,12 +511,12 @@ Recall is important when missed failures are a concern, while precision shows
 how many false alarms are produced. The F1-score summarizes their balance, but
 it does not attach a financial cost to either type of error.
 
-Two threshold-independent ranking measures are reported. ROC-AUC measures how
-well a model ranks a randomly chosen failed observation above a randomly chosen
-alive observation across all thresholds. However, an ROC curve can appear
-quite favourable when the negative class is much larger. Precision--recall
-analysis focuses more directly on performance for the positive minority class
-and is therefore especially useful here \citep{davis2006}.
+Two threshold-independent ranking measures are also reported. ROC-AUC measures
+how well a model ranks a randomly chosen failed observation above a randomly
+chosen alive observation across all thresholds. However, ROC curves can look
+favourable when the negative class is much larger. Precision--recall analysis
+focuses more directly on the positive minority class and is therefore especially
+useful here \citep{davis2006}.
 
 In the project output, the measure labelled PR-AUC is calculated using the
 average precision implementation in scikit-learn \citep{pedregosa2011}.
@@ -526,9 +527,9 @@ trapezoidal rule to a precision--recall curve.
 
 The ranking measures use predicted scores across many possible cut-offs. In
 contrast, accuracy, precision, recall, F1, and the confusion matrix require one
-classification threshold and a set of predicted labels. The two groups of
-measures answer different questions: ranking measures assess ordering quality,
-while threshold-based measures describe the decisions made at a chosen cut-off.
+classification threshold and a set of predicted labels. Ranking metrics ask how
+well the model orders observations. Threshold-based metrics describe the
+classifications made at one cut-off.
 
 \subsection{Threshold analysis}
 
@@ -543,17 +544,15 @@ predictions for Logistic Regression, Random Forest, and Gradient Boosting. The
 analysis considers three rules: the threshold with the highest failed-class
 F1-score, the highest-precision threshold that still reaches at least 60\%
 failed recall, and the corresponding rule for at least 80\% failed recall.
-This shows how the validation-based trade-off changes when detecting failures
-receives more weight.
+These rules show what happens when failure detection receives more weight.
 
 The final test set is not used to choose a threshold. To keep the main model
 comparison consistent, the reported final-test classifications use each
 estimator's default decision rule, equivalent to a 0.50 probability cut-off for
 the models considered. The validation threshold exercise is presented as a
-sensitivity analysis, not as a deployed policy. A real decision rule would
-also require calibrated probabilities, explicit financial costs, and evidence
-from a later or external sample. These elements are outside the scope of this
-project.
+sensitivity check, not as a deployed policy. A real decision rule would also
+require calibrated probabilities, explicit financial costs, and evidence from a
+later or external sample. These elements are outside the scope of this project.
 
 \section{Results}
 \label{sec:results}
@@ -580,15 +579,14 @@ failed observations. Its failed-class precision, recall, and F1-score are all
 zero. This confirms that accuracy alone gives the wrong impression in this
 imbalanced problem.
 
-No model is best on every measure. Logistic Regression has the highest failed
-recall at 0.884, but its failed precision is only 0.095. Random Forest has the
-numerically highest observed final-test PR-AUC among the models shown at 0.159
-and the highest failed-class F1-score at 0.232. This is a test-set observation,
-not a retroactive model-selection rule. Gradient Boosting has the highest balanced
-accuracy at 0.638 and an intermediate recall of 0.590. The ROC-AUC values of
-the three models are fairly close, ranging from 0.688 to 0.699. The results
-therefore support a comparison of trade-offs rather than one simple claim that
-a single model wins.
+No model is strongest on every measure. Logistic Regression has the highest
+failed recall at 0.884, but its failed precision is only 0.095. Random Forest
+has the numerically highest observed final-test PR-AUC among the models shown
+at 0.159 and the highest failed-class F1-score at 0.232. This is a final-test
+observation, not a new model-selection rule. Gradient Boosting has the highest
+balanced accuracy at 0.638 and an intermediate recall of 0.590. The ROC-AUC
+values of the three models are close, ranging from 0.688 to 0.699. Overall, the
+comparison is metric-dependent and should be read as a set of trade-offs.
 
 \subsection{Classification trade-offs}
 
@@ -596,10 +594,10 @@ Table~\ref{tab:test-confusion} translates the final-test predictions into
 screening outcomes. Logistic Regression detects 1,041 failures and misses only
 136. However, it also creates 9,906 false alarms. This explains why its recall
 is high while its precision and overall accuracy are low. This pattern is
-consistent with balanced class weighting: failed observations have more
-influence during fitting, so the fitted model produces broad screening behavior
-at the default decision rule. The 0.50 rule is a conventional comparison point
-rather than an economically optimized threshold.
+consistent with balanced class weighting. Failed observations receive more
+influence during fitting, so the fitted model screens broadly at the default
+decision rule. The 0.50 rule is a conventional comparison point rather than an
+economically optimized threshold.
 
 \begin{table}[H]
   \centering
@@ -628,10 +626,10 @@ alarm. Those costs are not estimated in this project.
 
 The validation threshold analysis leads to the same general lesson. For each
 model, validation-based scenarios that reach at least 80\% recall label a much
-larger share of observations as failed than the maximum-F1 scenario. Thus,
-recall can be increased, but only by accepting lower precision and more firms
-sent for further review. Since these cut-offs were studied on validation data,
-they are not used to revise the final-test results above.
+larger share of observations as failed than the maximum-F1 scenario. Recall can
+therefore be increased, but this comes with lower precision and more firms sent
+for further review. These cut-offs were studied on validation data only. They
+are not used to revise the final-test results above.
 
 \subsection{Precision--recall analysis}
 
@@ -648,16 +646,14 @@ ranking than a non-informative classifier at the corresponding recall level.
   \label{fig:test-pr}
 \end{figure}
 
-The curves are close, which is consistent with their similar average precision
-values of 0.153, 0.159, and 0.158. Random Forest has the numerically highest
-value, but its advantage over the validation-selected Gradient Boosting model is
-very small.
-Logistic Regression is also close in ranking performance even though its
-classifications at the default threshold produce a very different confusion
-matrix. This illustrates why a model's ranking quality and its decisions at one
-threshold should be discussed separately. Overall, the models contain
-predictive information, but the low precision levels also show that bankruptcy
-prediction remains difficult.
+The curves are close. Their average precision values are 0.153, 0.159, and
+0.158. Random Forest is numerically highest, but its advantage over the
+validation-selected Gradient Boosting model is very small. Logistic Regression
+has similar ranking performance, but its default-threshold classifications
+produce a very different confusion matrix. This shows why ranking quality and
+threshold-based decisions must be discussed separately. Overall, the models
+contain predictive information, but the low precision levels show that
+bankruptcy-risk classification remains difficult.
 
 \section{Model Interpretation}
 \label{sec:interpretation}
@@ -666,10 +662,10 @@ prediction remains difficult.
 
 Figure~\ref{fig:logistic-coefficients} shows the largest coefficients from the
 main Logistic Regression. Because the predictors were standardized before
-fitting, their coefficient magnitudes can be compared on a common scale. A
-positive coefficient is associated with higher predicted log-odds of failure,
-while a negative coefficient is associated with lower predicted log-odds,
-holding the other predictors fixed.
+fitting, their coefficient magnitudes can be compared on a common scale.
+Positive coefficients are associated with higher predicted failure log-odds.
+Negative coefficients are associated with lower predicted failure log-odds.
+These interpretations hold the other predictors fixed.
 
 \begin{figure}[H]
   \centering
@@ -690,24 +686,23 @@ Total current liabilities have the largest positive coefficient at 0.928.
 Depreciation and amortization, gross profit, inventory, and total assets also
 have positive coefficients among the largest values. These signs must be read
 carefully. The model includes several related accounting totals at the same
-time, so a coefficient describes a conditional relationship after the other
-variables are held fixed. For example, a positive gross-profit coefficient
-does not mean that higher gross profit causes bankruptcy. It may reflect the
-combination of correlated size, revenue, cost, and balance-sheet variables in
-the fitted prediction model.
+time. A coefficient therefore describes a conditional relationship after the
+other variables are held fixed. For example, the positive gross-profit
+coefficient should not be read as evidence that higher gross profit causes
+bankruptcy. It may reflect the way gross profit moves together with size,
+revenue, costs, and balance-sheet variables in the fitted prediction model.
 
 The coefficients help explain how the model forms its scores, but they are not
-causal estimates. The analysis does not use a causal research design, and it
-does not report statistical inference for individual coefficients. Their role
-here is predictive interpretation.
+causal estimates. The analysis also does not report statistical inference for
+individual coefficients. Their role here is predictive interpretation.
 
 \subsection{Tree-based feature importance}
 
 Figure~\ref{fig:tree-importance} reports the leading impurity-based feature
 importance values for Random Forest and Gradient Boosting. A larger value means
-that a variable contributed more to reducing impurity across the fitted tree
-splits within that model. Unlike a logistic coefficient, this measure does not
-show whether higher values increase or decrease predicted risk.
+that a variable was more useful for splitting observations within that fitted
+model. Unlike a logistic coefficient, this measure does not show whether higher
+values increase or decrease predicted risk.
 
 \begin{figure}[H]
   \centering
@@ -720,46 +715,45 @@ show whether higher values increase or decrease predicted risk.
 
 Market value, net income, and total long-term debt are the three most important
 features in both ensembles. Current assets also appear near the top, followed
-by variables such as retained earnings, inventory, depreciation and
-amortization, and total liabilities. This overlap suggests that market
-valuation, profitability, liquidity, and debt information all contribute to
-the models' predictions. It does not establish that these variables cause
-failure.
+by variables such as inventory, depreciation and amortization, and total
+liabilities. Retained earnings is also prominent in the Random Forest. This
+overlap suggests that market valuation, profitability, liquidity, and debt
+information all contribute to the models' predictions. It does not establish
+that these variables cause failure.
 
 The importance profiles also differ in concentration. Random Forest spreads
 importance more evenly across the predictors, while Gradient Boosting assigns
 a larger share to its first few variables. The absolute values should not be
-compared as if they were on one common scale, because each ensemble constructs
-and combines trees differently. Impurity-based importance can also favour
-variables that provide many useful split points and can divide importance among
-correlated predictors. The figure is therefore best used as a summary of the
-fitted models, not as a definitive ranking of economic causes.
+compared as if they were on one common scale. Each ensemble constructs and
+combines trees differently. Impurity-based importance can also favour variables
+that provide many useful split points. When predictors are correlated, importance
+can be divided across related variables. The figure is therefore best used as a
+summary of the fitted models, not as a definitive ranking of economic causes.
 
 Taken together, the two interpretation methods offer different information.
 Logistic Regression provides signed and relatively direct relationships on the
 log-odds scale. The ensembles allow nonlinear patterns and interactions, but
 their importance values are less direct. This is the central interpretability
-trade-off in the project: more flexible models can represent richer patterns,
+trade-off in the project. More flexible models can represent richer patterns,
 while the logistic model is easier to explain in financial terms.
 
 \section{PCA Results}
 \label{sec:pca-results}
 
 The PCA extension asks whether the 18 standardized financial variables can be
-compressed without losing much predictive information. The first few
-components explain a large share of the variation in the predictors. Two
-components retain 83.8\% of total variance, five retain 93.9\%, and ten retain
-99.2\%. The full explained-variance curve is provided in
-Appendix~\ref{app:pca}.
+compressed without losing much predictive information. The first few components
+explain a large share of predictor variation. Two components retain 83.8\% of
+total variance, five retain 93.9\%, and ten retain 99.2\%. The full
+explained-variance curve is provided in Appendix~\ref{app:pca}.
 
-High explained variance does not automatically produce good failure
-prediction. Table~\ref{tab:pca-results} reports the validation results for PCA
+Explained variance is not the same as classification performance.
+Table~\ref{tab:pca-results} reports the internal validation results for PCA
 followed by Logistic Regression. With only two components, ROC-AUC is 0.498 and
 PR-AUC is 0.063, even though those components retain most of the predictor
-variance. Performance improves as more components are included. The
-ten-component version has the highest failed-class F1-score, at 0.152, while
-the twelve-component version has the highest PR-AUC, at 0.151. These
-differences are small.
+variance. Performance improves when more components are included. The
+ten-component version has the highest failed-class F1-score, at 0.152. The
+twelve-component version has the highest PR-AUC, at 0.151. These differences
+are small.
 
 \begin{table}[H]
   \centering
@@ -784,19 +778,19 @@ differences are small.
 
 For comparison, Logistic Regression on the original standardized predictors
 has a validation PR-AUC of 0.148 and a failed-class F1-score of 0.149. The PCA
-versions with ten or twelve components are therefore very similar, rather than
-clearly better. PCA can reduce the input dimension, but substantial compression
-to two or three components removes information that matters for separating
-failed and alive observations.
+versions with ten or twelve components are therefore similar, not clearly
+better. PCA can reduce the input dimension. However, strong compression to two
+or three components removes information that helps separate failed and alive
+observations.
 
 PCA also weakens financial interpretation. Each component is a weighted
 combination of many accounting variables, so it cannot be discussed as
 directly as current assets, market value, income, or debt. In this project, the
-small change in validation performance does not provide a strong reason to
-accept that loss of interpretability. The PCA exercise is still useful because
-it demonstrates an important distinction: variation in the predictors is not
-the same as variation that helps predict the target. All PCA comparisons are
-validation results; they are not additional final-test claims.
+small validation gain does not provide a strong reason to accept that loss of
+interpretability. The PCA exercise is still useful because it shows a clear
+lesson: predictor variance is not the same as predictive value. All PCA
+comparisons are validation results only. They do not create additional
+final-test claims.
 
 \section{Critical Reflection and Limitations}
 \label{sec:limitations}
@@ -804,36 +798,36 @@ validation results; they are not additional final-test claims.
 The project has several useful design choices. Splitting by company prevents the
 same firm from appearing in both training and test data. Keeping the test set
 separate from model selection and validation threshold analysis also makes the
-final comparison more credible. Finally, the majority baseline and failed-class metrics expose
-weaknesses that would be hidden by accuracy. These choices improve the
-analysis, but they do not remove the following limitations.
+final comparison more credible. Finally, the majority baseline and failed-class
+metrics expose weaknesses that would be hidden by accuracy. These choices
+improve the analysis, but they do not remove the following limitations.
 
 \subsection{Data and target limitations}
 
-The data contain repeated company-year observations, and observations from one
-firm are likely to be related over time. The company-level split handles direct
-firm overlap, but the design is not a true forecasting exercise because the
-training and test samples cover overlapping calendar years. It therefore tests
-generalization to unseen companies within a similar historical period, not
-performance in a later economic period. The changing annual failure rate also
-suggests that time and sample composition matter.
+The data contain repeated company-year observations. Observations from one firm
+are likely to be related over time. The company-level split handles direct firm
+overlap, but the design is not a chronological forecasting exercise. The
+training and test samples cover overlapping calendar years. The results
+therefore test generalization to unseen companies within a similar historical
+period, not performance in a later economic period. The changing annual failure
+rate also suggests that time and sample composition matter.
 
 The failed/alive label is useful for binary classification, but the operational
 prediction horizon is not fully defined. A real early-warning application
 would need a statement such as ``failure within the next twelve months'' and
 would need to confirm that every accounting variable was available before that
 forecast date. Without this timing detail, the results should be read as
-classification of company-year observations rather than a complete real-time
-forecasting system.
+classification of company-year observations, not as a complete real-time
+forecasting exercise.
 
 The predictors are financial statement levels. They contain information about
 firm condition, but they may also partly reflect company size and accounting
 scale. This matters because large firms naturally have larger assets,
-liabilities, sales, and expenses. The project does not add ratios, changes over
-time, industry indicators, macroeconomic conditions, governance information, or
-market returns. Dataset coverage and reporting choices may also make the
-sample different from other countries, private firms, or later periods. These
-issues limit external generalization.
+liabilities, sales, and expenses. The project does not add financial ratios,
+changes over time, industry indicators, macroeconomic conditions, governance
+information, or market returns. Dataset coverage and reporting choices may also
+make the sample different from other countries, private firms, or later periods.
+These issues limit external generalization.
 
 \subsection{Validation and modelling limitations}
 
@@ -845,20 +839,19 @@ the very close PR-AUC values should not be treated as proof that one ensemble
 is generally superior.
 
 Hyperparameter searches are deliberately limited, which keeps the course
-project understandable but may leave better settings unexplored. In addition,
-the saved final models are fitted on the inner model-training portion and are
-not refitted after validation. This gives a conservative final test because
-some available training observations are not used in the final fit, but it is
-not the most data-efficient workflow. A later version could lock all choices,
-refit on the complete non-test sample, and then evaluate once on a still-unused
-test set.
+project understandable but may leave better settings unexplored. The saved
+final models are also fitted on the inner model-training portion and are not
+refitted after validation. This is conservative because some available training
+observations are not used in the final fit. It is also less data-efficient. A
+later version could lock all choices, refit on the complete non-test sample, and
+then evaluate once on a still-unused test set.
 
 The models evaluate discrimination and classification, not probability
 calibration. Their outputs should therefore not automatically be interpreted
-as literal bankruptcy probabilities. Logistic coefficients can also change
-when correlated predictors are included together, while impurity-based tree
-importance has its own biases. Both are descriptions of fitted predictive
-models, not causal evidence.
+as literal bankruptcy probabilities. Interpretation also has limits. Logistic
+coefficients can change when correlated predictors are included together.
+Impurity-based tree importance has its own biases. Both are descriptions of
+fitted predictive models, not causal evidence.
 
 \subsection{Decision and practical limitations}
 
@@ -872,10 +865,9 @@ important: even the more selective models produce many false alerts.
 A real financial application would require further checks, including
 probability calibration, chronological backtesting, stability across industries
 and economic conditions, stress testing, fairness and governance review, and a
-plan for monitoring model drift. Human review would also be necessary before
-any credit, investment, or regulatory action. The current project is a
-reproducible educational study and screening exercise; it is not
-production-ready.
+plan for monitoring model drift. Human review would also be necessary before any
+credit, investment, or regulatory action. The current project is a reproducible
+educational study and screening exercise. It is not production-ready.
 
 \subsection{Priorities for future work}
 
@@ -893,42 +885,31 @@ decision relevance more than simply adding another complex algorithm.
 
 This paper examined how well company-year financial statement variables can
 identify failed observations for companies not seen during model fitting. It
-also tested whether flexible tree-based classifiers improve on an interpretable
-Logistic Regression benchmark. The results show that the financial variables
-contain information for out-of-company generalization, but bankruptcy classification
-remains difficult and no model is best for every objective.
+compared interpretable and tree-based classifiers for company-year
+bankruptcy-risk classification. The results show that the financial variables
+contain useful classification and ranking information under the company-level
+split. At the same time, bankruptcy classification remains difficult, and no
+model is best for every objective.
 
-The majority-class baseline achieved 92.5\% accuracy while detecting none of
-the failed observations. This is the clearest reason not to judge the project
-by accuracy alone. Among the key models, Random Forest produced the numerically
-highest observed final-test PR-AUC and failed-class F1-score, while Gradient
-Boosting was the validation-selected ranking model. This distinction avoids
-choosing a model after seeing the test set. Gradient Boosting achieved the highest
-balanced accuracy and detected more failures than Random Forest, but it also
-generated more false alarms. Logistic Regression detected the largest share of
-failures and was the easiest model to explain, although its broad screening
-rule produced many false positives. The tree-based models therefore improved
-some measures, but they did not dominate the logistic benchmark on every
-relevant outcome.
+The majority-class baseline achieved 92.5\% accuracy while detecting no failed
+observations. This shows why accuracy alone is insufficient. Among the key
+models, Logistic Regression had the highest failed recall, but it also produced
+many false positives. Random Forest produced the numerically highest observed
+final-test PR-AUC and failed-class F1-score. Gradient Boosting was the
+validation-selected model and had the highest balanced accuracy. This
+distinction is important because the final test set is used for evaluation, not
+for retrospective model selection.
 
-The additional analyses support this trade-off-based view. Validation threshold
-analysis showed that higher recall requires lower precision and a larger review
-burden.
-The PCA extension retained much of the variation in fewer dimensions, but it
-did not provide a clear predictive advantage and made the financial meaning of
-the inputs less direct. Logistic coefficients and tree importance highlighted
-market value, profitability, liquidity, and debt variables, but these patterns
-are predictive associations rather than causal effects.
-
-The main lesson is that company-year bankruptcy-risk classification is both a
-statistical and financial decision problem. Model rankings, classification thresholds, error
-costs, and interpretability must be considered together. Under the current
-company-level split, the models provide a structured way to rank or screen
-firms, not a basis for automatic decisions. A stronger next study would define
-a forward prediction horizon, use chronological testing, assess calibration
-and uncertainty, and select thresholds using explicit financial costs. Within
-its educational scope, the project demonstrates a reproducible and careful
-application of classification methods to an important problem in finance.
+The additional analyses support the same trade-off. Validation threshold
+analysis showed that higher recall requires lower precision and more review
+effort. PCA reduced the number of inputs but did not provide a clear validation
+advantage. Logistic Regression coefficients and tree importance helped interpret
+the fitted models, especially around valuation, profitability, liquidity, and
+debt variables, but these patterns are not causal evidence. Overall, the models
+are useful for ranking or screening companies in an educational setting, not for
+automatic decisions or production use. A stronger future study should define a
+forward prediction horizon, use chronological evaluation, assess calibration and
+uncertainty, and choose thresholds using financial costs and review capacity.
 
 % -----------------------------------------------------------------------------
 % References
@@ -947,6 +928,9 @@ application of classification methods to an important problem in finance.
 
 \section{Additional Model Results}
 \label{app:model-results}
+
+Table~\ref{tab:model-settings} summarizes the model specifications used in the
+empirical comparison.
 
 \begin{table}[H]
   \centering
@@ -1026,6 +1010,8 @@ also reports the share of validation observations that would be labelled failed.
 The sharp rise in this share under the 80\% recall rule shows the review burden
 created by a high failure-detection target. These settings are descriptive
 validation scenarios and were not applied to the final test comparison.
+Figure~\ref{fig:threshold-tradeoff} shows the corresponding validation
+precision, recall, and failed-class F1 patterns across candidate thresholds.
 
 \begin{table}[H]
   \centering
@@ -1061,6 +1047,9 @@ validation scenarios and were not applied to the final test comparison.
 
 \section{PCA Diagnostics}
 \label{app:pca}
+
+Figure~\ref{fig:pca-variance} shows how quickly the principal components capture
+variation in the standardized predictors.
 
 \begin{figure}[H]
   \centering

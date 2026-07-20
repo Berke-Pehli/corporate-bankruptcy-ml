@@ -107,7 +107,7 @@ corporate-bankruptcy-ml/
 │   ├── models/              # Locally generated fitted models
 │   └── report/              # Data-validation report
 ├── reports/
-│   └── paper/               # Final LaTeX paper, bibliography, and compiled PDF
+│   └── paper/               # Final paper, code appendix, bibliography, and PDFs
 ├── pixi.toml                # Environment and runnable commands
 ├── pixi.lock                # Reproducible dependency lockfile
 ├── pyproject.toml           # Python project and lint/test configuration
@@ -245,6 +245,8 @@ Repeated builds are intended to be stable. Some generated files, especially proc
 
 - [Final paper](reports/paper/main.pdf)
 - [LaTeX paper source](reports/paper/main.tex)
+- [Code appendix](reports/paper/code_appendix.pdf)
+- [Code appendix source](reports/paper/code_appendix.tex)
 
 ## Reproducibility Status
 
